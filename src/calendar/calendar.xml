@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="calendar.widget.calendar" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+  <name>calendar</name>
+  <description>Calendar.</description>
+
+  <icon>
+	iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAANkE3LLa
+	AgAAAbVJREFUeJylkL9qVEEUxn9zM3dD0mx3MS4uxCCIlSRF/Jft1gSfQCzSuJUv
+	YKmWeYTIphEs0goKYkRUdrXSBYsQglhY+ADBu/HOnHMs7ubuCrFw/Zr5ZpjzO985
+	7ukKD713D5hCMdojt7vqbK3VzElm5oOmiEsRPNFmMDzqEjQIMQRiiIRfBcXxMcWw
+	IIaYe4BEh6AJrlAsKDEIRVBUDBUjKsRoqEIQCNEogiM/+jnvdledTRP/RP6o85jz
+	S0tgYBiqipqhIpgpIoqqIlqeKlLeRRjmOR6g2WxShMDnwfeKvPDi3h+dftzarvy5
+	xhyiwtfDQxKARqPB2YUzAKy3l1lvLwOwuLnF4uYWAGvXL3L1ygUAsiwjy7JyBIDa
+	bA1VBWC2Vjt9Vp/inAMg9Z5EkzEA4GSTz55/LEcAvj25XwHevP3C+K9hZhMAM2yU
+	4PK1FgADttm4uYKI8Or1gNaNS4gKvf4BqoZqCUgATMfESZkaOno3M0x05BVMxwnU
+	rNrBoP+uArzc+1T59739yqtSgT1AmqbU63Xu3G6fusC/6UO/VwJ2ut1/KpyUB7jb
+	6UxVvNPt/n+C3whO5yPEeUjNAAAAAElFTkSuQmCC
+  </icon>
+
+  <properties>
+		<property key="evtEntity" type="entity">
+			<caption>Entity</caption>
+			<category>Data source</category>
+			<description>The entity.</description>
+		</property>
+		<property key="evtConstraint" type="entityConstraint" entityProperty="evtEntity" required="false">
+            <caption>XPath Constraint</caption>
+            <category>Data source</category>
+            <description>The XPath constraint on the objects.</description> 
+        </property>
+        <property key="startPos" type="attribute" entityProperty="evtEntity" required="false">
+			<caption>Start pos attribute</caption>
+			<category>Attributes</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="DateTime"/>
+			</attributeTypes>
+		</property>
+		<property key="onchangemf" type="microflow" required="false" entityProperty="evtEntity">
+            <caption>On change</caption>
+            <category>Behavior</category>
+            <description>Microflow to trigger on change.</description>
+            <returnType type="Void"/>
+        </property>
+		<property key="onclickmf" type="microflow" required="false" entityProperty="evtEntity">
+            <caption>On click</caption>
+            <category>Behavior</category>
+            <description>Microflow to trigger on click.</description>
+            <returnType type="Void"/>
+        </property>
+		<property key="neweventmf" type="microflow" required="false" entityProperty="evtEntity">
+            <caption>New event</caption>
+            <category>Behavior</category>
+            <description>The new event microflow.</description>
+            <returnType type="Void"/>
+        </property>
+		<property key="neweventref" type="entity" required="false" isPath="yes" pathType="reference" entityProperty="evtEntity">
+            <caption>New event reference</caption>
+            <category>Behavior</category>
+            <description>Optional: The reference to connect the event to the context object.</description>
+        </property>
+		<property key="calHeight" type="integer" defaultValue="600">
+			<caption>Height</caption>
+			<category>Appearance</category>
+			<description>The height in px.</description>
+		</property>
+		<property key="showWeekNumbers" type="boolean" defaultValue="false">
+			<caption>Show weeknumbers</caption>
+			<category>Appearance</category>
+			<description>Whether or not to show weeknumbers in the calendar. If 'YES' a column with weeknumbers will be added.</description>
+		</property>
+		<property key="weeknumberTitle" type="string" required='false'>
+			<caption>Weeknumber Title</caption>
+			<category>Appearance</category>
+			<description>Title used foor the weeknumber column</description>
+		</property>
+		<property key="titleAttr" type="attribute" entityProperty="evtEntity" isPath="optional" pathType="reference">
+			<caption>Title</caption>
+			<category>Attributes</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="String"/>
+			</attributeTypes>
+		</property>
+		<property key="startAttr" type="attribute" entityProperty="evtEntity">
+			<caption>Start</caption>
+			<category>Attributes</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="DateTime"/>
+			</attributeTypes>
+		</property>
+		<property key="endAttr" type="attribute" entityProperty="evtEntity">
+			<caption>End</caption>
+			<category>Attributes</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="DateTime"/>
+			</attributeTypes>
+		</property>
+		<property key="alldayAttr" type="attribute" entityProperty="evtEntity" required="false">
+			<caption>All day</caption>
+			<category>Attributes</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="Boolean"/>
+			</attributeTypes>
+		</property>
+		<property key="urlAttr" type="attribute" entityProperty="evtEntity" required="false">
+			<caption>Url</caption>
+			<category>Attributes</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="String"/>
+			</attributeTypes>
+		</property>
+		<property key="customSortAttr" type="attribute" entityProperty="evtEntity" required="false">
+			<caption>Custom sorting</caption>
+			<category>Attributes</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="AutoNumber"/>
+				<attributeType name="String"/>
+				<attributeType name="Enum"/>
+				<attributeType name="Integer"/>
+				<attributeType name="Float"/>
+				<attributeType name="Long"/>
+				<attributeType name="DateTime"/>
+			</attributeTypes>
+		</property>
+		<property key="customSortOrder" type="enumeration" defaultValue="asc">
+			<caption>Custom sort order</caption>
+			<category>Attributes</category>
+			<description></description>
+			<enumerationValues>
+				<enumerationValue key="asc">Ascending</enumerationValue>
+				<enumerationValue key="desc">Descending</enumerationValue>
+			</enumerationValues> 
+		</property>
+		<property key="readonlyVal" type="boolean" defaultValue="false">
+			<caption>Read-only</caption>
+			<category>Behavior</category>
+			<description></description>
+		</property>
+		<property key="typeAttr" type="attribute" entityProperty="evtEntity" required="false">
+			<caption>Enum for colors</caption>
+			<category>Appearance</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="Enum"/>
+			</attributeTypes>
+		</property>
+		<property key="notused" type="object" isList="true" required="false">
+            <caption>Colors</caption>
+            <category>Appearance</category>
+            <description></description>
+            <properties>
+                <property key="enumKey" type="string" required="false">
+                    <caption>Enumeration key</caption>
+                    <category>Appearance</category>
+                    <description></description>  
+                </property>
+				<property key="bgColor" type="string" required="true">
+                    <caption>Background color</caption>
+                    <category>Appearance</category>
+                    <description></description>  
+                </property>
+                <property key="border" type="string" required="true">
+                    <caption>Border color</caption>
+                    <category>Appearance</category>
+                    <description></description>  
+                </property>
+				<property key="textColor" type="string" required="true">
+                    <caption>Text color</caption>
+                    <category>Appearance</category>
+                    <description></description>  
+                </property>
+            </properties>
+        </property>
+		<property key="showWeekends" type="boolean" defaultValue="true">
+			<caption>Show weekends</caption>
+			<category>Extra</category>
+			<description></description>
+		</property>
+		<property key="firstday" type="integer" defaultValue="0">
+			<caption>First day of the week</caption>
+			<category>Extra</category>
+			<description>An integer to specify the first day of the week, 0 = Sunday, 1 = Monday etc.</description>
+		</property>
+		<property key="defaultView" type="enumeration" defaultValue="month">
+			<caption>Start view</caption>
+			<category>Extra</category>
+			<description></description>
+			<enumerationValues>
+				<enumerationValue key="month">Month</enumerationValue>
+				<enumerationValue key="basicWeek">Basic week</enumerationValue>
+				<enumerationValue key="basicDay">Basic day</enumerationValue>
+				<enumerationValue key="agendaWeek">Agenda week</enumerationValue>
+				<enumerationValue key="agendaDay">Agenda day</enumerationValue>
+			</enumerationValues> 
+		</property>
+		<property key="notused1" type="object" isList="true" required="false">
+            <caption>Available views</caption>
+            <category>Extra</category>
+            <description>Default will use: Month, Agenda week, Agenda day.</description>
+            <properties>
+                <property key="availableViews" type="enumeration" defaultValue="month">
+                    <caption>View</caption>
+                    <category>Appearance</category>
+                    <description></description>
+					<enumerationValues>
+						<enumerationValue key="month">Month</enumerationValue>
+						<enumerationValue key="basicWeek">Basic week</enumerationValue>
+						<enumerationValue key="basicDay">Basic day</enumerationValue>
+						<enumerationValue key="agendaWeek">Agenda week</enumerationValue>
+						<enumerationValue key="agendaDay">Agenda day</enumerationValue>
+					</enumerationValues> 
+                </property>
+				<property key="timeFormatViews" type="string" required="true" defaultValue="h:mm{ - h:mm}">
+					<caption>Custom time format</caption>
+					<category>Extra</category>
+					<description>For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
+				</property>
+				<property key="dateFormatViews" type="string" required="false">
+					<caption>Custom date format</caption>
+					<category>Extra</category>
+					<description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>
+				</property>
+				<property key="titleFormatViews" type="string" required="false">
+					<caption>Custom title format</caption>
+					<category>Extra</category>
+					<description>For more information: http://arshaw.com/fullcalendar/docs/text/titleFormat/</description>
+				</property>
+				<property key="labelViews" type="translatableString" required="false">
+					<caption>Label</caption>
+					<category>Extra</category>
+					<description>The label used for the button.</description>
+				</property>
+            </properties>
+        </property>
+		<property key="timeFormat" type="string" required="true" defaultValue="h:mm{ - h:mm}">
+			<caption>Custom time format</caption>
+			<category>Extra</category>
+			<description>For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
+		</property>
+		<property key="dateFormat" type="string" required="false">
+			<caption>Custom date format</caption>
+			<category>Extra</category>
+			<description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>
+		</property>
+		<property key="titleFormat" type="string" required="false">
+			<caption>Custom title format</caption>
+			<category>Extra</category>
+			<description>For more information: http://arshaw.com/fullcalendar/docs/text/titleFormat/</description>
+		</property>
+		<property key="monthNamesFormat" type="translatableString" required="false">
+			<caption>Month names format</caption>
+			<category>Extra</category>
+			<description>Comma seperated list of the full names of the months, starting at Januari.</description>
+		</property>
+		<property key="monthShortNamesFormat" type="translatableString" required="false">
+			<caption>Month short names format</caption>
+			<category>Extra</category>
+			<description>Comma seperated list of the short names of the months, starting at Jan.</description>
+		</property>
+		<property key="dayNamesFormat" type="translatableString" required="false">
+			<caption>Day names format</caption>
+			<category>Extra</category>
+			<description>Comma seperated list of the full names of the days, starting at Sunday.</description>
+		</property>
+		<property key="dayShortNamesFormat" type="translatableString" required="false">
+			<caption>Day short names format</caption>
+			<category>Extra</category>
+			<description>Comma seperated list of the short names of the days, starting at Sun.</description>
+		</property>
+		<property key="alldayTranslate" type="translatableString" required="false">
+			<caption>All day text</caption>
+			<category>Extra</category>
+			<description>The text used for 'all day'.</description>
+		</property>
+		<property key="todayTranslate" type="translatableString" required="false">
+			<caption>Today button text</caption>
+			<category>Extra</category>
+			<description>The text used for the go to Today button.</description>
+		</property>
+		<property key="startTime" type="integer" defaultValue="0">
+			<caption>Start time</caption>
+			<category>Extra</category>
+			<description>The start time for each day.</description>
+		</property>
+		<property key="endTime" type="integer" defaultValue="24">
+			<caption>End time</caption>
+			<category>Extra</category>
+			<description>The end time for each day.</description>
+		</property>
+		<property key="listenchannel" type="string" required="false">
+            <caption>Listen source</caption>
+            <category>Behavior</category>
+            <description>This should match the listen channel set up in the Form Loader that should receive the object that is clicked.</description>
+        </property>
+	</properties>
+</widget>
