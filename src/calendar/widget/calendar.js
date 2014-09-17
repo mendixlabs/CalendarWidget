@@ -11,6 +11,7 @@ var ___calendarsource = {
 		onclickmf : '',
 		neweventmf : '',
 		neweventref : '',
+		onviewchangemf : '',
 		listenchannel : '',
 		calHeight : 600,
 		titleAttr : '',
@@ -234,6 +235,15 @@ var ___calendarsource = {
 				}
 				this.execclick(calEvent.obj, this.onclickmf);
 			}),
+			// Documented as viewChange, but is referred to in code as viewDisplay
+			viewDisplay: dojo.hitch(this, function( view, element ) {
+				if (this.onviewchangemf)
+					mx.processor.createObject({
+						"className"	: this.evtEntity,
+						"callback"	: dojo.hitch(this, this.viewChange, view.start, view.end),
+						"context"	: null
+					});
+			}),
 			eventResize : dojo.hitch(this, this.changeEvent),
 			eventDrop: dojo.hitch(this, this.changeEvent),
 			events: events
@@ -373,6 +383,13 @@ var ___calendarsource = {
 		}
 		
 		this.execclick(obj, this.neweventmf, true);
+	},
+	
+	viewChange : function (startdate,enddate,obj) {
+		obj.setAttribute(this.startAttr, (+startdate));
+		obj.setAttribute(this.endAttr, (+enddate));
+		
+		this.execclick(obj, this.onviewchangemf, true);
 	},
 	
 	objectUpdateNotification : function (obj, update) {
