@@ -42,6 +42,13 @@
             <description>Microflow to trigger on change.</description>
             <returnType type="Void"/>
         </property>
+		<property key="onviewchangemf" type="microflow" required="false"
+			entityProperty="evtEntity">
+			<caption>On view change</caption>
+			<category>Behavior</category>
+			<description>Microflow to trigger on view change, uses the startAttr to pass the first day of the view, and endAttr to pass the day after the last day of the view; for more information: http://arshaw.com/fullcalendar/docs/views/View_Object/</description>
+			<returnType type="Void"/>
+		</property>
 		<property key="onclickmf" type="microflow" required="false" entityProperty="evtEntity">
             <caption>On click</caption>
             <category>Behavior</category>
