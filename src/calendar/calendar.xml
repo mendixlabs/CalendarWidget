@@ -18,50 +18,113 @@
   </icon>
 
   <properties>
-		<property key="evtEntity" type="entity">
+		<property key="eventEntity" type="entity">
 			<caption>Entity</caption>
 			<category>Data source</category>
 			<description>The entity.</description>
 		</property>
-		<property key="evtConstraint" type="entityConstraint" entityProperty="evtEntity" required="false">
+		<property key="eventConstraint" type="entityConstraint" entityProperty="eventEntity" required="false">
             <caption>XPath Constraint</caption>
             <category>Data source</category>
             <description>The XPath constraint on the objects.</description> 
         </property>
-        <property key="startPos" type="attribute" entityProperty="evtEntity" required="false">
+        <property key="startPos" type="attribute" required="false" isPath="yes" pathType="referenceSet" entityProperty="eventEntity">
 			<caption>Start pos attribute</caption>
-			<category>Attributes</category>
+			<category>Data source</category>
+			<description>The date on which the calendar should start.</description>
+			<attributeTypes>
+				<attributeType name="DateTime"/>
+			</attributeTypes>
+		</property>
+        <property key="titleAttr" type="attribute" entityProperty="eventEntity">
+			<caption>Title</caption>
+			<category>Event data</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="String"/>
+			</attributeTypes>
+		</property>
+        <property key="startAttr" type="attribute" entityProperty="eventEntity">
+			<caption>Start</caption>
+			<category>Event data</category>
 			<description></description>
 			<attributeTypes>
 				<attributeType name="DateTime"/>
 			</attributeTypes>
 		</property>
-		<property key="onchangemf" type="microflow" required="false" entityProperty="evtEntity">
+		<property key="endAttr" type="attribute" entityProperty="eventEntity">
+			<caption>End</caption>
+			<category>Event data</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="DateTime"/>
+			</attributeTypes>
+		</property>
+		<property key="editable" type="boolean" defaultValue="true">
+			<caption>Editable</caption>
+			<category>Event data</category>
+			<description>Sets the editability of events. Defaults to true.</description>
+		</property>
+		<property key="alldayAttr" type="attribute" entityProperty="eventEntity" required="false">
+			<caption>All day</caption>
+			<category>Event data</category>
+			<description>Boolean attribute to define/save whether this is an all day event.</description>
+			<attributeTypes>
+				<attributeType name="Boolean"/>
+			</attributeTypes>
+		</property>
+<!--	I'm not sure what this is supposed to do (there is no description). So for now it's not implemented. If anyone knows what it's for...  
+
+ 		<property key="customSortAttr" type="attribute" entityProperty="eventEntity" required="false">
+			<caption>Custom sorting</caption>
+			<category>Event data</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="AutoNumber"/>
+				<attributeType name="String"/>
+				<attributeType name="Enum"/>
+				<attributeType name="Integer"/>
+				<attributeType name="Float"/>
+				<attributeType name="Long"/>
+				<attributeType name="DateTime"/>
+			</attributeTypes>
+		</property>
+		<property key="customSortOrder" type="enumeration" defaultValue="asc">
+			<caption>Custom sort order</caption>
+			<category>Event data</category>
+			<description></description>
+			<enumerationValues>
+				<enumerationValue key="asc">Ascending</enumerationValue>
+				<enumerationValue key="desc">Descending</enumerationValue>
+			</enumerationValues> 
+		</property> 
+		<property key="urlAttr" type="attribute" entityProperty="eventEntity" required="false">
+			<caption>Url</caption>
+			<category>Attributes</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="String"/>
+			</attributeTypes>
+		</property> -->
+		<property key="onchangemf" type="microflow" required="false" entityProperty="eventEntity">
             <caption>On change</caption>
             <category>Behavior</category>
             <description>Microflow to trigger on change.</description>
             <returnType type="Void"/>
         </property>
-		<property key="onviewchangemf" type="microflow" required="false"
-			entityProperty="evtEntity">
-			<caption>On view change</caption>
-			<category>Behavior</category>
-			<description>Microflow to trigger on view change, uses the startAttr to pass the first day of the view, and endAttr to pass the day after the last day of the view; for more information: http://arshaw.com/fullcalendar/docs/views/View_Object/</description>
-			<returnType type="Void"/>
-		</property>
-		<property key="onclickmf" type="microflow" required="false" entityProperty="evtEntity">
+		<property key="onclickmf" type="microflow" required="false" entityProperty="eventEntity">
             <caption>On click</caption>
             <category>Behavior</category>
             <description>Microflow to trigger on click.</description>
             <returnType type="Void"/>
         </property>
-		<property key="neweventmf" type="microflow" required="false" entityProperty="evtEntity">
+		<property key="neweventmf" type="microflow" required="false" entityProperty="eventEntity">
             <caption>New event</caption>
             <category>Behavior</category>
             <description>The new event microflow.</description>
             <returnType type="Void"/>
         </property>
-		<property key="neweventref" type="entity" required="false" isPath="yes" pathType="reference" entityProperty="evtEntity">
+		<property key="neweventref" type="entity" required="false" isPath="yes" pathType="referenceSet" entityProperty="eventEntity">
             <caption>New event reference</caption>
             <category>Behavior</category>
             <description>Optional: The reference to connect the event to the context object.</description>
@@ -76,80 +139,57 @@
 			<category>Appearance</category>
 			<description>Whether or not to show weeknumbers in the calendar. If 'YES' a column with weeknumbers will be added.</description>
 		</property>
-		<property key="weeknumberTitle" type="string" required='false'>
+		<property key="weeknumberTitle" type="string" required='false' defaultValue='W'>
 			<caption>Weeknumber Title</caption>
 			<category>Appearance</category>
-			<description>Title used foor the weeknumber column</description>
+			<description>Title used for the weeknumber column, defaults to "W".</description>
 		</property>
-		<property key="titleAttr" type="attribute" entityProperty="evtEntity" isPath="optional" pathType="reference">
-			<caption>Title</caption>
-			<category>Attributes</category>
-			<description></description>
-			<attributeTypes>
-				<attributeType name="String"/>
-			</attributeTypes>
+		<property key="showWeekends" type="boolean" defaultValue="true">
+			<caption>Show weekends</caption>
+			<category>Appearance</category>
+			<description>Whether weekend should be shown on the calendar</description>
 		</property>
-		<property key="startAttr" type="attribute" entityProperty="evtEntity">
-			<caption>Start</caption>
-			<category>Attributes</category>
-			<description></description>
-			<attributeTypes>
-				<attributeType name="DateTime"/>
-			</attributeTypes>
+		<property key="firstday" type="integer" defaultValue="0">
+			<caption>First day of the week</caption>
+			<category>Appearance</category>
+			<description>An integer to specify the first day of the week, 0 = Sunday, 1 = Monday etc.</description>
 		</property>
-		<property key="endAttr" type="attribute" entityProperty="evtEntity">
-			<caption>End</caption>
-			<category>Attributes</category>
-			<description></description>
-			<attributeTypes>
-				<attributeType name="DateTime"/>
-			</attributeTypes>
+		<property key="timeFormat" type="string" required="true" defaultValue="h:mm{ - h:mm}">
+			<caption>Custom time format</caption>
+			<category>Appearance</category>
+			<description>For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
 		</property>
-		<property key="alldayAttr" type="attribute" entityProperty="evtEntity" required="false">
-			<caption>All day</caption>
-			<category>Attributes</category>
-			<description></description>
-			<attributeTypes>
-				<attributeType name="Boolean"/>
-			</attributeTypes>
+		<property key="dateFormat" type="string" required="false">
+			<caption>Custom date format</caption>
+			<category>Appearance</category>
+			<description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>
 		</property>
-		<property key="urlAttr" type="attribute" entityProperty="evtEntity" required="false">
-			<caption>Url</caption>
-			<category>Attributes</category>
-			<description></description>
-			<attributeTypes>
-				<attributeType name="String"/>
-			</attributeTypes>
+		<property key="titleFormat" type="string" required="false">
+			<caption>Custom title format</caption>
+			<category>Appearance</category>
+			<description>For more information: http://arshaw.com/fullcalendar/docs/text/titleFormat/</description>
 		</property>
-		<property key="customSortAttr" type="attribute" entityProperty="evtEntity" required="false">
-			<caption>Custom sorting</caption>
-			<category>Attributes</category>
-			<description></description>
-			<attributeTypes>
-				<attributeType name="AutoNumber"/>
-				<attributeType name="String"/>
-				<attributeType name="Enum"/>
-				<attributeType name="Integer"/>
-				<attributeType name="Float"/>
-				<attributeType name="Long"/>
-				<attributeType name="DateTime"/>
-			</attributeTypes>
+		<property key="monthNamesFormat" type="translatableString" required="false">
+			<caption>Month names format</caption>
+			<category>Appearance</category>
+			<description>Comma seperated list of the full names of the months, starting at Januari.</description>
 		</property>
-		<property key="customSortOrder" type="enumeration" defaultValue="asc">
-			<caption>Custom sort order</caption>
-			<category>Attributes</category>
-			<description></description>
-			<enumerationValues>
-				<enumerationValue key="asc">Ascending</enumerationValue>
-				<enumerationValue key="desc">Descending</enumerationValue>
-			</enumerationValues> 
+		<property key="monthShortNamesFormat" type="translatableString" required="false">
+			<caption>Month short names format</caption>
+			<category>Appearance</category>
+			<description>Comma seperated list of the short names of the months, starting at Jan.</description>
 		</property>
-		<property key="readonlyVal" type="boolean" defaultValue="false">
-			<caption>Read-only</caption>
-			<category>Behavior</category>
-			<description></description>
+		<property key="dayNamesFormat" type="translatableString" required="false">
+			<caption>Day names format</caption>
+			<category>Appearance</category>
+			<description>Comma seperated list of the full names of the days, starting at Sunday.</description>
 		</property>
-		<property key="typeAttr" type="attribute" entityProperty="evtEntity" required="false">
+		<property key="dayShortNamesFormat" type="translatableString" required="false">
+			<caption>Day short names format</caption>
+			<category>Appearance</category>
+			<description>Comma seperated list of the short names of the days, starting at Sun.</description>
+		</property>	
+		<property key="typeAttr" type="attribute" entityProperty="eventEntity" required="false">
 			<caption>Enum for colors</caption>
 			<category>Appearance</category>
 			<description></description>
@@ -184,20 +224,10 @@
                 </property>
             </properties>
         </property>
-		<property key="showWeekends" type="boolean" defaultValue="true">
-			<caption>Show weekends</caption>
-			<category>Extra</category>
-			<description></description>
-		</property>
-		<property key="firstday" type="integer" defaultValue="0">
-			<caption>First day of the week</caption>
-			<category>Extra</category>
-			<description>An integer to specify the first day of the week, 0 = Sunday, 1 = Monday etc.</description>
-		</property>
-		<property key="defaultView" type="enumeration" defaultValue="month">
+        <property key="defaultView" type="enumeration" defaultValue="month">
 			<caption>Start view</caption>
-			<category>Extra</category>
-			<description></description>
+			<category>Behavior</category>
+			<description>Which is the default view when the widget is loaded</description>
 			<enumerationValues>
 				<enumerationValue key="month">Month</enumerationValue>
 				<enumerationValue key="basicWeek">Basic week</enumerationValue>
@@ -244,66 +274,12 @@
 					<description>The label used for the button.</description>
 				</property>
             </properties>
-        </property>
-		<property key="timeFormat" type="string" required="true" defaultValue="h:mm{ - h:mm}">
-			<caption>Custom time format</caption>
-			<category>Extra</category>
-			<description>For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
-		</property>
-		<property key="dateFormat" type="string" required="false">
-			<caption>Custom date format</caption>
-			<category>Extra</category>
-			<description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>
-		</property>
-		<property key="titleFormat" type="string" required="false">
-			<caption>Custom title format</caption>
-			<category>Extra</category>
-			<description>For more information: http://arshaw.com/fullcalendar/docs/text/titleFormat/</description>
-		</property>
-		<property key="monthNamesFormat" type="translatableString" required="false">
-			<caption>Month names format</caption>
-			<category>Extra</category>
-			<description>Comma seperated list of the full names of the months, starting at Januari.</description>
-		</property>
-		<property key="monthShortNamesFormat" type="translatableString" required="false">
-			<caption>Month short names format</caption>
-			<category>Extra</category>
-			<description>Comma seperated list of the short names of the months, starting at Jan.</description>
-		</property>
-		<property key="dayNamesFormat" type="translatableString" required="false">
-			<caption>Day names format</caption>
-			<category>Extra</category>
-			<description>Comma seperated list of the full names of the days, starting at Sunday.</description>
-		</property>
-		<property key="dayShortNamesFormat" type="translatableString" required="false">
-			<caption>Day short names format</caption>
-			<category>Extra</category>
-			<description>Comma seperated list of the short names of the days, starting at Sun.</description>
-		</property>
-		<property key="alldayTranslate" type="translatableString" required="false">
-			<caption>All day text</caption>
-			<category>Extra</category>
-			<description>The text used for 'all day'.</description>
-		</property>
-		<property key="todayTranslate" type="translatableString" required="false">
-			<caption>Today button text</caption>
-			<category>Extra</category>
-			<description>The text used for the go to Today button.</description>
-		</property>
-		<property key="startTime" type="integer" defaultValue="0">
-			<caption>Start time</caption>
-			<category>Extra</category>
-			<description>The start time for each day.</description>
-		</property>
-		<property key="endTime" type="integer" defaultValue="24">
-			<caption>End time</caption>
-			<category>Extra</category>
-			<description>The end time for each day.</description>
-		</property>
+        </property>	
+<!--	This has become obsolete:
 		<property key="listenchannel" type="string" required="false">
             <caption>Listen source</caption>
             <category>Behavior</category>
             <description>This should match the listen channel set up in the Form Loader that should receive the object that is clicked.</description>
-        </property>
+        </property> -->
 	</properties>
 </widget>
