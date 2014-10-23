@@ -172,7 +172,9 @@ dojo.require("calendar.lib.fullcalendar-min");
 		setVariables : function(obj, event, allDay){
 			//update the mx object
 			obj.set(this.startAttr, event.start);
-			obj.set(this.endAttr, event.end);
+			if (event.end !== null)
+				obj.set(this.endAttr, event.end);
+
 			if(allDay !== null){
 				obj.set(this.alldayAttr, allDay);
 			}
