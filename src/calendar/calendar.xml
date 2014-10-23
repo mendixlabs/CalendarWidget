@@ -18,6 +18,12 @@
   </icon>
 
   <properties>
+  		<property key="datasourceMf" type="microflow" required="false">
+            <caption>Data source microflow</caption>
+            <category>Data source</category>
+            <description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
+            <returnType type="Void"/>
+        </property>
 		<property key="eventEntity" type="entity">
 			<caption>Entity</caption>
 			<category>Data source</category>

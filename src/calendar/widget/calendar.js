@@ -45,17 +45,24 @@ dojo.require("calendar.lib.fullcalendar-min");
 		}, 
 		
 		fetchObjects : function () {
-			var constraint = this.eventConstraint;
-			//when in a dataview
-			if(this._mxObj){
-				constraint = this.eventConstraint.replace('[%CurrentObject%]', this._mxObj.getGuid());
+			if (!this.datasourceMf) {
+				var constraint = this.eventConstraint;
+				//when in a dataview
+				if(this._mxObj){
+					constraint = this.eventConstraint.replace('[%CurrentObject%]', this._mxObj.getGuid());
+				}
+				
+				var xpath = '//' + this.eventEntity + constraint;
+				mx.data.get({
+					xpath : xpath,
+					callback : dojo.hitch(this, this.createEvents)
+				}, this);
+			} else {
+				if(this._mxObj)
+					this.execMF(obj, this.datasourceMf, dojo.hitch(this, this.createEvents));
+				else
+					this.execMF(null, this.datasourceMf, dojo.hitch(this, this.createEvents));
 			}
-			
-			var xpath = '//' + this.eventEntity + constraint;
-			mx.data.get({
-				xpath : xpath,
-				callback : dojo.hitch(this, this.createEvents)
-			}, this);
 		}, 
 
 		createEvents : function(objs) {
@@ -266,17 +273,22 @@ dojo.require("calendar.lib.fullcalendar-min");
 			return options;
 		},
 
-		execMF : function (obj, mf) {
+		execMF : function (obj, mf, cb) {
+			var params = {
+				applyto		: "selection",
+				actionname	: mf,
+				guids : []
+			};
+			if (obj)
+				params.guids = [obj.getGuid()];
+
 			mx.data.action({
-				params			: {
-					applyto		: "selection",
-					actionname	: mf,
-					guids		: [obj.getGuid()],
-				},			
-				callback		: function(obj) {
-					//ok
+				params			: params,			
+				callback		: function(objs) {
+					cb && cb(objs);
 				},
 				error			: function(error) {
+					cb  && cb();
 					logger.warn(error.description);
 				}
 			}, this);
