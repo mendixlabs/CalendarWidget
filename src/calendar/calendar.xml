@@ -18,12 +18,18 @@
   </icon>
 
   <properties>
-  		<property key="datasourceMf" type="microflow" required="false">
-            <caption>Data source microflow</caption>
-            <category>Data source</category>
-            <description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
-            <returnType type="Void"/>
-        </property>
+		<property key="dataSourceType" type="enumeration" defaultValue="xpath">
+			<caption>Data source type</caption>
+			<category>Data source</category>
+			<description>- The method of retrieving the objects. A normal XPath uses the Entity and XPath constraint.
+			- The Microflow uses a standalone microflow that returns the objects.
+			- The Microflow with context object can be used if the calendar is placed inside a dataview. This will use the Dataview data source microflow which will send along the Dataview Context object.</description>
+			<enumerationValues>
+				<enumerationValue key="xpath">XPath retrieve</enumerationValue>
+				<enumerationValue key="mf">Microflow</enumerationValue>
+				<enumerationValue key="contextmf">Microflow with context object</enumerationValue>
+			</enumerationValues> 
+		</property> 
 		<property key="eventEntity" type="entity">
 			<caption>Entity</caption>
 			<category>Data source</category>
@@ -34,9 +40,26 @@
             <category>Data source</category>
             <description>The XPath constraint on the objects.</description> 
         </property>
-        <property key="startPos" type="attribute" required="false" isPath="yes" pathType="referenceSet" entityProperty="eventEntity">
+  		<property key="datasourceMf" type="microflow" required="false">
+            <caption>Data source microflow</caption>
+            <category>Data source</category>
+            <description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
+            <returnType type="Void"/>
+        </property>
+		<property key="contextEntity" type="entity" required="false">
+			<caption>Dataview Entity</caption>
+			<category>Dataview context (Optional)</category>
+			<description>The entity of the dataview object.</description>
+		</property>
+		<property key="contextDatasourceMf" type="microflow" required="false" entityProperty="contextEntity">
+            <caption>Dataview data source microflow</caption>
+            <category>Dataview context (Optional)</category>
+            <description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
+            <returnType type="Void"/>
+        </property>
+        <property key="startPos" type="attribute" required="false" entityProperty="contextEntity">
 			<caption>Start pos attribute</caption>
-			<category>Data source</category>
+			<category>Dataview context (Optional)</category>
 			<description>The date on which the calendar should start.</description>
 			<attributeTypes>
 				<attributeType name="DateTime"/>
@@ -137,67 +160,67 @@
         </property>
 		<property key="calHeight" type="integer" defaultValue="600">
 			<caption>Height</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>The height in px.</description>
 		</property>
 		<property key="showWeekNumbers" type="boolean" defaultValue="false">
 			<caption>Show weeknumbers</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>Whether or not to show weeknumbers in the calendar. If 'YES' a column with weeknumbers will be added.</description>
 		</property>
 		<property key="weeknumberTitle" type="string" required='false' defaultValue='W'>
 			<caption>Weeknumber Title</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>Title used for the weeknumber column, defaults to "W".</description>
 		</property>
 		<property key="showWeekends" type="boolean" defaultValue="true">
 			<caption>Show weekends</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>Whether weekend should be shown on the calendar</description>
 		</property>
 		<property key="firstday" type="integer" defaultValue="0">
 			<caption>First day of the week</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>An integer to specify the first day of the week, 0 = Sunday, 1 = Monday etc.</description>
 		</property>
 		<property key="timeFormat" type="string" required="true" defaultValue="h:mm{ - h:mm}">
 			<caption>Custom time format</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
 		</property>
 		<property key="dateFormat" type="string" required="false">
 			<caption>Custom date format</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>
 		</property>
 		<property key="titleFormat" type="string" required="false">
 			<caption>Custom title format</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>For more information: http://arshaw.com/fullcalendar/docs/text/titleFormat/</description>
 		</property>
 		<property key="monthNamesFormat" type="translatableString" required="false">
 			<caption>Month names format</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>Comma seperated list of the full names of the months, starting at Januari.</description>
 		</property>
 		<property key="monthShortNamesFormat" type="translatableString" required="false">
 			<caption>Month short names format</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>Comma seperated list of the short names of the months, starting at Jan.</description>
 		</property>
 		<property key="dayNamesFormat" type="translatableString" required="false">
 			<caption>Day names format</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>Comma seperated list of the full names of the days, starting at Sunday.</description>
 		</property>
 		<property key="dayShortNamesFormat" type="translatableString" required="false">
 			<caption>Day short names format</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description>Comma seperated list of the short names of the days, starting at Sun.</description>
 		</property>	
 		<property key="typeAttr" type="attribute" entityProperty="eventEntity" required="false">
 			<caption>Enum for colors</caption>
-			<category>Appearance</category>
+			<category>View settings</category>
 			<description></description>
 			<attributeTypes>
 				<attributeType name="Enum"/>
@@ -205,27 +228,27 @@
 		</property>
 		<property key="notused" type="object" isList="true" required="false">
             <caption>Colors</caption>
-            <category>Appearance</category>
+            <category>View settings</category>
             <description></description>
             <properties>
                 <property key="enumKey" type="string" required="false">
                     <caption>Enumeration key</caption>
-                    <category>Appearance</category>
+                    <category>View settings</category>
                     <description></description>  
                 </property>
 				<property key="bgColor" type="string" required="true">
                     <caption>Background color</caption>
-                    <category>Appearance</category>
+                    <category>View settings</category>
                     <description></description>  
                 </property>
                 <property key="border" type="string" required="true">
                     <caption>Border color</caption>
-                    <category>Appearance</category>
+                    <category>View settings</category>
                     <description></description>  
                 </property>
 				<property key="textColor" type="string" required="true">
                     <caption>Text color</caption>
-                    <category>Appearance</category>
+                    <category>View settings</category>
                     <description></description>  
                 </property>
             </properties>
@@ -249,7 +272,7 @@
             <properties>
                 <property key="availableViews" type="enumeration" defaultValue="month">
                     <caption>View</caption>
-                    <category>Appearance</category>
+                    <category>View settings</category>
                     <description></description>
 					<enumerationValues>
 						<enumerationValue key="month">Month</enumerationValue>

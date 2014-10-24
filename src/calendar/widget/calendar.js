@@ -24,6 +24,14 @@ dojo.require("calendar.lib.fullcalendar-min");
 			//make a calendarbox
 			this._calendarBox = dojo.create('div', {'id' : 'calendar_' + this.id});
 			dojo.place(this._calendarBox, this.domNode);
+			//subscribe to changes in the event entity. 
+			this._subscription = mx.data.subscribe({
+				entity: this.eventEntity,
+				callback: dojo.hitch(this, function(entity) {
+					//we re-fetch the objects, and refresh them on the calendar
+					this.fetchObjects();
+				})
+			});
 			this.actLoaded();
 		},
 
@@ -31,21 +39,12 @@ dojo.require("calendar.lib.fullcalendar-min");
 			if(obj){
 				this._mxObj = obj;
 			} 
-			//subscribe to changes in the event entity. 
-			var self = this;
-			this._subscription = mx.data.subscribe({
-				entity: this.eventEntity,
-				callback: function(entity) {
-					//we re-fetch the objects, and refresh them on the calendar
-					self.fetchObjects();
-				} 
-			});
 			this.fetchObjects();
 			callback && callback();
 		}, 
 		
 		fetchObjects : function () {
-			if (!this.datasourceMf) {
+			if (this.dataSourceType === "xpath") {
 				var constraint = this.eventConstraint;
 				//when in a dataview
 				if(this._mxObj){
@@ -57,11 +56,20 @@ dojo.require("calendar.lib.fullcalendar-min");
 					xpath : xpath,
 					callback : dojo.hitch(this, this.createEvents)
 				}, this);
-			} else {
-				if(this._mxObj)
-					this.execMF(obj, this.datasourceMf, dojo.hitch(this, this.createEvents));
-				else
-					this.execMF(null, this.datasourceMf, dojo.hitch(this, this.createEvents));
+			}
+			else if(this.dataSourceType === "mf" && this._mxObj && this.datasourceMf)
+				this.execMF(this._mxObj, this.datasourceMf, dojo.hitch(this, this.createEvents));
+			else if (this.dataSourceType === "contextmf" && this._mxObj && this.contextDatasourceMf)
+				this.execMF(this._mxObj, this.contextDatasourceMf, dojo.hitch(this, this.createEvents));
+			else {
+				dojo.empty(this.domNode);
+				var errordiv = mxui.dom.div("Your data source settings do not seem to match up. Please re-configure them.");
+				dojo.style(errordiv, {
+					"border" : "1px solid red",
+					"color" : "red",
+					"padding" : "5px"
+				});
+				this.domNode.appendChild(errordiv);
 			}
 		}, 
 
@@ -105,7 +113,6 @@ dojo.require("calendar.lib.fullcalendar-min");
 				//else create the calendar
 				this.renderCalendar(events);
 			}
-				
 		},
 
 		renderCalendar: function (events) {			
@@ -114,15 +121,8 @@ dojo.require("calendar.lib.fullcalendar-min");
 			$('#calendar_' + this.id).fullCalendar(options);
 
 			//go to the startposition if we have one
-			//also subscribe to changes
+
 			if (this._mxObj && this._mxObj.get(this.startPos)) {
-				mx.data.subscribe({
-					guid : this._mxObj.getGUID(),
-					attr : this.startPos,
-					callback : dojo.hitch(this, function () {
-						$('#calendar_' + this.id).fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
-					})
-				});
 				$('#calendar_' + this.id).fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
 			}
 		}, 
@@ -164,7 +164,7 @@ dojo.require("calendar.lib.fullcalendar-min");
 			var self = this;
 			$.each(this.colors, function(index, color){
 				//set color when enum color equals the color we have on file
-				if(obj.get(self.typeAttr) == color.enumKey){
+				if(obj.get(self.typeAttr) === color.enumKey){
 					objcolors = {
 						backgroundColor : color.bgColor,
 						borderColor : color.border,
