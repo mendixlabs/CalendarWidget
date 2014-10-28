@@ -236,7 +236,7 @@ dojo.require("calendar.lib.fullcalendar-min");
 
 			this.monthNamesFormat = this.monthNamesFormat ? this.monthNamesFormat : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 			this.monthShortNamesFormat = this.monthShortNamesFormat ? this.monthShortNamesFormat : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-			this.dayNamesFormat = this.dayNamesFormat ? this.dayNamesFormat : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday'];
+			this.dayNamesFormat = this.dayNamesFormat ? this.dayNamesFormat : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 			this.dayShortNamesFormat = this.dayShortNamesFormat ? this.dayShortNamesFormat : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 		},
 
