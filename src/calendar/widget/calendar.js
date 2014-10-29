@@ -24,6 +24,9 @@ dojo.require("calendar.lib.fullcalendar-min");
 			//make a calendarbox
 			this._calendarBox = dojo.create('div', {'id' : 'calendar_' + this.id});
 			dojo.place(this._calendarBox, this.domNode);
+
+			this.renderCalendar(null);
+
 			//subscribe to changes in the event entity. 
 			this._subscription = mx.data.subscribe({
 				entity: this.eventEntity,
@@ -36,9 +39,8 @@ dojo.require("calendar.lib.fullcalendar-min");
 		},
 
 		update : function(obj, callback) {
-			if(obj){
-				this._mxObj = obj;
-			} 
+			this._mxObj = obj;
+
 			this.fetchObjects();
 			callback && callback();
 		}, 
@@ -46,9 +48,13 @@ dojo.require("calendar.lib.fullcalendar-min");
 		fetchObjects : function () {
 			if (this.dataSourceType === "xpath") {
 				var constraint = this.eventConstraint;
-				//when in a dataview
-				if(this._mxObj){
-					constraint = this.eventConstraint.replace('[%CurrentObject%]', this._mxObj.getGuid());
+				var expectObj = this.eventConstraint.indexOf('[%CurrentObject%]') >= 0;
+
+				if(this._mxObj && expectObj){
+					constraint = this.eventConstraint.replace(/\[%CurrentObject%\]/gi, this._mxObj.getGuid());
+				} else if (expectObj) {
+					this.clearCalendar();
+					return;
 				}
 				
 				var xpath = '//' + this.eventEntity + constraint;
@@ -72,6 +78,11 @@ dojo.require("calendar.lib.fullcalendar-min");
 				this.domNode.appendChild(errordiv);
 			}
 		}, 
+
+		clearCalendar : function() {
+			if ($('#calendar_' + this.id))
+				$('#calendar_' + this.id).fullCalendar('removeEvents');
+		},
 
 		createEvents : function(objs) {
 			var events = [];
