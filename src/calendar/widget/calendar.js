@@ -15,11 +15,14 @@ dojo.require("calendar.lib.fullcalendar-min");
 		_subscription	: null,
 		_header			: null,
 		colors			: null,
+		eventSource 	: null,
 
 		postCreate : function() {
 			this.colors = this.notused; //workaround for legacy users
 			this.availableViews = this.notused1;//workaround for legacy users
 			this.setDefaults(); //set default formatting options
+
+			this.eventSource = [];
 
 			//make a calendarbox
 			this._calendarBox = dojo.create('div', {'id' : 'calendar_' + this.id});
@@ -116,14 +119,17 @@ dojo.require("calendar.lib.fullcalendar-min");
 			});
 			//check if the calendar already exists (are we just updating events here?)
 			if($('#calendar_' + this.id).hasClass('fc')){
-				//if it does, remove, add the new source and refetch				
-				$('#calendar_' + this.id).fullCalendar('removeEvents');
+				//if it does, remove, add the new source and refetch
+				if (this.eventSource)		
+					$('#calendar_' + this.id).fullCalendar('removeEventSource', this.eventSource);
+
 				$('#calendar_' + this.id).fullCalendar('addEventSource', events);
 				$('#calendar_' + this.id).fullCalendar('refetchEvents');
 			} else {
 				//else create the calendar
 				this.renderCalendar(events);
 			}
+			this.eventSource = events;
 		},
 
 		renderCalendar: function (events) {			
