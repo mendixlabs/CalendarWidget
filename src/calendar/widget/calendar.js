@@ -251,10 +251,10 @@ dojo.require("calendar.lib.fullcalendar-min");
 
 			this._header.right = 'today '+ views.join() +' prev,next';		
 
-			this.monthNamesFormat = this.monthNamesFormat ? this.monthNamesFormat : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-			this.monthShortNamesFormat = this.monthShortNamesFormat ? this.monthShortNamesFormat : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-			this.dayNamesFormat = this.dayNamesFormat ? this.dayNamesFormat : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-			this.dayShortNamesFormat = this.dayShortNamesFormat ? this.dayShortNamesFormat : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+			this.monthNamesFormat = this.monthNamesFormat ? this.monthNamesFormat.split(",") : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+			this.monthShortNamesFormat = this.monthShortNamesFormat ? this.monthShortNamesFormat.split(",") : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+			this.dayNamesFormat = this.dayNamesFormat ? this.dayNamesFormat.split(",") : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+			this.dayShortNamesFormat = this.dayShortNamesFormat ? this.dayShortNamesFormat.split(",") : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 		},
 
 		setCalendarOptions : function(events){
