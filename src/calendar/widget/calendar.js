@@ -129,6 +129,7 @@ dojo.require("calendar.lib.fullcalendar-min");
 			//check if the calendar already exists (are we just updating events here?)
 			if(this.fcNode.hasClass('fc')){
 				//if it does, remove, add the new source and refetch
+				this.fcNode.fullCalendar('render');
 				if (this.eventSource && this.eventSource.length >= 1)		
 					this.fcNode.fullCalendar('removeEventSource', this.eventSource);
 
