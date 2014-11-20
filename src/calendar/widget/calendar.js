@@ -14,19 +14,28 @@ dojo.require("calendar.lib.fullcalendar-min");
 		_calendarBox	: null,
 		_subscription	: null,
 		_header			: null,
+		_hasStarted		: null,
 		colors			: null,
 		eventSource 	: null,
+		fcNode			: null,
 
-		postCreate : function() {
+		startup : function() {
+			if (this._hasStarted)
+				return;
+			
+			this._hasStarted = true;
+			
 			this.colors = this.notused; //workaround for legacy users
 			this.availableViews = this.notused1;//workaround for legacy users
 			this.setDefaults(); //set default formatting options
 
 			this.eventSource = [];
-
+			
 			//make a calendarbox
 			this._calendarBox = dojo.create('div', {'id' : 'calendar_' + this.id});
 			dojo.place(this._calendarBox, this.domNode);
+			
+			this.fcNode = $('#calendar_' + this.id);
 
 			this.renderCalendar(null);
 
@@ -66,13 +75,13 @@ dojo.require("calendar.lib.fullcalendar-min");
 					callback : dojo.hitch(this, this.createEvents)
 				}, this);
 			}
-			else if(this.dataSourceType === "mf" && this._mxObj && this.datasourceMf)
-				this.execMF(this._mxObj, this.datasourceMf, dojo.hitch(this, this.createEvents));
 			else if (this.dataSourceType === "contextmf" && this._mxObj && this.contextDatasourceMf)
 				this.execMF(this._mxObj, this.contextDatasourceMf, dojo.hitch(this, this.createEvents));
+			else if(this.dataSourceType === "mf" && this.datasourceMf)
+				this.execMF(null, this.datasourceMf, dojo.hitch(this, this.createEvents));
 			else {
 				dojo.empty(this.domNode);
-				var errordiv = mxui.dom.div("Your data source settings do not seem to match up. Please re-configure them.");
+				var errordiv = mxui.dom.div("The data source settings do not seem to match up. Please re-configure them.");
 				dojo.style(errordiv, {
 					"border" : "1px solid red",
 					"color" : "red",
@@ -83,8 +92,8 @@ dojo.require("calendar.lib.fullcalendar-min");
 		}, 
 
 		clearCalendar : function() {
-			if ($('#calendar_' + this.id))
-				$('#calendar_' + this.id).fullCalendar('removeEvents');
+			if (this.fcNode)
+				this.fcNode.fullCalendar('removeEvents');
 		},
 
 		createEvents : function(objs) {
@@ -118,13 +127,13 @@ dojo.require("calendar.lib.fullcalendar-min");
 				events.push(newEvent);
 			});
 			//check if the calendar already exists (are we just updating events here?)
-			if($('#calendar_' + this.id).hasClass('fc')){
+			if(this.fcNode.hasClass('fc')){
 				//if it does, remove, add the new source and refetch
-				if (this.eventSource)		
-					$('#calendar_' + this.id).fullCalendar('removeEventSource', this.eventSource);
+				if (this.eventSource && this.eventSource.length >= 1)		
+					this.fcNode.fullCalendar('removeEventSource', this.eventSource);
 
-				$('#calendar_' + this.id).fullCalendar('addEventSource', events);
-				$('#calendar_' + this.id).fullCalendar('refetchEvents');
+				this.fcNode.fullCalendar('addEventSource', events);
+				this.fcNode.fullCalendar('refetchEvents');
 			} else {
 				//else create the calendar
 				this.renderCalendar(events);
@@ -135,12 +144,12 @@ dojo.require("calendar.lib.fullcalendar-min");
 		renderCalendar: function (events) {			
 			var options = this.setCalendarOptions(events);
 
-			$('#calendar_' + this.id).fullCalendar(options);
+			this.fcNode.fullCalendar(options);
 
 			//go to the startposition if we have one
 
 			if (this._mxObj && this._mxObj.get(this.startPos)) {
-				$('#calendar_' + this.id).fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
+				this.fcNode.fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
 			}
 		}, 
 
