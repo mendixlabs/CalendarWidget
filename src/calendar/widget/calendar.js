@@ -72,13 +72,13 @@ dojo.require("calendar.lib.fullcalendar-min");
 				var xpath = '//' + this.eventEntity + constraint;
 				mx.data.get({
 					xpath : xpath,
-					callback : dojo.hitch(this, this.createEvents)
+					callback : dojo.hitch(this, this.prepareEvents)
 				}, this);
 			}
 			else if (this.dataSourceType === "contextmf" && this._mxObj && this.contextDatasourceMf)
-				this.execMF(this._mxObj, this.contextDatasourceMf, dojo.hitch(this, this.createEvents));
+				this.execMF(this._mxObj, this.contextDatasourceMf, dojo.hitch(this, this.prepareEvents));
 			else if(this.dataSourceType === "mf" && this.datasourceMf)
-				this.execMF(null, this.datasourceMf, dojo.hitch(this, this.createEvents));
+				this.execMF(null, this.datasourceMf, dojo.hitch(this, this.prepareEvents));
 			else {
 				dojo.empty(this.domNode);
 				var errordiv = mxui.dom.div("The data source settings do not seem to match up. Please re-configure them.");
@@ -96,7 +96,72 @@ dojo.require("calendar.lib.fullcalendar-min");
 				this.fcNode.fullCalendar('removeEvents');
 		},
 
-		createEvents : function(objs) {
+		prepareEvents : function(objs) {
+			// this function takes a set of objects and gets a title for each based on whether titleAttr
+			// is a simple attribute or a reference.  When titles are collected, we call
+			// createEvents with both the original objects and the objTitles array.
+			// Note: for referenced titles, the createObjects call is made from the callback of mx.processor.get()
+			var objTitles = []; // key = object GUID, value is ultimately the title string
+			// Note: for referenced title attributes, the value is initially set to the GUID
+			// of the referenced object.  Later, during the mx.processor.get() callback, it
+			// is replaced with the actual title string.
+			var objRefs = []; // Array containing the referenced object GUIDs.
+			var refTitles = [];  // key = referenced object GUID, value is referred title
+			// Note: both objRefs and refTitles will be the same length, but both of them can be shorter
+			// than the length of objRefs.
+			var self = this;
+			var split = self.titleAttr.split("/");
+			if (split.length == 1 ) {
+				// titleAttr is a simple attribute and the key of objTitles is
+				// the GUID of the object and the title is the attribute.
+				$.each(objs, function(index, obj){
+					objTitles[obj.getGUID()] = obj.get(self.titleAttr);
+				});
+				// Call createEvents() now.
+				this.createEvents(objs, objTitles);
+			} else if (split.length == 3 ) {
+				// titleAttr is a reference and we have more work to do.
+				var thisRef; // Contains the GUID of one of the referred objects.
+				$.each(objs, function(index, obj){
+					thisRef = obj.getAttribute(split[0]);
+					objTitles[obj.getGUID()] = thisRef;
+					// objRefs should only contain the unique list of referred objects.
+					if (objRefs.indexOf(thisRef) < 0) {
+						objRefs.push(thisRef);
+					}
+				});
+				// Now get the actual title strings from the list of referred objects ...
+				// This is an asynchronous call.
+				mx.processor.get({
+					guids : objRefs,
+					nocache : false,
+					callback : function (refObjs) {
+						// Get the title string for each referenced object and store it
+						// as the value in the refTitles array.
+						for (var i = 0; i < refObjs.length; i++ ) {
+							refTitles[refObjs[i].getGUID()] = refObjs[i].get(split[2]);
+						}
+						// Now, loop through the objTitles array and replace the value (which is
+						// is the GUID of the referred object) with the actual title string extracted
+						// from the referred object.
+						for (var index in objTitles) {
+							var thisValue = objTitles[index];
+							objTitles[index] = refTitles[objTitles[index]];
+						}
+						// Now that we finally have all of the referenced titles, we can call
+						// createEvents()
+						this.createEvents(objs, objTitles);
+					}
+				}, this);
+				//this.createEvents(objs, objTitles);
+			} else {
+				// this should never happen and is likely an error
+				console.log("Error in titleAttr: " + self.titleAttr);
+				console.log("This should be either a simple attribute or a 1-deep reference.");
+			}
+		},
+
+		createEvents : function(objs, titles) {
 			var events = [];
 			var objcolors = null;
 			var self = this;
@@ -110,7 +175,7 @@ dojo.require("calendar.lib.fullcalendar-min");
 				var end = new Date(obj.get(self.endAttr));
 				//create a new calendar event
 				var newEvent = {
-					title : obj.get(self.titleAttr),
+					title : titles[obj.getGUID()],
 					start : start,
 					end	: end,
 					allDay : obj.get(self.alldayAttr),
@@ -123,9 +188,9 @@ dojo.require("calendar.lib.fullcalendar-min");
 					newEvent.borderColor = objcolors.borderColor;
 					newEvent.textColor = objcolors.textColor;
 				}
-
 				events.push(newEvent);
 			});
+			console.log("Number of events created: " + events.length);
 			//check if the calendar already exists (are we just updating events here?)
 			if(this.fcNode.hasClass('fc')){
 				//if it does, remove, add the new source and refetch
@@ -287,6 +352,9 @@ dojo.require("calendar.lib.fullcalendar-min");
 				weekNumbers: this.showWeekNumbers,
 				weekNumberTitle: this.weeknumberTitle, 
 				weekends: this.showWeekends,
+				slotMinutes: this.slotMinutes,
+				//Agenda view formatting
+				axisFormat: this.axisFormat,
 				//Text/Time Formatting
 				titleFormat: this.titleFormat,
 				timeFormat: this.timeFormat,
