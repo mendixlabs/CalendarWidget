@@ -374,22 +374,20 @@ dojo.require("calendar.lib.fullcalendar-min");
 			if (mf) {
 				var params = {
 					applyto		: "selection",
-					actionname	: mf,
 					guids : []
 				};
 				if (obj)
 					params.guids = [obj.getGuid()];
-
-				mx.data.action({
-					params			: params,			
-					callback		: function(objs) {
-						cb && cb(objs);
-					},
-					error			: function(error) {
-						cb  && cb();
-						logger.warn(error.description);
-					}
-				}, this);
+                
+                mx.ui.action(mf, {
+                    context: new mendix.lib.MxContext(),
+                    progress: "modal",
+                    params	: params,	
+                    callback: function(result) {
+                        cb && cb(objs);
+                    }
+                });
+                
 			} else if (cb) {
 				cb();
 			}
