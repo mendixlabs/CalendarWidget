@@ -65,7 +65,7 @@
 				<attributeType name="DateTime"/>
 			</attributeTypes>
 		</property>
-        <property key="titleAttr" type="attribute" entityProperty="eventEntity">
+        <property key="titleAttr" type="attribute" isPath="optional" pathType="reference" entityProperty="eventEntity">
 			<caption>Title</caption>
 			<category>Event data</category>
 			<description></description>
@@ -265,6 +265,16 @@
 				<enumerationValue key="agendaDay">Agenda day</enumerationValue>
 			</enumerationValues> 
 		</property>
+		<property key="axisFormat" type="string" defaultValue="h(:mm)tt">
+			<caption>Agenda axis time format</caption>
+			<category>Extra</category>
+			<description>The format of the vertical axis labels in agenda views (default h(:mm)tt)</description>
+		</property>
+		<property key="slotMinutes" type="integer" defaultValue="30">
+			<caption>Slot duration</caption>
+			<category>Extra</category>
+			<description>The time interval (in minutes) of day and week calendars. (Default: 30)</description>
+		</property>
 		<property key="notused1" type="object" isList="true" required="false">
             <caption>Available views</caption>
             <category>Extra</category>
@@ -302,8 +312,8 @@
 					<category>Extra</category>
 					<description>The label used for the button.</description>
 				</property>
-            </properties>
-        </property>	
+			</properties>
+		</property>
 <!--	This has become obsolete:
 		<property key="listenchannel" type="string" required="false">
             <caption>Listen source</caption>
