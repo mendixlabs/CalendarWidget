@@ -4,20 +4,17 @@ dojo.require("calendar.lib.jquery-ui-min");
 dojo.require("calendar.lib.fullcalendar-min");
 
 
-//TODO: MASSIVE cleanup for MX5
-
-
-
 (function($) {
 	dojo.declare("calendar.widget.calendar", mxui.widget._WidgetBase, {
-		_mxObj			: null,
-		_calendarBox	: null,
-		_subscription	: null,
-		_header			: null,
-		_hasStarted		: null,
-		colors			: null,
-		eventSource 	: null,
-		fcNode			: null,
+		_mxObj            : null,
+		_calendarBox      : null,
+		_subscription	  : null,
+		_header			  : null,
+		_hasStarted		  : null,
+        _eventIsClicked   : false,
+		colors			  : null,
+		eventSource       : null,
+		fcNode            : null,
 
 		startup : function() {
 			if (this._hasStarted)
@@ -221,9 +218,9 @@ dojo.require("calendar.lib.fullcalendar-min");
 		}, 
 
 		onEventClick : function(event) {
-			var obj = event.mxobject;
-			this.setVariables(obj, event);
-			this.execMF(obj, this.onclickmf);
+            var obj = event.mxobject;
+            this.setVariables(obj, event);
+            this.execMF(obj, this.onclickmf);
 		},
 
 		onSelectionMade : function(startDate, endDate, allDay, jsEvent, view) {
@@ -231,19 +228,29 @@ dojo.require("calendar.lib.fullcalendar-min");
 				start : startDate,
 				end	: endDate
 			};
-			mx.data.create({
-				entity: this.eventEntity,
-				callback: function(obj) {
-					this.setVariables(obj, eventData, allDay);
-					if(this._mxObj && this.neweventref !== '') {
-						obj.addReference(this.neweventref.split('/')[0], this._mxObj.getGuid());
-					}
-					this.execMF(obj, this.neweventmf);
-				},
-				error: function(err){ 
-					logger.warn('Error creating object: ', err);
-				}
-			}, this);
+        
+            if(!this._eventIsClicked){
+        
+                mx.data.create({
+                    entity: this.eventEntity,
+                    callback: function(obj) {
+                        this.setVariables(obj, eventData, allDay);
+                        if(this._mxObj && this.neweventref !== '') {
+                            obj.addReference(this.neweventref.split('/')[0], this._mxObj.getGuid());
+                        }
+                        this.execMF(obj, this.neweventmf);
+                    },
+                    error: function(err){ 
+                        logger.warn('Error creating object: ', err);
+                    }
+                }, this);
+                
+                this._eventIsClicked = true;
+
+                setTimeout( dojo.hitch(this,function(){
+                    this._eventIsClicked = false;
+                }),1000);
+            }
 		},
 
 		getObjectColors : function(obj){
