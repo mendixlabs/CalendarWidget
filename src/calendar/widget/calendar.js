@@ -101,23 +101,21 @@ dojo.require("calendar.lib.fullcalendar-min");
 			// is a simple attribute or a reference.  When titles are collected, we call
 			// createEvents with both the original objects and the objTitles array.
 			// Note: for referenced titles, the createObjects call is made from the callback of mx.processor.get()
-			var objTitles = []; // key = object GUID, value is ultimately the title string
+			var objTitles = {}; // key = object GUID, value is ultimately the title string
 			// Note: for referenced title attributes, the value is initially set to the GUID
 			// of the referenced object.  Later, during the mx.processor.get() callback, it
 			// is replaced with the actual title string.
 			var objRefs = []; // Array containing the referenced object GUIDs.
-			var refTitles = [];  // key = referenced object GUID, value is referred title
+			var refTitles = {};  // key = referenced object GUID, value is referred title
 			// Note: both objRefs and refTitles will be the same length, but both of them can be shorter
 			// than the length of objRefs.
-			var self = this;
-			var split = self.titleAttr.split("/");
+			var split = this.titleAttr.split("/");
 			if (split.length == 1 ) {
 				// titleAttr is a simple attribute and the key of objTitles is
 				// the GUID of the object and the title is the attribute.
-				$.each(objs, function(index, obj){
-					objTitles[obj.getGUID()] = obj.get(self.titleAttr);
-				});
-				// Call createEvents() now.
+				$.each(objs, dojo.hitch(this, function(index, obj){
+					objTitles[obj.getGUID()] = obj.get(this.titleAttr);
+				}));
 				this.createEvents(objs, objTitles);
 			} else if (split.length == 3 ) {
 				// titleAttr is a reference and we have more work to do.
@@ -156,30 +154,28 @@ dojo.require("calendar.lib.fullcalendar-min");
 				//this.createEvents(objs, objTitles);
 			} else {
 				// this should never happen and is likely an error
-				console.log("Error in titleAttr: " + self.titleAttr);
-				console.log("This should be either a simple attribute or a 1-deep reference.");
+				console.error("Error in titleAttr: " + this.titleAttr+". This should be either a simple attribute or a 1-deep reference.");
 			}
 		},
 
 		createEvents : function(objs, titles) {
 			var events = [];
 			var objcolors = null;
-			var self = this;
-			$.each(objs, function(index, obj){
+			$.each(objs, dojo.hitch(this, function(index, obj){
 				//get the colors
-				if(self.colors.length > 0 && self.typeAttr){
-					objcolors = self.getObjectColors(obj);
+				if(this.colors.length > 0 && this.typeAttr){
+					objcolors = this.getObjectColors(obj);
 				}
 				//get the dates
-				var start = new Date(obj.get(self.startAttr));
-				var end = new Date(obj.get(self.endAttr));
+				var start = new Date(obj.get(this.startAttr));
+				var end = new Date(obj.get(this.endAttr));
 				//create a new calendar event
 				var newEvent = {
 					title : titles[obj.getGUID()],
 					start : start,
 					end	: end,
-					allDay : obj.get(self.alldayAttr),
-					editable : self.editable, 
+					allDay : obj.get(this.alldayAttr),
+					editable : this.editable, 
 					mxobject: obj //we add the mxobject to be able to handle events with relative ease.
 				};
 
@@ -189,8 +185,7 @@ dojo.require("calendar.lib.fullcalendar-min");
 					newEvent.textColor = objcolors.textColor;
 				}
 				events.push(newEvent);
-			});
-			console.log("Number of events created: " + events.length);
+			}));
 			//check if the calendar already exists (are we just updating events here?)
 			if(this.fcNode.hasClass('fc')){
 				//if it does, remove, add the new source and refetch
