@@ -153,7 +153,7 @@
             <description>The new event microflow.</description>
             <returnType type="Void"/>
         </property>
-		<property key="neweventref" type="entity" required="false" isPath="yes" pathType="referenceSet" entityProperty="eventEntity">
+		<property key="neweventref" type="entity" required="false" isPath="yes" pathType="reference" entityProperty="eventEntity">
             <caption>New event reference</caption>
             <category>Behavior</category>
             <description>Optional: The reference to connect the event to the context object.</description>
