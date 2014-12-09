@@ -95,7 +95,7 @@ A boolean to set if the weekends should be shown on the Calendar.
 An integer to set what the first day of the week is, where 0 = Sunday, 1 = Monday, etc.
 
 #### Custom time format
-The time format for all events. For more information: http://fullcalendar.io/docs/text/timeFormat/
+Default: h:mm{ - h:mm}. For more information: http://fullcalendar.io/docs/text/timeFormat/
 
 #### Custom date format
 The date format that is shown in the column headings. For more information: http://fullcalendar.io/docs/text/columnFormat/
@@ -118,3 +118,15 @@ A translatable string of all the shorthand day names that are used in the Calend
 ### Extra
 #### Available views
 A list of which views should be available to the user in the Calendar (Month, Basic Week, Agenda Week, Basic Day, Agenda Day). For more information: http://fullcalendar.io/docs/views/Available_Views/
+
+##### Custom time format
+Default: h:mm{ - h:mm}. Overrides the 'general' custom time format property. For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/
+
+##### Custom date format
+For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/
+
+##### Custom title format
+For more information: http://arshaw.com/fullcalendar/docs/text/titleFormat/
+
+##### Label
+Caption used for the 'calendar view' button. For more information: http://fullcalendar.io/docs/text/buttonText/
