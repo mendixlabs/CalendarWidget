@@ -277,7 +277,7 @@
 				<property key="labelViews" type="translatableString" required="false">
 					<caption>Label</caption>
 					<category>Extra</category>
-					<description>The label used for the button.</description>
+                    <description>Caption used for the 'calendar view' button. For more information: http://fullcalendar.io/docs/text/buttonText/</description>
 				</property>
 			</properties>
 		</property>
