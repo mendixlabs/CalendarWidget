@@ -102,39 +102,6 @@
 				<attributeType name="Boolean"/>
 			</attributeTypes>
 		</property>
-<!--	I'm not sure what this is supposed to do (there is no description). So for now it's not implemented. If anyone knows what it's for...  
-
- 		<property key="customSortAttr" type="attribute" entityProperty="eventEntity" required="false">
-			<caption>Custom sorting</caption>
-			<category>Event data</category>
-			<description></description>
-			<attributeTypes>
-				<attributeType name="AutoNumber"/>
-				<attributeType name="String"/>
-				<attributeType name="Enum"/>
-				<attributeType name="Integer"/>
-				<attributeType name="Float"/>
-				<attributeType name="Long"/>
-				<attributeType name="DateTime"/>
-			</attributeTypes>
-		</property>
-		<property key="customSortOrder" type="enumeration" defaultValue="asc">
-			<caption>Custom sort order</caption>
-			<category>Event data</category>
-			<description></description>
-			<enumerationValues>
-				<enumerationValue key="asc">Ascending</enumerationValue>
-				<enumerationValue key="desc">Descending</enumerationValue>
-			</enumerationValues> 
-		</property> 
-		<property key="urlAttr" type="attribute" entityProperty="eventEntity" required="false">
-			<caption>Url</caption>
-			<category>Attributes</category>
-			<description></description>
-			<attributeTypes>
-				<attributeType name="String"/>
-			</attributeTypes>
-		</property> -->
 		<property key="onchangemf" type="microflow" required="false" entityProperty="eventEntity">
             <caption>On change</caption>
             <category>Behavior</category>
@@ -183,12 +150,12 @@
 			<category>View settings</category>
 			<description>An integer to specify the first day of the week, 0 = Sunday, 1 = Monday etc.</description>
 		</property>
-		<property key="timeFormat" type="string" required="true" defaultValue="h:mm{ - h:mm}">
+      <property key="timeFormat" type="translatableString" required="false" >
 			<caption>Custom time format</caption>
 			<category>View settings</category>
-			<description>For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
+            <description>Default: h:mm{ - h:mm}. For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/ </description>
 		</property>
-		<property key="dateFormat" type="string" required="false">
+      <property key="dateFormat" type="translatableString" required="false">
 			<caption>Custom date format</caption>
 			<category>View settings</category>
 			<description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>
@@ -265,7 +232,7 @@
 				<enumerationValue key="agendaDay">Agenda day</enumerationValue>
 			</enumerationValues> 
 		</property>
-		<property key="axisFormat" type="string" defaultValue="h(:mm)tt">
+      <property key="axisFormat" type="translatableString" required="false" >
 			<caption>Agenda axis time format</caption>
 			<category>Extra</category>
 			<description>The format of the vertical axis labels in agenda views (default h(:mm)tt)</description>
@@ -292,12 +259,12 @@
 						<enumerationValue key="agendaDay">Agenda day</enumerationValue>
 					</enumerationValues> 
                 </property>
-				<property key="timeFormatViews" type="string" required="true" defaultValue="h:mm{ - h:mm}">
+                <property key="timeFormatViews" type="translatableString" required="false" >
 					<caption>Custom time format</caption>
 					<category>Extra</category>
-					<description>For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
+                    <description>Default: h:mm{ - h:mm}. For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
 				</property>
-				<property key="dateFormatViews" type="string" required="false">
+                <property key="dateFormatViews" type="translatableString" required="false">
 					<caption>Custom date format</caption>
 					<category>Extra</category>
 					<description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>

@@ -10,8 +10,10 @@ dojo.require("calendar.lib.fullcalendar-min");
 		_calendarBox      : null,
 		_subscription	  : null,
 		_header			  : null,
+        _buttonText       : null,
 		_hasStarted		  : null,
         _eventIsClicked   : false,
+        _timeFormat       : null,
 		colors			  : null,
 		eventSource       : null,
 		fcNode            : null,
@@ -205,7 +207,6 @@ dojo.require("calendar.lib.fullcalendar-min");
 			this.fcNode.fullCalendar(options);
 
 			//go to the startposition if we have one
-
 			if (this._mxObj && this._mxObj.get(this.startPos)) {
 				this.fcNode.fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
 			}
@@ -214,13 +215,13 @@ dojo.require("calendar.lib.fullcalendar-min");
 		onEventChange : function(event,dayDelta,minuteDelta,allDay,revertFunc){ 
 			var obj = event.mxobject;
 			this.setVariables(obj, event, allDay);
-			this.execMF(obj, this.onchangemf);
+			this.execMFFromUI(obj, this.onchangemf);
 		}, 
 
 		onEventClick : function(event) {
             var obj = event.mxobject;
             this.setVariables(obj, event);
-            this.execMF(obj, this.onclickmf);
+            this.execMFFromUI(obj, this.onclickmf);
 		},
 
 		onSelectionMade : function(startDate, endDate, allDay, jsEvent, view) {
@@ -299,30 +300,34 @@ dojo.require("calendar.lib.fullcalendar-min");
 				week: 'ddd M/d', // Mon 9/7
 				day: 'dddd M/d'  // Monday 9/7
 			};
-			this.timeFormat = {
-				'' : this.timeFormat
-			};
+			this._timeFormat =  {};
+            if(this.timeFormat){
+                this._timeFormat[''] = this.timeFormat ;
+            }
+            
+            this._buttonText = {};
 
-			var self = this;
+            this.axisFormat = this.axisFormat ? this.axisFormat : 'h(:mm)tt' ;
 			
 			if(this.availableViews.length > 0){
 				//fill default specifics				
-				$.each(this.availableViews, function(index, view){
+                $.each(this.availableViews, dojo.hitch(this,function(index, view){
 					var viewName = view.availableViews;
 					views.push(viewName);
 					if(view.titleFormatViews !== ''){
-						self.titleFormat[viewName] = view.titleFormatViews;
+                        this.titleFormat[viewName] = view.titleFormatViews;
 					}
 					if(view.dateFormatViews !== '') {
-						self.dateFormat[viewName] = view.dateFormatViews;
+                        this.dateFormat[viewName] = view.dateFormatViews;
 					}
 					if(view.timeFormatViews !== '') {
-						self.timeFormat[viewName] = view.timeFormatViews;
+                        this._timeFormat[viewName] = view.timeFormatViews;
 					}
+
 					if(view.labelViews !== '') {
-						self._header[viewName] = view.labelViews;
+                        this._buttonText[viewName] = view.labelViews;
 					}
-				});
+				}));
 			
 			} 
 
@@ -355,11 +360,12 @@ dojo.require("calendar.lib.fullcalendar-min");
 				weekNumberTitle: this.weeknumberTitle, 
 				weekends: this.showWeekends,
 				slotMinutes: this.slotMinutes,
+                buttonText: this._buttonText,
 				//Agenda view formatting
 				axisFormat: this.axisFormat,
 				//Text/Time Formatting
 				titleFormat: this.titleFormat,
-				timeFormat: this.timeFormat,
+				timeFormat: this._timeFormat,
 				columnFormat: this.dateFormat,
 				monthNames: this.monthNamesFormat, 
 				monthNamesShort: this.monthShortNamesFormat,
@@ -370,7 +376,32 @@ dojo.require("calendar.lib.fullcalendar-min");
 			return options;
 		},
 
-		execMF : function (obj, mf, cb) {
+        execMF : function (obj, mf, cb) {
+            if (mf) {
+                var params = {
+                applyto : "selection",
+                actionname : mf,
+                guids : []
+            };
+            if (obj)
+                params.guids = [obj.getGuid()];
+                
+                mx.data.action({
+                    params : params,
+                    callback	: function(objs) {
+                        cb && cb(objs);
+                    },
+                    error	: function(error) {
+                        cb && cb();
+                        logger.warn(error.description);
+                    }
+                }, this);
+            } else if (cb) {
+                cb();
+            }
+        }, 
+		
+        execMFFromUI : function (obj, mf, cb) {
 			if (mf) {
 				var params = {
 					applyto		: "selection",
