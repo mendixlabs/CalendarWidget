@@ -247,6 +247,16 @@
             <category>Extra</category>
             <description>Caption on button which jumps to today. Default: Today</description>
         </property>
+        <property key="startTime" type="integer" defaultValue="0">
+            <caption>Start time</caption>
+            <category>Extra</category>
+            <description>The start time for each day. This option only applies to Agendaweek en AgendaDay views. </description>
+        </property>
+        <property key="endTime" type="integer" defaultValue="24">
+            <caption>End time</caption>
+            <category>Extra</category>
+            <description>The end time for each day. This option only applies to Agendaweek en AgendaDay views.</description>
+        </property>      
 		<property key="notused1" type="object" isList="true" required="false">
             <caption>Available views</caption>
             <category>Extra</category>

@@ -468,7 +468,9 @@
                     monthNames: this.monthNamesFormat, 
                     monthNamesShort: this.monthShortNamesFormat,
                     dayNames: this.dayNamesFormat,
-                    dayNamesShort: this.dayShortNamesFormat
+                    dayNamesShort: this.dayShortNamesFormat,
+                    minTime : this.startTime || 0,
+                    maxTime : this.endTime || 24
                 };
 
                 return options;

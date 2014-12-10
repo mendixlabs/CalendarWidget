@@ -130,3 +130,20 @@ For more information: http://arshaw.com/fullcalendar/docs/text/titleFormat/
 
 ##### Label
 Caption used for the 'calendar view' button. For more information: http://fullcalendar.io/docs/text/buttonText/
+
+#### Agenda Axis Format
+The format of the vertical axis labels in agenda views (default h(:mm)tt)
+
+#### Slot duration
+The time interval (in minutes) of day and week calendars. (Default: 30)
+
+#### Today button caption
+Caption on button which jumps to today. Default: Today
+
+#### Start time
+The start time for each day. This property only applies to Agendaweek en AgendaDay views.
+
+#### End time
+The end time for each day. This property only applies to Agendaweek en AgendaDay views.
+
+
