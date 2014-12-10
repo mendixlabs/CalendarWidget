@@ -331,6 +331,10 @@ dojo.require("calendar.lib.fullcalendar-min");
 			
 			} 
 
+            if(this.todaycaption){
+                this._buttonText['today'] = this.todaycaption;
+            }
+            
 			this._header.right = 'today '+ views.join() +' prev,next';		
 
 			this.monthNamesFormat = this.monthNamesFormat ? this.monthNamesFormat.split(",") : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

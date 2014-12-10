@@ -232,7 +232,7 @@
 				<enumerationValue key="agendaDay">Agenda day</enumerationValue>
 			</enumerationValues> 
 		</property>
-      <property key="axisFormat" type="translatableString" required="false" >
+        <property key="axisFormat" type="translatableString" required="false" >
 			<caption>Agenda axis time format</caption>
 			<category>Extra</category>
 			<description>The format of the vertical axis labels in agenda views (default h(:mm)tt)</description>
@@ -242,6 +242,11 @@
 			<category>Extra</category>
 			<description>The time interval (in minutes) of day and week calendars. (Default: 30)</description>
 		</property>
+        <property key="todaycaption" type="translatableString" required="false" >
+            <caption>Today button caption</caption>
+            <category>Extra</category>
+            <description>Caption on button which jumps to today. Default: Today</description>
+        </property>
 		<property key="notused1" type="object" isList="true" required="false">
             <caption>Available views</caption>
             <category>Extra</category>
