@@ -7,7 +7,7 @@
 	========================
 
 	@file      : calendar.js
-	@version   : 1.0
+	@version   : 3.5
 	@author    : Pauline Oudeman - van der Kraats, Robert van 't Hof, Richard Edens, Roeland Salij
 	@date      : 10-12-2014
 	@copyright : Mendix Technology BV
