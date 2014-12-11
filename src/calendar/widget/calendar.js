@@ -22,7 +22,7 @@
 (function() {
     'use strict';
 
-    // test
+    // test 
     require([
 
         'mxui/widget/_WidgetBase', 'dijit/_Widget', 'dijit/_TemplatedMixin',
@@ -42,7 +42,7 @@
             _calendarBox    : null,
             _subscription   : null,
             _header         : null,
-            _buttonText     : null,
+            _buttonText     : null, 
             _hasStarted     : null,
             _eventIsClicked : false,
             _timeFormat     : null,
@@ -60,14 +60,14 @@
              */
             startup : function() {
                 
-                this._setupWidget();
-                
-                var $ = this.$;
-                
                 if (this._hasStarted){
                     return;
                 }
 
+                var $ = this.$;
+                
+                this._setupWidget();
+                
                 this._hasStarted = true;
 
                 this._colors = this.notused; //workaround for legacy users
@@ -98,8 +98,6 @@
             update : function(obj, callback) {
                 this._mxObj = obj;
 
-                this._fetchObjects();
-                
                 if (typeof callback !== 'undefined') {
                     callback();
                 }
