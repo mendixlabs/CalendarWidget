@@ -296,11 +296,5 @@
 				</property>
 			</properties>
 		</property>
-<!--	This has become obsolete:
-		<property key="listenchannel" type="string" required="false">
-            <caption>Listen source</caption>
-            <category>Behavior</category>
-            <description>This should match the listen channel set up in the Form Loader that should receive the object that is clicked.</description>
-        </property> -->
 	</properties>
 </widget>
