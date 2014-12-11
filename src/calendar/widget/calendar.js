@@ -59,14 +59,14 @@
              * ======================
              */
             startup : function() {
-                
+
                 if (this._hasStarted){
                     return;
                 }
 
-                var $ = this.$;
-                
                 this._setupWidget();
+
+                var $ = this.$;
                 
                 this._hasStarted = true;
 
@@ -97,6 +97,8 @@
 
             update : function(obj, callback) {
                 this._mxObj = obj;
+
+                this._fetchObjects();
 
                 if (typeof callback !== 'undefined') {
                     callback();
@@ -164,27 +166,17 @@
             _prepareEvents : function(objs) {
                 
                 var $ = this.$,
-                    
-                    // this function takes a set of objects and gets a title for each based on whether titleAttr
-                    // is a simple attribute or a reference.  When titles are collected, we call
-                    // createEvents with both the original objects and the objTitles array.
-                    // Note: for referenced titles, the createObjects call is made from the callback of mx.processor.get()
-                    
-                    objTitles = {}, // key = object GUID, value is ultimately the title string
-                    
-                    // Note: for referenced title attributes, the value is initially set to the GUID
-                    // of the referenced object.  Later, during the mx.processor.get() callback, it
-                    // is replaced with the actual title string.
-                    
-                    objRefs = [],// Array containing the referenced object GUIDs.
-                    
-                    refTitles = {},  // key = referenced object GUID, value is referred title
-                    
-                    // Note: both objRefs and refTitles will be the same length, but both of them can be shorter
-                    // than the length of objRefs.
-                    split = this.titleAttr.split("/"),
-                    
-                    thisRef; // Contains the GUID of one of the referred objects.
+                    objTitles = null,
+                    objRefs = null,
+                    refTitles = null,
+                    split = null,
+                    thisRef = null;
+
+                objTitles = {};
+                objRefs = [];
+                refTitles = {};
+                split = this.titleAttr.split("/");
+                thisRef = null; 
                 
                 if (split.length === 1 ) {
                     // titleAttr is a simple attribute and the key of objTitles is
@@ -277,7 +269,7 @@
                     //if it does, remove, add the new source and refetch
                     this._fcNode.fullCalendar('render');
                     if (this._eventSource && this._eventSource.length >= 1) {
-                        this._fcNode.fullCalendar('removeEventSource', this.eventSource);
+                        this._fcNode.fullCalendar('removeEventSource', this._eventSource);
                     }
 
                     this._fcNode.fullCalendar('addEventSource', events);
