@@ -1,5 +1,5 @@
 /*jslint white: true nomen: true plusplus: true */
-/*global mx, mxui, mendix, dojo, require, console, define, module, logger */
+/*global mx, mxui, mendix, dojo, require, console, define, module, logger, setTimeout */
 
 /**
 
@@ -7,7 +7,7 @@
 	========================
 
 	@file      : calendar.js
-	@version   : 3.5
+	@version   : 3.6
 	@author    : Pauline Oudeman - van der Kraats, Robert van 't Hof, Richard Edens, Roeland Salij
 	@date      : 10-12-2014
 	@copyright : Mendix Technology BV
@@ -416,7 +416,7 @@
                 } 
 
                 if(this.todaycaption){
-                    this._buttonText = {today :  this.todaycaption};
+                    this._buttonText.today = this.todaycaption;
                 }
 
                 this._header.right = 'today '+ views.join() +' prev,next';		
@@ -462,7 +462,11 @@
                     minTime : this.startTime || 0,
                     maxTime : this.endTime || 24
                 };
-
+                
+                if (this.alldaycaption) {
+                    options.allDayText = this.alldaycaption;
+                }
+                
                 return options;
             },
 

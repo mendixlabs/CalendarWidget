@@ -140,6 +140,9 @@ The time interval (in minutes) of day and week calendars. (Default: 30)
 #### Today button caption
 Caption on button which jumps to today. Default: Today
 
+#### All-day title caption
+The text titling the "all-day" slot at the top of the calendar. Default: all-day. This option only applies to Agendaweek en AgendaDay views.
+
 #### Start time
 The start time for each day. This property only applies to Agendaweek en AgendaDay views.
 

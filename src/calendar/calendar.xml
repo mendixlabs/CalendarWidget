@@ -242,10 +242,15 @@
 			<category>Extra</category>
 			<description>The time interval (in minutes) of day and week calendars. (Default: 30)</description>
 		</property>
-        <property key="todaycaption" type="translatableString" required="false" >
+         <property key="todaycaption" type="translatableString" required="false" >
             <caption>Today button caption</caption>
             <category>Extra</category>
             <description>Caption on button which jumps to today. Default: Today</description>
+        </property>
+        <property key="alldaycaption" type="translatableString" required="false" >
+            <caption>All-day caption</caption>
+            <category>Extra</category>
+            <description>The text titling the "all-day" slot at the top of the calendar. Default: all-day. This option only applies to Agendaweek en AgendaDay views. </description>
         </property>
         <property key="startTime" type="integer" defaultValue="0">
             <caption>Start time</caption>
