@@ -7,7 +7,7 @@
 	========================
 
 	@file      : calendar.js
-	@version   : 3.6
+	@version   : 3.7
 	@author    : Pauline Oudeman - van der Kraats, Robert van 't Hof, Richard Edens, Roeland Salij
 	@date      : 10-12-2014
 	@copyright : Mendix Technology BV
@@ -45,6 +45,8 @@
             _buttonText     : null, 
             _hasStarted     : null,
             _eventIsClicked : false,
+            _titleFormat    : null,
+            _dateFormat     : null,
             _timeFormat     : null,
             _colors         : null,
             _eventSource    : null,
@@ -373,16 +375,25 @@
                     center: ''
                 };
 
-                this.titleFormat = this.titleFormat || {
+                this._titleFormat = {
                     month: 'MMMM yyyy',                             // September 2009
                     week: "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}", // Sep 7 - 13 2009
                     day: 'dddd, MMM d, yyyy'                  // Tuesday, Sep 8, 2009
                 };
-                this.dateFormat = this.dateFormat || {
+                
+                if(this.titleFormat){
+                    this._titleFormat[''] = this.titleFormat ;
+                }
+                
+                this._dateFormat = this.dateFormat || {
                     month: 'ddd',    // Mon
                     week: 'ddd M/d', // Mon 9/7
                     day: 'dddd M/d'  // Monday 9/7
                 };
+                
+                if(this.dateFormat){
+                    this._dateFormat[''] = this.dateFormat ;
+                }
                 
                 this._timeFormat =  {};
                 if(this.timeFormat){
@@ -399,10 +410,10 @@
                         var viewName = view.availableViews;
                         views.push(viewName);
                         if(view.titleFormatViews !== ''){
-                            this.titleFormat[viewName] = view.titleFormatViews;
+                            this._titleFormat[viewName] = view.titleFormatViews;
                         }
                         if(view.dateFormatViews !== '') {
-                            this.dateFormat[viewName] = view.dateFormatViews;
+                            this._dateFormat[viewName] = view.dateFormatViews;
                         }
                         if(view.timeFormatViews !== '') {
                             this._timeFormat[viewName] = view.timeFormatViews;
@@ -452,9 +463,9 @@
                     //Agenda view formatting
                     axisFormat: this.axisFormat,
                     //Text/Time Formatting
-                    titleFormat: this.titleFormat,
+                    titleFormat: this._titleFormat,
                     timeFormat: this._timeFormat,
-                    columnFormat: this.dateFormat,
+                    columnFormat: this._dateFormat,
                     monthNames: this.monthNamesFormat, 
                     monthNamesShort: this.monthShortNamesFormat,
                     dayNames: this.dayNamesFormat,
