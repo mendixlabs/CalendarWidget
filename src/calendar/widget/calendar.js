@@ -305,6 +305,24 @@
                 this._setVariables(obj, event);
                 this._execMFFromUI(obj, this.onclickmf);
             },
+            
+            _onViewChange : function(view, element) {
+                var eventData = {
+                    start : view.start,
+                    end	: view.end
+                };
+                
+                mx.data.create({
+                    entity: this.eventEntity,
+                    callback: function(obj) {
+                        this._setVariables(obj, eventData);
+                        this._execMF(obj, this.onviewchangemf);
+                    },
+                    error: function(err){
+                        logger.warn('Error creating object: ', err);
+                    }
+                }, this);
+            },
 
             _onSelectionMade : function(startDate, endDate, allDay, jsEvent, view) {
                 var eventData = {
@@ -450,6 +468,7 @@
                     eventResize: lang.hitch(this, this._onEventChange), //is called when an event is dragged and has changed
                     eventDrop: lang.hitch(this, this._onEventChange), //is called when an event is dragged and has changed
                     eventClick: lang.hitch(this, this._onEventClick), //is called when an event is clicked
+                    viewRender: lang.hitch(this, this._onViewChange), //is called when the view (start/end on month, week, etc) has changed
                     select: lang.hitch(this, this._onSelectionMade), //is called after a selection has been made
                     //appearance
                     defaultView: this.defaultView,
