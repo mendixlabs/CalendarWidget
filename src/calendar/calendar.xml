@@ -125,6 +125,12 @@
             <category>Behavior</category>
             <description>Optional: The reference to connect the event to the context object.</description>
         </property>
+		<property key="onviewchangemf" type="microflow" required="false" entityProperty="eventEntity">
+            <caption>On view change</caption>
+            <category>Behavior</category>
+            <description>Microflow to trigger on view change.</description>
+            <returnType type="Void"/>
+        </property>
 		<property key="calHeight" type="integer" defaultValue="600">
 			<caption>Height</caption>
 			<category>View settings</category>
