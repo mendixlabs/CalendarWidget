@@ -141,15 +141,25 @@
                         callback : lang.hitch(this, this._prepareEvents)
                     }, this);
                 }
-                else if (this.dataSourceType === "contextmf" && this._mxObj && this.contextDatasourceMf) {
-                    this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
+                else if (this.dataSourceType === "contextmf" && this.contextDatasourceMf) {
+					
+					if(this._mxObj) {
+                    	this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
+					}
                 }
                 else if(this.dataSourceType === "mf" && this.datasourceMf) {
                     this._execMF(null, this.datasourceMf, lang.hitch(this, this._prepareEvents));
                 }
                 else {
+					
                     domConstruct.empty(this.domNode);
-                    errordiv = mxui.dom.div("The data source settings do not seem to match up. Please re-configure them.");
+					if (this.dataSourceType === "contextmf") {
+                    	errordiv = mxui.dom.div("Data source type 'Microflow with context object' is selected, but no microflow was specified for property 'Dataview data source microflow'");
+					}
+					else if(this.dataSourceType === "mf") {
+						errordiv = mxui.dom.div("Data source type 'Microflow' is selected, but no microflow was specified for property 'Data source microflow'");
+					}
+							
                     domStyle.set(errordiv, {
                         "border" : "1px solid red",
                         "color" : "red",
