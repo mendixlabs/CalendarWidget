@@ -127,10 +127,31 @@
         </property>
 		<property key="onviewchangemf" type="microflow" required="false" entityProperty="eventEntity">
             <caption>On view change</caption>
-            <category>Behavior</category>
+            <category>View Change</category>
             <description>Microflow to trigger on view change.</description>
             <returnType type="Void"/>
         </property>
+		<property key="viewChangeEntity" type="entity" required="false">
+			<caption>View Change Entity</caption>
+			<category>View Change</category>
+			<description>The entity associated with a change in the view.</description>
+		</property>
+        <property key="viewStartAttr" type="attribute" entityProperty="viewChangeEntity" required="false">
+			<caption>View Start</caption>
+			<category>View Change</category>
+			<description>The starting date of the view (fullcalendar's intervalStart of the view)</description>
+			<attributeTypes>
+				<attributeType name="DateTime"/>
+			</attributeTypes>
+		</property>
+		<property key="viewEndAttr" type="attribute" entityProperty="viewChangeEntity" required="false">
+			<caption>View End</caption>
+			<category>View Change</category>
+			<description>The ending date of the view (fullcalendar's intervalEnd of the view)</description>
+			<attributeTypes>
+				<attributeType name="DateTime"/>
+			</attributeTypes>
+		</property>
 		<property key="calHeight" type="integer" defaultValue="600">
 			<caption>Height</caption>
 			<category>View settings</category>
