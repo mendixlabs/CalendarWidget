@@ -184,7 +184,12 @@
 			<caption>Day short names format</caption>
 			<category>View settings</category>
 			<description>Comma seperated list of the short names of the days, starting at Sun.</description>
-		</property>	
+		</property>
+        <property key="languageSetting" type="string" defaultValue="en-gb">
+			<caption>Language</caption>
+			<category>View settings</category>
+			<description>The language for the calendar.</description>
+		</property>
 		<property key="typeAttr" type="attribute" entityProperty="eventEntity" required="false">
 			<caption>Enum for colors</caption>
 			<category>View settings</category>
