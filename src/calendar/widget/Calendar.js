@@ -112,6 +112,12 @@ require({
             }
         },
 
+        resize: function() {
+            console.log('Calendar - resize');
+            this._fcNode.fullCalendar('render');
+            this._fetchObjects();
+        },
+        
         _addSubscriptions: function () {
             var subscription = mx.data.subscribe({
                     entity: this.eventEntity,
