@@ -432,7 +432,7 @@ require({
 
             this._buttonText = {};
 
-            this.axisFormat = this.axisFormat || 'h(:mm)tt';
+            //this.axisFormat = this.axisFormat || 'h(:mm)tt';
 
             if (this._availableViews.length > 0) {
                 //fill default specifics				
@@ -466,10 +466,14 @@ require({
             this.monthShortNamesFormat = this.monthShortNamesFormat ? this.monthShortNamesFormat.split(",") : null;
             this.dayNamesFormat = this.dayNamesFormat ? this.dayNamesFormat.split(",") : null;
             this.dayShortNamesFormat = this.dayShortNamesFormat ? this.dayShortNamesFormat.split(",") : null;
+            this.slotMinutes = this.slotMinutes ? this.slotMinutes : '00:30:00';
+            this.startTime = this.startTime ? this.startTime : '08:00';
+            this.endTime = this.endTime ? this.endTime : '17:00';
+            
         },
 
         _setCalendarOptions: function (events) {
-            console.log('Calendar - set calendar options', 'lang: ', this.languageSetting);
+            console.log('Calendar - set calendar options');
             var options = {
                 //contents
                 header: this._header,
@@ -489,14 +493,9 @@ require({
                 weekNumbers: this.showWeekNumbers,
                 weekNumberTitle: this.weeknumberTitle,
                 weekends: this.showWeekends,
-                slotMinutes: this.slotMinutes,
+                slotDuration: this.slotMinutes,
                 buttonText: this._buttonText,
-                lang: this.languageSetting,
-                //Agenda view formatting
-                axisFormat: this.axisFormat,
-                //Text/Time Formatting
-                minTime: this.startTime || 0,
-                maxTime: this.endTime || 24
+                lang: this.languageSetting
             };
 
             if (this._titleFormat) {
@@ -523,7 +522,9 @@ require({
             if (this.alldaycaption) {
                 options.allDayText = this.alldaycaption;
             }
-
+            if (this.businessHours) {
+               options.businessHours = { start: this.startTime, end: this.endTime, dow : [1,2,3,4,5]}; 
+            }
             return options;
         },
 

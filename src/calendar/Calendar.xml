@@ -237,17 +237,12 @@
 				<enumerationValue key="agendaDay">Agenda day</enumerationValue>
 			</enumerationValues> 
 		</property>
-        <property key="axisFormat" type="translatableString" required="false" >
-			<caption>Agenda axis time format</caption>
-			<category>Extra</category>
-			<description>The format of the vertical axis labels in agenda views (default h(:mm)tt)</description>
-		</property>
-		<property key="slotMinutes" type="integer" defaultValue="30">
+		<property key="slotMinutes" type="string" defaultValue="00:30:00">
 			<caption>Slot duration</caption>
 			<category>Extra</category>
-			<description>The time interval (in minutes) of day and week calendars. (Default: 30)</description>
+			<description>The time interval (in minutes) of day and week calendars. Format: "00:30:00"</description>
 		</property>
-         <property key="todaycaption" type="translatableString" required="false" >
+         <property key="todaycaption" type="translatableString" required="false">
             <caption>Today button caption</caption>
             <category>Extra</category>
             <description>Caption on button which jumps to today. Default: Today</description>
@@ -257,15 +252,20 @@
             <category>Extra</category>
             <description>The text titling the "all-day" slot at the top of the calendar. Default: all-day. This option only applies to Agendaweek en AgendaDay views. </description>
         </property>
-        <property key="startTime" type="integer" defaultValue="0">
+      <property key="businessHours" type="boolean" defaultValue="false">
+			<caption>Business hours</caption>
+			<category>Extra</category>
+			<description>Use business hours (highlighted in Calendar). This option only applies to Agendaweek en AgendaDay views. Defaults to false.</description>
+		</property>
+        <property key="startTime" type="string" defaultValue="08:00">
             <caption>Start time</caption>
             <category>Extra</category>
-            <description>The start time for each day. This option only applies to Agendaweek en AgendaDay views. </description>
+            <description>The start time for the business hours of each week day. This option only applies to Agendaweek en AgendaDay views. Format: "08:00"</description>
         </property>
-        <property key="endTime" type="integer" defaultValue="24">
+        <property key="endTime" type="string" defaultValue="17:00">
             <caption>End time</caption>
             <category>Extra</category>
-            <description>The end time for each day. This option only applies to Agendaweek en AgendaDay views.</description>
+            <description>The end time for the business hours of each week day. This option only applies to Agendaweek en AgendaDay views. Format: "17:00"</description>
         </property>      
 		<property key="notused1" type="object" isList="true" required="false">
             <caption>Available views</caption>
@@ -287,22 +287,22 @@
                 <property key="timeFormatViews" type="translatableString" required="false" >
 					<caption>Custom time format</caption>
 					<category>Extra</category>
-                    <description>Default: h:mm{ - h:mm}. For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
+                    <description>Please refer to http://fullcalendar.io/docs/text/timeFormat/</description>
 				</property>
                 <property key="dateFormatViews" type="translatableString" required="false">
 					<caption>Custom date format</caption>
 					<category>Extra</category>
-					<description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>
+					<description>Please refer to http://fullcalendar.io/docs/text/columnFormat/</description>
 				</property>
 				<property key="titleFormatViews" type="string" required="false">
 					<caption>Custom title format</caption>
 					<category>Extra</category>
-					<description>For more information: http://arshaw.com/fullcalendar/docs/text/titleFormat/</description>
+					<description>Please refer to http://fullcalendar.io/docs/text/titleFormat/</description>
 				</property>
 				<property key="labelViews" type="translatableString" required="false">
 					<caption>Label</caption>
 					<category>Extra</category>
-                    <description>Caption used for the 'calendar view' button. For more information: http://fullcalendar.io/docs/text/buttonText/</description>
+                    <description>Caption used for the 'calendar view' button.</description>
 				</property>
 			</properties>
 		</property>
