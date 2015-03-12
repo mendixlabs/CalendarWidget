@@ -149,4 +149,17 @@ The start time for each day. This property only applies to Agendaweek en AgendaD
 #### End time
 The end time for each day. This property only applies to Agendaweek en AgendaDay views.
 
+### View change
+This callback will get triggered when the user changes the view, or when any of the date navigation methods are called.
 
+#### On view change
+Microflow triggered when a new date-range is rendered, or when the view type switches.(http://fullcalendar.io/docs/display/viewRender/)
+
+#### Entity
+The entity being passed to the on view change microflow. Reflecting the view change start and end date.
+
+#### Start date
+The starting date of the view (fullcalendar's intervalStart of the view). E.g. first day of the month when rendering month view.
+
+#### End date
+The end date of the view (fullcalendar's intervalEnd of the view). E.g. last day of the month when rendering month view.
