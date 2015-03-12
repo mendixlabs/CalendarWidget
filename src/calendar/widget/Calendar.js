@@ -60,6 +60,7 @@ require({
 		_buttonText: null,
 		_hasStarted: null,
 		_eventIsClicked: false,
+		_views	: null,
 		_titleFormat: null,
 		_dateFormat: null,
 		_timeFormat: null,
@@ -437,13 +438,20 @@ require({
 
 			this._buttonText = {};
 
-			//this.axisFormat = this.axisFormat || 'h(:mm)tt';
+			this._views = {};
 
 			if (this._availableViews.length > 0) {
 				//fill default specifics				
 				$.each(this._availableViews, lang.hitch(this, function (index, view) {
 					var viewName = view.availableViews;
 					views.push(viewName);
+					
+					this._views[viewName] = {};
+					
+					if (view.eventLimit > 0) {
+						this._views[viewName].eventLimit = view.eventLimit;
+					}
+					
 					if (view.titleFormatViews !== '') {
 						this._titleFormat[viewName] = view.titleFormatViews;
 					}
@@ -493,6 +501,7 @@ require({
 				viewRender: lang.hitch(this, this._onViewChange), //is called when the view (start/end on month, week, etc) has changed
 				select: lang.hitch(this, this._onSelectionMade), //is called after a selection has been made
 				//appearance
+				views : this._views,
 				defaultView: this.defaultView,
 				firstDay: this.firstday,
 				height: this.calHeight,
@@ -501,7 +510,8 @@ require({
 				weekends: this.showWeekends,
 				slotDuration: this.slotMinutes,
 				buttonText: this._buttonText,
-				lang: this.languageSetting
+				lang: this.languageSetting,
+				eventLimit: this.limitEvents
 			};
 
 			if (this._titleFormat) {

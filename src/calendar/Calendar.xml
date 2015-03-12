@@ -90,6 +90,11 @@
 				<attributeType name="Boolean" />
 			</attributeTypes>
 		</property>
+		<property key="limitEvents" type="boolean" defaultValue="false">
+			<caption>Limit events</caption>
+			<category>Event data</category>
+			<description>Boolean attribute to define whether the amount of events for one single day should be limited.</description>
+		</property>
 		<property key="onchangemf" type="microflow" required="false" entityProperty="eventEntity">
 			<caption>On change</caption>
 			<category>Behavior</category>
@@ -291,6 +296,11 @@
 					<caption>Label</caption>
 					<category>Extra</category>
 					<description>Caption used for the 'calendar view' button.</description>
+				</property>
+				<property key="eventLimit" type="integer" defaultValue="-1">
+					<caption>Event limit</caption>
+					<category>Event</category>
+					<description>The maximum number of events to display on a single day. When there are too many events, a link that looks like "+2 more" is displayed.</description>
 				</property>
 			</properties>
 		</property>
