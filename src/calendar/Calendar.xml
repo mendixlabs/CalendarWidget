@@ -1,84 +1,72 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="calendar.widget.calendar" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
-  <name>calendar</name>
-  <description>Calendar.</description>
+	<name>calendar</name>
+	<description>Calendar.</description>
 
-  <icon>
-	iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAANkE3LLa
-	AgAAAbVJREFUeJylkL9qVEEUxn9zM3dD0mx3MS4uxCCIlSRF/Jft1gSfQCzSuJUv
-	YKmWeYTIphEs0goKYkRUdrXSBYsQglhY+ADBu/HOnHMs7ubuCrFw/Zr5ZpjzO985
-	7ukKD713D5hCMdojt7vqbK3VzElm5oOmiEsRPNFmMDzqEjQIMQRiiIRfBcXxMcWw
-	IIaYe4BEh6AJrlAsKDEIRVBUDBUjKsRoqEIQCNEogiM/+jnvdledTRP/RP6o85jz
-	S0tgYBiqipqhIpgpIoqqIlqeKlLeRRjmOR6g2WxShMDnwfeKvPDi3h+dftzarvy5
-	xhyiwtfDQxKARqPB2YUzAKy3l1lvLwOwuLnF4uYWAGvXL3L1ygUAsiwjy7JyBIDa
-	bA1VBWC2Vjt9Vp/inAMg9Z5EkzEA4GSTz55/LEcAvj25XwHevP3C+K9hZhMAM2yU
-	4PK1FgADttm4uYKI8Or1gNaNS4gKvf4BqoZqCUgATMfESZkaOno3M0x05BVMxwnU
-	rNrBoP+uArzc+1T59739yqtSgT1AmqbU63Xu3G6fusC/6UO/VwJ2ut1/KpyUB7jb
-	6UxVvNPt/n+C3whO5yPEeUjNAAAAAElFTkSuQmCC
-  </icon>
+	<icon>
+		iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAANkE3LLa AgAAAbVJREFUeJylkL9qVEEUxn9zM3dD0mx3MS4uxCCIlSRF/Jft1gSfQCzSuJUv YKmWeYTIphEs0goKYkRUdrXSBYsQglhY+ADBu/HOnHMs7ubuCrFw/Zr5ZpjzO985 7ukKD713D5hCMdojt7vqbK3VzElm5oOmiEsRPNFmMDzqEjQIMQRiiIRfBcXxMcWw IIaYe4BEh6AJrlAsKDEIRVBUDBUjKsRoqEIQCNEogiM/+jnvdledTRP/RP6o85jz S0tgYBiqipqhIpgpIoqqIlqeKlLeRRjmOR6g2WxShMDnwfeKvPDi3h+dftzarvy5 xhyiwtfDQxKARqPB2YUzAKy3l1lvLwOwuLnF4uYWAGvXL3L1ygUAsiwjy7JyBIDa bA1VBWC2Vjt9Vp/inAMg9Z5EkzEA4GSTz55/LEcAvj25XwHevP3C+K9hZhMAM2yU 4PK1FgADttm4uYKI8Or1gNaNS4gKvf4BqoZqCUgATMfESZkaOno3M0x05BVMxwnU rNrBoP+uArzc+1T59739yqtSgT1AmqbU63Xu3G6fusC/6UO/VwJ2ut1/KpyUB7jb 6UxVvNPt/n+C3whO5yPEeUjNAAAAAElFTkSuQmCC
+	</icon>
 
-  <properties>
+	<properties>
 		<property key="dataSourceType" type="enumeration" defaultValue="xpath">
 			<caption>Data source type</caption>
 			<category>Data source</category>
-			<description>- The method of retrieving the objects. A normal XPath uses the Entity and XPath constraint.
-			- The Microflow uses a standalone microflow that returns the objects.
-			- The Microflow with context object can be used if the calendar is placed inside a dataview. This will use the Dataview data source microflow which will send along the Dataview Context object.</description>
+			<description>- The method of retrieving the objects. A normal XPath uses the Entity and XPath constraint. - The Microflow uses a standalone microflow that returns the objects. - The Microflow with context object can be used if the calendar is placed inside a dataview. This will use the Dataview data source microflow which will send along the Dataview Context object.</description>
 			<enumerationValues>
 				<enumerationValue key="xpath">XPath retrieve</enumerationValue>
 				<enumerationValue key="mf">Microflow</enumerationValue>
 				<enumerationValue key="contextmf">Microflow with context object</enumerationValue>
-			</enumerationValues> 
-		</property> 
+			</enumerationValues>
+		</property>
 		<property key="eventEntity" type="entity">
 			<caption>Event Entity</caption>
 			<category>Data source</category>
 			<description>The entity.</description>
 		</property>
 		<property key="eventConstraint" type="entityConstraint" entityProperty="eventEntity" required="false">
-            <caption>XPath Constraint</caption>
-            <category>Data source</category>
-            <description>The XPath constraint on the objects.</description> 
-        </property>
-  		<property key="datasourceMf" type="microflow" required="false">
-            <caption>Data source microflow</caption>
-            <category>Data source</category>
-            <description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
-            <returnType type="Void"/>
-        </property>
+			<caption>XPath Constraint</caption>
+			<category>Data source</category>
+			<description>The XPath constraint on the objects.</description>
+		</property>
+		<property key="datasourceMf" type="microflow" required="false">
+			<caption>Data source microflow</caption>
+			<category>Data source</category>
+			<description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
+			<returnType type="Void" />
+		</property>
 		<property key="contextEntity" type="entity" required="false">
 			<caption>Dataview Entity</caption>
 			<category>Dataview context (Optional)</category>
 			<description>The entity of the dataview object.</description>
 		</property>
 		<property key="contextDatasourceMf" type="microflow" required="false" entityProperty="contextEntity">
-            <caption>Dataview data source microflow</caption>
-            <category>Dataview context (Optional)</category>
-            <description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
-            <returnType type="Void"/>
-        </property>
-        <property key="startPos" type="attribute" required="false" entityProperty="contextEntity">
+			<caption>Dataview data source microflow</caption>
+			<category>Dataview context (Optional)</category>
+			<description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
+			<returnType type="Void" />
+		</property>
+		<property key="startPos" type="attribute" required="false" entityProperty="contextEntity">
 			<caption>Start pos attribute</caption>
 			<category>Dataview context (Optional)</category>
 			<description>The date on which the calendar should start.</description>
 			<attributeTypes>
-				<attributeType name="DateTime"/>
+				<attributeType name="DateTime" />
 			</attributeTypes>
 		</property>
-        <property key="titleAttr" type="attribute" isPath="optional" pathType="reference" entityProperty="eventEntity">
+		<property key="titleAttr" type="attribute" isPath="optional" pathType="reference" entityProperty="eventEntity">
 			<caption>Title</caption>
 			<category>Event data</category>
 			<description></description>
 			<attributeTypes>
-				<attributeType name="String"/>
+				<attributeType name="String" />
 			</attributeTypes>
 		</property>
-        <property key="startAttr" type="attribute" entityProperty="eventEntity">
+		<property key="startAttr" type="attribute" entityProperty="eventEntity">
 			<caption>Start</caption>
 			<category>Event data</category>
 			<description></description>
 			<attributeTypes>
-				<attributeType name="DateTime"/>
+				<attributeType name="DateTime" />
 			</attributeTypes>
 		</property>
 		<property key="endAttr" type="attribute" entityProperty="eventEntity">
@@ -86,7 +74,7 @@
 			<category>Event data</category>
 			<description></description>
 			<attributeTypes>
-				<attributeType name="DateTime"/>
+				<attributeType name="DateTime" />
 			</attributeTypes>
 		</property>
 		<property key="editable" type="boolean" defaultValue="true">
@@ -99,32 +87,32 @@
 			<category>Event data</category>
 			<description>Boolean attribute to define/save whether this is an all day event.</description>
 			<attributeTypes>
-				<attributeType name="Boolean"/>
+				<attributeType name="Boolean" />
 			</attributeTypes>
 		</property>
 		<property key="onchangemf" type="microflow" required="false" entityProperty="eventEntity">
-            <caption>On change</caption>
-            <category>Behavior</category>
-            <description>Microflow to trigger on change.</description>
-            <returnType type="Void"/>
-        </property>
+			<caption>On change</caption>
+			<category>Behavior</category>
+			<description>Microflow to trigger on change.</description>
+			<returnType type="Void" />
+		</property>
 		<property key="onclickmf" type="microflow" required="false" entityProperty="eventEntity">
-            <caption>On click</caption>
-            <category>Behavior</category>
-            <description>Microflow to trigger on click.</description>
-            <returnType type="Void"/>
-        </property>
+			<caption>On click</caption>
+			<category>Behavior</category>
+			<description>Microflow to trigger on click.</description>
+			<returnType type="Void" />
+		</property>
 		<property key="neweventmf" type="microflow" required="false" entityProperty="eventEntity">
-            <caption>New event</caption>
-            <category>Behavior</category>
-            <description>The new event microflow.</description>
-            <returnType type="Void"/>
-        </property>
+			<caption>New event</caption>
+			<category>Behavior</category>
+			<description>The new event microflow.</description>
+			<returnType type="Void" />
+		</property>
 		<property key="neweventref" type="entity" required="false" isPath="yes" pathType="reference" entityProperty="eventEntity">
-            <caption>New event reference</caption>
-            <category>Behavior</category>
-            <description>Optional: The reference to connect the event to the context object.</description>
-        </property>
+			<caption>New event reference</caption>
+			<category>Behavior</category>
+			<description>Optional: The reference to connect the event to the context object.</description>
+		</property>
 		<property key="calHeight" type="integer" defaultValue="600">
 			<caption>Height</caption>
 			<category>View settings</category>
@@ -150,12 +138,12 @@
 			<category>View settings</category>
 			<description>An integer to specify the first day of the week, 0 = Sunday, 1 = Monday etc.</description>
 		</property>
-      <property key="timeFormat" type="translatableString" required="false" >
+		<property key="timeFormat" type="translatableString" required="false">
 			<caption>Custom time format</caption>
 			<category>View settings</category>
-            <description>Default: h:mm{ - h:mm}. For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/ </description>
+			<description>Default: h:mm{ - h:mm}. For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
 		</property>
-      <property key="dateFormat" type="translatableString" required="false">
+		<property key="dateFormat" type="translatableString" required="false">
 			<caption>Custom date format</caption>
 			<category>View settings</category>
 			<description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>
@@ -185,7 +173,7 @@
 			<category>View settings</category>
 			<description>Comma seperated list of the short names of the days, starting at Sun.</description>
 		</property>
-        <property key="languageSetting" type="string" defaultValue="en-gb">
+		<property key="languageSetting" type="string" defaultValue="en-gb">
 			<caption>Language</caption>
 			<category>View settings</category>
 			<description>The language for the calendar.</description>
@@ -195,37 +183,37 @@
 			<category>View settings</category>
 			<description></description>
 			<attributeTypes>
-				<attributeType name="Enum"/>
+				<attributeType name="Enum" />
 			</attributeTypes>
 		</property>
 		<property key="notused" type="object" isList="true" required="false">
-            <caption>Colors</caption>
-            <category>View settings</category>
-            <description></description>
-            <properties>
-                <property key="enumKey" type="string" required="false">
-                    <caption>Enumeration key</caption>
-                    <category>View settings</category>
-                    <description></description>  
-                </property>
+			<caption>Colors</caption>
+			<category>View settings</category>
+			<description></description>
+			<properties>
+				<property key="enumKey" type="string" required="false">
+					<caption>Enumeration key</caption>
+					<category>View settings</category>
+					<description></description>
+				</property>
 				<property key="bgColor" type="string" required="true">
-                    <caption>Background color</caption>
-                    <category>View settings</category>
-                    <description></description>  
-                </property>
-                <property key="border" type="string" required="true">
-                    <caption>Border color</caption>
-                    <category>View settings</category>
-                    <description></description>  
-                </property>
+					<caption>Background color</caption>
+					<category>View settings</category>
+					<description></description>
+				</property>
+				<property key="border" type="string" required="true">
+					<caption>Border color</caption>
+					<category>View settings</category>
+					<description></description>
+				</property>
 				<property key="textColor" type="string" required="true">
-                    <caption>Text color</caption>
-                    <category>View settings</category>
-                    <description></description>  
-                </property>
-            </properties>
-        </property>
-        <property key="defaultView" type="enumeration" defaultValue="month">
+					<caption>Text color</caption>
+					<category>View settings</category>
+					<description></description>
+				</property>
+			</properties>
+		</property>
+		<property key="defaultView" type="enumeration" defaultValue="month">
 			<caption>Start view</caption>
 			<category>Behavior</category>
 			<description>Which is the default view when the widget is loaded</description>
@@ -235,61 +223,61 @@
 				<enumerationValue key="basicDay">Basic day</enumerationValue>
 				<enumerationValue key="agendaWeek">Agenda week</enumerationValue>
 				<enumerationValue key="agendaDay">Agenda day</enumerationValue>
-			</enumerationValues> 
+			</enumerationValues>
 		</property>
 		<property key="slotMinutes" type="string" defaultValue="00:30:00">
 			<caption>Slot duration</caption>
 			<category>Extra</category>
 			<description>The time interval (in minutes) of day and week calendars. Format: "00:30:00"</description>
 		</property>
-         <property key="todaycaption" type="translatableString" required="false">
-            <caption>Today button caption</caption>
-            <category>Extra</category>
-            <description>Caption on button which jumps to today. Default: Today</description>
-        </property>
-        <property key="alldaycaption" type="translatableString" required="false" >
-            <caption>All-day caption</caption>
-            <category>Extra</category>
-            <description>The text titling the "all-day" slot at the top of the calendar. Default: all-day. This option only applies to Agendaweek en AgendaDay views. </description>
-        </property>
-      <property key="businessHours" type="boolean" defaultValue="false">
+		<property key="todaycaption" type="translatableString" required="false">
+			<caption>Today button caption</caption>
+			<category>Extra</category>
+			<description>Caption on button which jumps to today. Default: Today</description>
+		</property>
+		<property key="alldaycaption" type="translatableString" required="false">
+			<caption>All-day caption</caption>
+			<category>Extra</category>
+			<description>The text titling the "all-day" slot at the top of the calendar. Default: all-day. This option only applies to Agendaweek en AgendaDay views.</description>
+		</property>
+		<property key="businessHours" type="boolean" defaultValue="false">
 			<caption>Business hours</caption>
 			<category>Extra</category>
 			<description>Use business hours (highlighted in Calendar). This option only applies to Agendaweek en AgendaDay views. Defaults to false.</description>
 		</property>
-        <property key="startTime" type="string" defaultValue="08:00">
-            <caption>Start time</caption>
-            <category>Extra</category>
-            <description>The start time for the business hours of each week day. This option only applies to Agendaweek en AgendaDay views. Format: "08:00"</description>
-        </property>
-        <property key="endTime" type="string" defaultValue="17:00">
-            <caption>End time</caption>
-            <category>Extra</category>
-            <description>The end time for the business hours of each week day. This option only applies to Agendaweek en AgendaDay views. Format: "17:00"</description>
-        </property>      
+		<property key="startTime" type="string" defaultValue="08:00">
+			<caption>Start time</caption>
+			<category>Extra</category>
+			<description>The start time for the business hours of each week day. This option only applies to Agendaweek en AgendaDay views. Format: "08:00"</description>
+		</property>
+		<property key="endTime" type="string" defaultValue="17:00">
+			<caption>End time</caption>
+			<category>Extra</category>
+			<description>The end time for the business hours of each week day. This option only applies to Agendaweek en AgendaDay views. Format: "17:00"</description>
+		</property>
 		<property key="notused1" type="object" isList="true" required="false">
-            <caption>Available views</caption>
-            <category>Extra</category>
-            <description>Default will use: Month, Agenda week, Agenda day.</description>
-            <properties>
-                <property key="availableViews" type="enumeration" defaultValue="month">
-                    <caption>View</caption>
-                    <category>View settings</category>
-                    <description></description>
+			<caption>Available views</caption>
+			<category>Extra</category>
+			<description>Default will use: Month, Agenda week, Agenda day.</description>
+			<properties>
+				<property key="availableViews" type="enumeration" defaultValue="month">
+					<caption>View</caption>
+					<category>View settings</category>
+					<description></description>
 					<enumerationValues>
 						<enumerationValue key="month">Month</enumerationValue>
 						<enumerationValue key="basicWeek">Basic week</enumerationValue>
 						<enumerationValue key="basicDay">Basic day</enumerationValue>
 						<enumerationValue key="agendaWeek">Agenda week</enumerationValue>
 						<enumerationValue key="agendaDay">Agenda day</enumerationValue>
-					</enumerationValues> 
-                </property>
-                <property key="timeFormatViews" type="translatableString" required="false" >
+					</enumerationValues>
+				</property>
+				<property key="timeFormatViews" type="translatableString" required="false">
 					<caption>Custom time format</caption>
 					<category>Extra</category>
-                    <description>Please refer to http://fullcalendar.io/docs/text/timeFormat/</description>
+					<description>Please refer to http://fullcalendar.io/docs/text/timeFormat/</description>
 				</property>
-                <property key="dateFormatViews" type="translatableString" required="false">
+				<property key="dateFormatViews" type="translatableString" required="false">
 					<caption>Custom date format</caption>
 					<category>Extra</category>
 					<description>Please refer to http://fullcalendar.io/docs/text/columnFormat/</description>
@@ -302,9 +290,36 @@
 				<property key="labelViews" type="translatableString" required="false">
 					<caption>Label</caption>
 					<category>Extra</category>
-                    <description>Caption used for the 'calendar view' button.</description>
+					<description>Caption used for the 'calendar view' button.</description>
 				</property>
 			</properties>
+		</property>
+		<property key="onviewchangemf" type="microflow" required="false" entityProperty="viewChangeEntity">
+			<caption>On view change</caption>
+			<category>View Change</category>
+			<description>Microflow triggered when a new date-range is rendered, or when the view type switches.(http://fullcalendar.io/docs/display/viewRender/)</description>
+			<returnType type="Void" />
+		</property>
+		<property key="viewChangeEntity" type="entity" required="false" allowNonPersistableEntities="true">
+			<caption>Entity</caption>
+			<category>View Change</category>
+			<description>The entity being passed to the on view change microflow. Reflecting the view change start and end date.</description>
+		</property>
+		<property key="viewStartAttr" type="attribute" entityProperty="viewChangeEntity" required="false">
+			<caption>Start date</caption>
+			<category>View Change</category>
+			<description>The starting date of the view (fullcalendar's intervalStart of the view). E.g. first day of the month when rendering month view.</description>
+			<attributeTypes>
+				<attributeType name="DateTime" />
+			</attributeTypes>
+		</property>
+		<property key="viewEndAttr" type="attribute" entityProperty="viewChangeEntity" required="false">
+			<caption>End date</caption>
+			<category>View Change</category>
+			<description>The ending date of the view (fullcalendar's intervalEnd of the view). E.g. last day of the month when rendering month view</description>
+			<attributeTypes>
+				<attributeType name="DateTime" />
+			</attributeTypes>
 		</property>
 	</properties>
 </widget>
