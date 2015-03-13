@@ -607,21 +607,24 @@ require({
 		//            }, 
 
 		_onViewChange: function (view, element) {
-			var eventData = {
-				start: view.start,
-				end: view.end
-			};
-
-			mx.data.create({
-				entity: this.viewChangeEntity,
-				callback: function (obj) {
-					this._setVariables(obj, eventData, this.viewStartAttr, this.viewEndAttr);
-					this._execMF(obj, this.onviewchangemf);
-				},
-				error: function (err) {
-					console.warn('Error creating object: ', err);
-				}
-			}, this);
+				
+			if(this.viewChangeEntity !== '') {
+				var eventData = {
+					start: view.start,
+					end: view.end
+				};
+			
+				mx.data.create({
+					entity: this.viewChangeEntity,
+					callback: function (obj) {
+						this._setVariables(obj, eventData, this.viewStartAttr, this.viewEndAttr);
+						this._execMF(obj, this.onviewchangemf);
+					},
+					error: function (err) {
+						console.warn('Error creating object: ', err);
+					}
+				}, this);
+			}
 		},
 
 		uninitialize: function () {
