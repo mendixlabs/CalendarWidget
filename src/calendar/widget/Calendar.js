@@ -270,7 +270,7 @@ require({
 		},
 
 		_createEvents: function (objs, titles) {
-			console.log('Calendar - create events');
+			console.debug('Calendar - create events');
 			var events = [],
 				objcolors = null;
 
@@ -375,7 +375,7 @@ require({
 		},
 
 		_getObjectColors: function (obj) {
-			console.log('Calendar - get object colors');
+			console.debug('Calendar - get object colors ' + obj.getGUID());
 			var objcolors = null;
 
 			$.each(this._colors, lang.hitch(this, function (index, color) {
@@ -386,6 +386,9 @@ require({
 						borderColor: color.border,
 						textColor: color.textColor
 					};
+					
+					//We have found the color so we can stop iterating
+					return false;
 				}
 			}));
 
@@ -393,7 +396,7 @@ require({
 		},
 
 		_setVariables: function (obj, event, startAttribute, endAttribute, allDay) {
-			console.log('Calendar - set variables');
+			console.debug('Calendar - set variables');
 			//update the mx object
 			obj.set(startAttribute, event.start);
 			if (event.end !== null) {
@@ -406,7 +409,7 @@ require({
 		},
 
 		_setDefaults: function () {
-			console.log('Calendar - set defaults');
+			console.debug('Calendar - set defaults');
 			var views = [];
 
 			this._header = {
@@ -489,7 +492,7 @@ require({
 		},
 
 		_setCalendarOptions: function (events) {
-			console.log('Calendar - set calendar options');
+			console.debug('Calendar - set calendar options');
 			var options = {
 				//contents
 				header: this._header,
