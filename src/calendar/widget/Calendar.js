@@ -68,6 +68,7 @@ require({
 		_eventSource: null,
 		_fcNode: null,
 		_availableViews: null,
+		allowCreate: true,
 
 		postCreate: function () {
 			console.log('Calendar - startup');
@@ -77,6 +78,7 @@ require({
 			this._setDefaults(); //set default formatting options
 			this._handles = [];
 			this._eventSource = [];
+			this.allowCreate = this.editable || (this.neweventmf != null && this.neweventmf != '');
 			//make a calendarbox
 			this._calendarBox = dom.create('div', {
 				'id': 'calendar_' + this.id
@@ -492,8 +494,8 @@ require({
 				header: this._header,
 				events: events,
 				//configs
-				editable: true, //allows resizing events
-				selectable: true, //allows selecting a portion of the day or one or multiple days (based on the view)
+				editable: this.allowCreate, //allows resizing events
+				selectable: this.allowCreate, //allows selecting a portion of the day or one or multiple days (based on the view)
 				//event handling
 				eventResize: lang.hitch(this, this._onEventChange), //is called when an event is dragged and has changed
 				eventDrop: lang.hitch(this, this._onEventChange), //is called when an event is dragged and has changed
