@@ -99,6 +99,7 @@ require({
 					mx.data.unsubscribe(handle);
 				});
 			}
+            this._handles = [];
 
 			if (obj) {
 				this._mxObj = obj;
