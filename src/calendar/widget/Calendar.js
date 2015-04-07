@@ -68,6 +68,7 @@ require({
 		_eventSource: null,
 		_fcNode: null,
 		_availableViews: null,
+		allowCreate: true,
 
 		postCreate: function () {
 			console.log('Calendar - startup');
@@ -77,6 +78,7 @@ require({
 			this._setDefaults(); //set default formatting options
 			this._handles = [];
 			this._eventSource = [];
+			this.allowCreate = this.editable || (this.neweventmf != null && this.neweventmf != '');
 			//make a calendarbox
 			this._calendarBox = dom.create('div', {
 				'id': 'calendar_' + this.id
@@ -97,6 +99,7 @@ require({
 					mx.data.unsubscribe(handle);
 				});
 			}
+            this._handles = [];
 
 			if (obj) {
 				this._mxObj = obj;
@@ -267,7 +270,7 @@ require({
 		},
 
 		_createEvents: function (objs, titles) {
-			console.log('Calendar - create events');
+			console.debug('Calendar - create events');
 			var events = [],
 				objcolors = null;
 
@@ -372,7 +375,7 @@ require({
 		},
 
 		_getObjectColors: function (obj) {
-			console.log('Calendar - get object colors');
+			console.debug('Calendar - get object colors ' + obj.getGUID());
 			var objcolors = null;
 
 			$.each(this._colors, lang.hitch(this, function (index, color) {
@@ -383,6 +386,9 @@ require({
 						borderColor: color.border,
 						textColor: color.textColor
 					};
+					
+					//We have found the color so we can stop iterating
+					return false;
 				}
 			}));
 
@@ -390,7 +396,7 @@ require({
 		},
 
 		_setVariables: function (obj, event, startAttribute, endAttribute, allDay) {
-			console.log('Calendar - set variables');
+			console.debug('Calendar - set variables');
 			//update the mx object
 			obj.set(startAttribute, event.start);
 			if (event.end !== null) {
@@ -403,7 +409,7 @@ require({
 		},
 
 		_setDefaults: function () {
-			console.log('Calendar - set defaults');
+			console.debug('Calendar - set defaults');
 			var views = [];
 
 			this._header = {
@@ -486,14 +492,14 @@ require({
 		},
 
 		_setCalendarOptions: function (events) {
-			console.log('Calendar - set calendar options');
+			console.debug('Calendar - set calendar options');
 			var options = {
 				//contents
 				header: this._header,
 				events: events,
 				//configs
-				editable: true, //allows resizing events
-				selectable: true, //allows selecting a portion of the day or one or multiple days (based on the view)
+				editable: this.allowCreate, //allows resizing events
+				selectable: this.allowCreate, //allows selecting a portion of the day or one or multiple days (based on the view)
 				//event handling
 				eventResize: lang.hitch(this, this._onEventChange), //is called when an event is dragged and has changed
 				eventDrop: lang.hitch(this, this._onEventChange), //is called when an event is dragged and has changed
