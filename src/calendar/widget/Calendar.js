@@ -70,7 +70,7 @@ require({
 		_availableViews: null,
 
 		postCreate: function () {
-			console.log('Calendar - startup');
+			console.debug('Calendar - startup');
 			
 			this._colors = this.notused; //workaround for legacy users
 			this._availableViews = this.notused1; //workaround for legacy users
@@ -90,7 +90,7 @@ require({
 		},
 
 		update: function (obj, callback) {
-			console.log('Calendar - update');
+			console.debug('Calendar - update');
 
 			if (this._handles.length > 0) {
 				dojoArray.forEach(this._handles, function (handle) {
@@ -112,7 +112,7 @@ require({
 		},
 
 		resize: function () {
-			console.log('Calendar - resize');
+			console.debug('Calendar - resize');
 			this._fcNode.fullCalendar('render');
 			this._fetchObjects();
 		},
@@ -143,7 +143,7 @@ require({
 		},
 
 		_fetchObjects: function () {
-			console.log('Calendar - fetch objects');
+			console.debug('Calendar - fetch objects');
 			var constraint = null,
 				expectObj = null,
 				xpath = null,
@@ -191,14 +191,14 @@ require({
 		},
 
 		_clearCalendar: function () {
-			console.log('Calendar - clear calendar');
+			console.debug('Calendar - clear calendar');
 			if (this._fcNode) {
 				this._fcNode.fullCalendar('removeEvents');
 			}
 		},
 
 		_prepareEvents: function (objs) {
-			console.log('Calendar - prepare events');
+			console.debug('Calendar - prepare events');
 			var objTitles = null,
 				objRefs = null,
 				refTitles = null,
@@ -267,7 +267,7 @@ require({
 		},
 
 		_createEvents: function (objs, titles) {
-			console.log('Calendar - create events');
+			console.debug('Calendar - create events');
 			var events = [],
 				objcolors = null;
 
@@ -315,7 +315,7 @@ require({
 		},
 
 		_renderCalendar: function (events) {
-			console.log('Calendar - render calendar');
+			console.debug('Calendar - render calendar');
 			var options = this._setCalendarOptions(events);
 
 			this._fcNode.fullCalendar(options);
@@ -327,21 +327,21 @@ require({
 		},
 
 		_onEventChange: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
-			console.log('Calendar - on event change');
+			console.debug('Calendar - on event change');
 			var obj = event.mxobject;
 			this._setVariables(obj, event, this.startAttr, this.endAttr, allDay);
 			this._execMF(obj, this.onchangemf);
 		},
 
 		_onEventClick: function (event) {
-			console.log('Calendar - on event click');
+			console.debug('Calendar - on event click');
 			var obj = event.mxobject;
 			this._setVariables(obj, event, this.startAttr, this.endAttr);
 			this._execMF(obj, this.onclickmf);
 		},
 
 		_onSelectionMade: function (startDate, endDate, allDay, jsEvent, view) {
-			console.log('Calendar - on selection made');
+			console.debug('Calendar - on selection made');
 			var eventData = {
 				start: startDate,
 				end: endDate
@@ -372,7 +372,7 @@ require({
 		},
 
 		_getObjectColors: function (obj) {
-			console.log('Calendar - get object colors');
+			console.debug('Calendar - get object colors');
 			var objcolors = null;
 
 			$.each(this._colors, lang.hitch(this, function (index, color) {
@@ -390,7 +390,7 @@ require({
 		},
 
 		_setVariables: function (obj, event, startAttribute, endAttribute, allDay) {
-			console.log('Calendar - set variables');
+			console.debug('Calendar - set variables');
 			//update the mx object
 			obj.set(startAttribute, event.start);
 			if (event.end !== null) {
@@ -403,7 +403,7 @@ require({
 		},
 
 		_setDefaults: function () {
-			console.log('Calendar - set defaults');
+			console.debug('Calendar - set defaults');
 			var views = [];
 
 			this._header = {
@@ -486,7 +486,7 @@ require({
 		},
 
 		_setCalendarOptions: function (events) {
-			console.log('Calendar - set calendar options');
+			console.debug('Calendar - set calendar options');
 			var options = {
 				//contents
 				header: this._header,
@@ -501,6 +501,7 @@ require({
 				viewRender: lang.hitch(this, this._onViewChange), //is called when the view (start/end on month, week, etc) has changed
 				select: lang.hitch(this, this._onSelectionMade), //is called after a selection has been made
 				//appearance
+				timezone: 'local',
 				views : this._views,
 				defaultView: this.defaultView,
 				firstDay: this.firstday,
@@ -579,7 +580,7 @@ require({
 		},
 
 		//            _execMFFromUI : function (obj, mf, cb) {
-		//                console.log('Calendar - exec mf from ui');
+		//                console.debug('Calendar - exec mf from ui');
 		//                if (mf) {
 		//                    var params = {
 		//                        applyto		: "selection",
