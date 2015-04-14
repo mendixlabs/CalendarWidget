@@ -5,7 +5,7 @@
     Calendar
     ========================
 
-	@file      : Calendar.js
+	@file      : calendar.js
 	@version   : 4.0
 	@author    : Pauline Oudeman - van der Kraats, Robert van 't Hof, Richard Edens, Roeland Salij
 	@date      : 06-02-2015
@@ -78,7 +78,7 @@ require({
 			this._setDefaults(); //set default formatting options
 			this._handles = [];
 			this._eventSource = [];
-			this._allowCreate = this.editable || (this.neweventmf != null && this.neweventmf != '');
+			this._allowCreate = this.editable || (this.neweventmf !== null && this.neweventmf !== '');
 			//make a calendarbox
 			this._calendarBox = dom.create('div', {
 				'id': 'calendar_' + this.id
