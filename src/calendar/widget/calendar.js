@@ -487,6 +487,7 @@ require({
 			this.dayNamesFormat = this.dayNamesFormat ? this.dayNamesFormat.split(",") : null;
 			this.dayShortNamesFormat = this.dayShortNamesFormat ? this.dayShortNamesFormat.split(",") : null;
 			this.slotMinutes = this.slotMinutes ? this.slotMinutes : '00:30:00';
+			this.axisFormat = this.axisFormat ? this.axisFormat : 'h(:mm)a';
 			this.startTime = this.startTime ? this.startTime : '08:00';
 			this.endTime = this.endTime ? this.endTime : '17:00';
 
@@ -517,6 +518,7 @@ require({
 				weekNumberTitle: this.weeknumberTitle,
 				weekends: this.showWeekends,
 				slotDuration: this.slotMinutes,
+				axisFormat: this.axisFormat,
 				buttonText: this._buttonText,
 				lang: this.languageSetting,
 				eventLimit: this.limitEvents

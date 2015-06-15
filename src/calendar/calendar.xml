@@ -230,6 +230,11 @@
 				<enumerationValue key="agendaDay">Agenda day</enumerationValue>
 			</enumerationValues>
 		</property>
+		<property key="axisFormat" type="translatableString" required="false">
+			<caption>Agenda axis time format</caption>
+			<category>Extra</category>
+			<description>The format of the vertical axis labels in agenda views. Default: h(:mm)a</description>
+		</property>
 		<property key="slotMinutes" type="string" defaultValue="00:30:00">
 			<caption>Slot duration</caption>
 			<category>Extra</category>
