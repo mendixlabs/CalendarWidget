@@ -1,5 +1,5 @@
 /*jslint white:true, nomen: true, plusplus: true */
-/*global mx, define, require, browser, devel, console */
+/*global mx, define, require, browser, devel, console, setTimeout */
 /*mendix */
 /*
     Calendar
@@ -16,37 +16,33 @@
     ========================
 	FullCalendar implementation.
 */
-
-// Required module list. Remove unnecessary modules, you can always get them back from the boilerplate.
-require({
+require({ 
 	packages: [{
-			name: 'jquery',
-			location: '../../widgets/calendar/lib',
-			main: 'jquery-2.1.1.min'
-    },
-		{
-			name: 'moment',
-			location: '../../widgets/calendar/lib',
-			main: 'moment.min'
-               },
-		{
-			name: 'fullCalendar',
-			location: '../../widgets/calendar/lib',
-			main: 'fullcalendar.min'
-               },
-		{
-			name: 'calendarLang',
-			location: '../../widgets/calendar/lib',
-			main: 'lang-all'
-               }
-              ]
-}, [
+		name: 'jquery',
+		location: '../../widgets/calendar/lib',
+		main: 'jquery-2.1.3.min'
+	},
+	{
+		name: 'moment',
+		location: '../../widgets/calendar/lib',
+		main: 'moment.min'
+	}, {
+		name: 'fullCalendar',
+		location: '../../widgets/calendar/lib',
+		main: 'fullcalendar.min'
+	}, {
+		name: 'calendarLang',
+		location: '../../widgets/calendar/lib',
+		main: 'lang-all'
+	}]
+},
+	[
     'dojo/_base/declare', 'mxui/widget/_WidgetBase', 'dijit/_TemplatedMixin',
     'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text',
-    'jquery', 'moment', 'fullCalendar', 'calendarLang', 'dojo/text!calendar/widget/template/Calendar.html'
+	'jquery', 'moment', 'fullCalendar', 'calendarLang', 'dojo/text!calendar/widget/template/Calendar.html'
 ], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, $, moment, fullCalendar, calendarLang, widgetTemplate) {
 	'use strict';
-
+	
 	// Declare widget's prototype.
 	return declare('calendar.widget.calendar', [_WidgetBase, _TemplatedMixin], {
 		// _TemplatedMixin will create our dom node using this HTML template.
@@ -104,6 +100,10 @@ require({
 			if (obj) {
 				this._mxObj = obj;
 				this._fetchObjects();
+				if (this._mxObj.get(this.startPos)) {
+					this._fcNode.fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
+				}
+
 			}
 
 			//subscribe to changes in the event entity and context object(if applicable). 
