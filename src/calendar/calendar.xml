@@ -53,6 +53,22 @@
 				<attributeType name="DateTime" />
 			</attributeTypes>
 		</property>
+		<property key="showWeekendsAttribute" type="attribute" required="false" entityProperty="contextEntity">
+			<caption>Show weekend</caption>
+			<category>Dataview context (Optional)</category>
+			<description>Attribute indicating whether to show weekends or not.</description>
+			<attributeTypes>
+				<attributeType name="Boolean" />
+			</attributeTypes>
+		</property>
+		<property key="firstdayAttribute" type="attribute" required="false" entityProperty="contextEntity">
+			<caption>First day of week</caption>
+			<category>Dataview context (Optional)</category>
+			<description>An integer attribute to specify the first day of the week, 0 = Sunday, 1 = Monday etc.</description>
+			<attributeTypes>
+				<attributeType name="Integer" />
+			</attributeTypes>
+		</property>
 		<property key="titleAttr" type="attribute" isPath="optional" pathType="reference" entityProperty="eventEntity">
 			<caption>Title</caption>
 			<category>Event data</category>
@@ -118,10 +134,10 @@
 			<category>Behavior</category>
 			<description>Optional: The reference to connect the event to the context object.</description>
 		</property>
-		<property key="calHeight" type="integer" defaultValue="600">
+		<property key="calHeight" type="integer" defaultValue="0">
 			<caption>Height</caption>
 			<category>View settings</category>
-			<description>The height in px.</description>
+			<description>The height in px. Will use 'auto' if value is set to 0. </description>
 		</property>
 		<property key="showWeekNumbers" type="boolean" defaultValue="false">
 			<caption>Show weeknumbers</caption>

@@ -65,6 +65,7 @@ require({
 		_fcNode: null,
 		_availableViews: null,
 		_allowCreate: true,
+		_shouldDestroyOnUpdate: false,
 
 		postCreate: function () {
 			console.debug('Calendar - startup');
@@ -75,6 +76,8 @@ require({
 			this._handles = [];
 			this._eventSource = [];
 			this._allowCreate = this.editable || (this.neweventmf !== null && this.neweventmf !== '');
+			this._shouldDestroyOnUpdate = this._hasDynamicCalendarPropertiesConfigured();
+			
 			//make a calendarbox
 			this._calendarBox = dom.create('div', {
 				'id': 'calendar_' + this.id
@@ -84,7 +87,7 @@ require({
 			this._fcNode = $('#calendar_' + this.id);
 
 			this._renderCalendar(null);
-
+			
 		},
 
 		update: function (obj, callback) {
@@ -100,10 +103,7 @@ require({
 			if (obj) {
 				this._mxObj = obj;
 				this._fetchObjects();
-				if (this._mxObj.get(this.startPos)) {
-					this._fcNode.fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
-				}
-
+				this._renderCalendar();
 			}
 
 			//subscribe to changes in the event entity and context object(if applicable). 
@@ -128,7 +128,9 @@ require({
 						this._fetchObjects();
 					})
 				}),
-				contextSubscription = null;
+				contextSubscription = null,
+				contextStartPosAttributeSubscription = null,
+				contextFirstDayAttributeAttributeSubscription = null;
 			
 			this._handles.push(subscription);
 			
@@ -139,8 +141,31 @@ require({
 						this._fetchObjects();
 					})
 				});
-				
 				this._handles.push(contextSubscription);
+				
+				if(this.startPos) {
+					contextStartPosAttributeSubscription = mx.data.subscribe({
+						guid: this._mxObj.getGuid(),
+						attr: this.startPos,
+
+						callback: lang.hitch(this, function (guid) {
+							this._renderCalendar();
+						})
+					});
+					this._handles.push(contextStartPosAttributeSubscription);
+				}
+				if(this.firstdayAttribute) {
+					contextFirstDayAttributeAttributeSubscription = mx.data.subscribe({
+						guid: this._mxObj.getGuid(),
+						attr: this.firstdayAttribute,
+
+						callback: lang.hitch(this, function (guid) {
+							this._renderCalendar();
+						})
+					});
+					this._handles.push(contextFirstDayAttributeAttributeSubscription);
+				}
+				
 			}
 	
 		},
@@ -320,13 +345,21 @@ require({
 		_renderCalendar: function (events) {
 			console.debug('Calendar - render calendar');
 			var options = this._setCalendarOptions(events);
-
+			
+			// Only destroy calendar when widget configuration requires full rerendering of calendar.
+			if (this._shouldDestroyOnUpdate) {
+				this._fcNode.fullCalendar('destroy');
+			}
+			
 			this._fcNode.fullCalendar(options);
-
-			//go to the startposition if we have one
-			if (this._mxObj && this._mxObj.get(this.startPos)) {
+			
+			if (this._mxObj.get(this.startPos)) {
 				this._fcNode.fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
 			}
+			else {
+				this._fcNode.fullCalendar('gotoDate', new Date());
+			}
+			
 		},
 
 		_onEventChange: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
@@ -513,7 +546,7 @@ require({
 				views : this._views,
 				defaultView: this.defaultView,
 				firstDay: this.firstday,
-				height: this.calHeight,
+				height: this.calHeight===0 ? 'auto' : this.calHeight,
 				weekNumbers: this.showWeekNumbers,
 				weekNumberTitle: this.weeknumberTitle,
 				weekends: this.showWeekends,
@@ -521,7 +554,7 @@ require({
 				axisFormat: this.axisFormat,
 				buttonText: this._buttonText,
 				lang: this.languageSetting,
-				eventLimit: this.limitEvents
+				eventLimit: this.limitEvents,
 			};
 
 			if (this._titleFormat) {
@@ -555,6 +588,17 @@ require({
 					dow: [1, 2, 3, 4, 5]
 				};
 			}
+			
+			if(this._mxObj)
+			{
+				if(this.showWeekendsAttribute){
+					options.weekends = this._mxObj.get(this.showWeekendsAttribute);
+				}
+				if(this.firstdayAttribute){
+					options.firstDay = this._mxObj.get(this.firstdayAttribute);
+				}
+			}
+			
 			return options;
 		},
 
@@ -588,34 +632,6 @@ require({
 			}
 		},
 
-		//            _execMFFromUI : function (obj, mf, cb) {
-		//                console.debug('Calendar - exec mf from ui');
-		//                if (mf) {
-		//                    var params = {
-		//                        applyto		: "selection",
-		//                        guids : []
-		//                    };
-		//                    if (obj) {
-		//                        params.guids = [obj.getGuid()];
-		//                    }
-		//
-		//                    mx.ui.action(mf, {
-		//                        context: new mendix.lib.MxContext(),
-		//                        progress: "modal",
-		//                        params	: params,	
-		//                        callback: function(result) {
-		//                            if (cb) {
-		//                                cb(result);
-		//                            }
-		//                        }
-		//                    });
-		//
-		//                } else if (cb) {
-		//                    cb();
-		//                }
-		//
-		//            }, 
-
 		_onViewChange: function (view, element) {
 				
 			if(this.viewChangeEntity !== '') {
@@ -636,7 +652,19 @@ require({
 				}, this);
 			}
 		},
-
+		
+		// This function checks if properties are set which affect rendering of calendar and 
+		// thus require a destroy action
+		_hasDynamicCalendarPropertiesConfigured : function (){
+			if (this.showWeekendsAttribute && this.firstdayAttribute) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		},
+		
 		uninitialize: function () {
 			if (this._handles.length > 0) {
 				dojoArray.forEach(this._handles, function (handle) {
