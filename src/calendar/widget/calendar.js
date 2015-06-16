@@ -68,7 +68,7 @@ require({
 		_shouldDestroyOnUpdate: false,
 
 		postCreate: function () {
-			console.debug('Calendar - startup');
+			console.debug('Calendar - postCreate');
 			
 			this._colors = this.notused; //workaround for legacy users
 			this._availableViews = this.notused1; //workaround for legacy users
@@ -77,7 +77,10 @@ require({
 			this._eventSource = [];
 			this._allowCreate = this.editable || (this.neweventmf !== null && this.neweventmf !== '');
 			this._shouldDestroyOnUpdate = this._hasDynamicCalendarPropertiesConfigured();
-			
+		},
+		
+		startup: function () {
+			console.debug('Calendar - startup');
 			//make a calendarbox
 			this._calendarBox = dom.create('div', {
 				'id': 'calendar_' + this.id
@@ -87,7 +90,6 @@ require({
 			this._fcNode = $('#calendar_' + this.id);
 
 			this._renderCalendar(null);
-			
 		},
 
 		update: function (obj, callback) {
