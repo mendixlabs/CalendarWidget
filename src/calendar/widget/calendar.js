@@ -81,13 +81,19 @@ require({
 		
 		startup: function () {
 			console.debug('Calendar - startup');
+			
+			if(this._hasStarted) {
+				return;	
+			}
+			this._hasStarted = true;
+			
 			//make a calendarbox
 			this._calendarBox = dom.create('div', {
 				'id': 'calendar_' + this.id
 			});
 			domConstruct.place(this._calendarBox, this.domNode);
 
-			this._fcNode = $('#calendar_' + this.id);
+			this._fcNode = $(this._calendarBox);
 
 			this._renderCalendar(null);
 		},
@@ -355,7 +361,7 @@ require({
 			
 			this._fcNode.fullCalendar(options);
 			
-			if (this._mxObj.get(this.startPos)) {
+			if (this._mxObj && this._mxObj.get(this.startPos)) {
 				this._fcNode.fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
 			}
 			else {
