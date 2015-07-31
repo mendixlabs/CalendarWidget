@@ -16,31 +16,11 @@
     ========================
 	FullCalendar implementation.
 */
-require({ 
-	packages: [{
-		name: 'jquery',
-		location: '../../widgets/calendar/lib',
-		main: 'jquery-2.1.3.min'
-	},
-	{
-		name: 'moment',
-		location: '../../widgets/calendar/lib',
-		main: 'moment.min'
-	}, {
-		name: 'fullCalendar',
-		location: '../../widgets/calendar/lib',
-		main: 'fullcalendar.min'
-	}, {
-		name: 'calendarLang',
-		location: '../../widgets/calendar/lib',
-		main: 'lang-all'
-	}]
-},
-	[
+define([
     'dojo/_base/declare', 'mxui/widget/_WidgetBase', 'dijit/_TemplatedMixin',
     'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text',
-	'jquery', 'moment', 'fullCalendar', 'calendarLang', 'dojo/text!calendar/widget/template/Calendar.html'
-], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, $, moment, fullCalendar, calendarLang, widgetTemplate) {
+	'calendar/lib/jquery-2.1.3.min', 'calendar/lib/moment.min', 'dojo/text!calendar/widget/template/Calendar.html', 'calendar/lib/fullcalendar.min', 'calendar/lib/lang-all', 
+], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, $, moment, widgetTemplate, fullCalendar, calendarLang) {
 	'use strict';
 	
 	// Declare widget's prototype.
@@ -101,7 +81,7 @@ require({
 		update: function (obj, callback) {
 			console.debug('Calendar - update');
 
-			if (this._handles.length > 0) {
+			if (this._handles && this._handles.length && this._handles.length > 0) {
 				dojoArray.forEach(this._handles, function (handle) {
 					mx.data.unsubscribe(handle);
 				});
