@@ -1,34 +1,16 @@
 /*jslint white:true, nomen: true, plusplus: true */
 /*global mx, define, require, browser, devel, console, setTimeout */
 /*mendix */
-/*
-    Calendar
-    ========================
-
-	@file      : calendar.js
-	@version   : 4.0
-	@author    : Pauline Oudeman - van der Kraats, Robert van 't Hof, Richard Edens, Roeland Salij
-	@date      : 06-02-2015
-	@copyright : Mendix Technology BV
-	@license   : Apache License, Version 2.0, January 2004
-
-	Documentation
-    ========================
-	FullCalendar implementation.
-*/
 define([
-    'dojo/_base/declare', 'mxui/widget/_WidgetBase', 'dijit/_TemplatedMixin',
-    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text',
-	'calendar/lib/jquery-2.1.3.min', 'calendar/lib/moment.min', 'dojo/text!calendar/widget/template/Calendar.html', 'calendar/lib/fullcalendar.min', 'calendar/lib/lang-all', 
-], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, $, moment, widgetTemplate, fullCalendar, calendarLang) {
+    'dojo/_base/declare', 'mxui/widget/_WidgetBase',
+    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang',
+	'calendar/lib/jquery-2.1.3.min', 'calendar/lib/moment.min', 'calendar/lib/fullcalendar.min' , 'calendar/lib/lang-all',
+], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang) {
 	'use strict';
 	
-	// Declare widget's prototype.
-	return declare('calendar.widget.calendar', [_WidgetBase, _TemplatedMixin], {
-		// _TemplatedMixin will create our dom node using this HTML template.
-		templateString: widgetTemplate,
-
-		// Internal variables. Non-primitives created in the prototype are shared between all widget instances.
+	var $ = _jQuery.noConflict(true);
+	
+	return declare('calendar.widget.calendar', [_WidgetBase], {
 		_mxObj: null,
 		_calendarBox: null,
 		_handles: null,
@@ -48,8 +30,6 @@ define([
 		_shouldDestroyOnUpdate: false,
 
 		postCreate: function () {
-			console.debug('Calendar - postCreate');
-			
 			this._colors = this.notused; //workaround for legacy users
 			this._availableViews = this.notused1; //workaround for legacy users
 			this._setDefaults(); //set default formatting options
@@ -60,8 +40,6 @@ define([
 		},
 		
 		startup: function () {
-			console.debug('Calendar - startup');
-			
 			if(this._hasStarted) {
 				return;	
 			}
@@ -79,8 +57,6 @@ define([
 		},
 
 		update: function (obj, callback) {
-			console.debug('Calendar - update');
-
 			if (this._handles && this._handles.length && this._handles.length > 0) {
 				dojoArray.forEach(this._handles, function (handle) {
 					mx.data.unsubscribe(handle);
@@ -103,7 +79,6 @@ define([
 		},
 
 		resize: function () {
-			console.debug('Calendar - resize');
 			this._fcNode.fullCalendar('render');
 			this._fetchObjects();
 		},
@@ -159,7 +134,6 @@ define([
 		},
 
 		_fetchObjects: function () {
-			console.debug('Calendar - fetch objects');
 			var constraint = null,
 				expectObj = null,
 				xpath = null,
@@ -207,14 +181,12 @@ define([
 		},
 
 		_clearCalendar: function () {
-			console.debug('Calendar - clear calendar');
 			if (this._fcNode) {
 				this._fcNode.fullCalendar('removeEvents');
 			}
 		},
 
 		_prepareEvents: function (objs) {
-			console.debug('Calendar - prepare events');
 			var objTitles = null,
 				objRefs = null,
 				refTitles = null,
@@ -283,7 +255,6 @@ define([
 		},
 
 		_createEvents: function (objs, titles) {
-			console.debug('Calendar - create events');
 			var events = [],
 				objcolors = null;
 
@@ -331,7 +302,6 @@ define([
 		},
 
 		_renderCalendar: function (events) {
-			console.debug('Calendar - render calendar');
 			var options = this._setCalendarOptions(events);
 			
 			// Only destroy calendar when widget configuration requires full rerendering of calendar.
@@ -351,21 +321,18 @@ define([
 		},
 
 		_onEventChange: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
-			console.debug('Calendar - on event change');
 			var obj = event.mxobject;
 			this._setVariables(obj, event, this.startAttr, this.endAttr, allDay);
 			this._execMF(obj, this.onchangemf);
 		},
 
 		_onEventClick: function (event) {
-			console.debug('Calendar - on event click');
 			var obj = event.mxobject;
 			this._setVariables(obj, event, this.startAttr, this.endAttr);
 			this._execMF(obj, this.onclickmf);
 		},
 
 		_onSelectionMade: function (startDate, endDate, allDay, jsEvent, view) {
-			console.debug('Calendar - on selection made');
 			var eventData = {
 				start: startDate,
 				end: endDate
@@ -396,8 +363,6 @@ define([
 		},
 
 		_getObjectColors: function (obj) {
-		console.debug('Calendar - get object colors ' + obj.getGUID());
-
 			var objcolors = null;
 
 			$.each(this._colors, lang.hitch(this, function (index, color) {
@@ -418,7 +383,6 @@ define([
 		},
 
 		_setVariables: function (obj, event, startAttribute, endAttribute, allDay) {
-			console.debug('Calendar - set variables');
 			//update the mx object
 			obj.set(startAttribute, event.start);
 			if (event.end !== null) {
@@ -431,7 +395,6 @@ define([
 		},
 
 		_setDefaults: function () {
-			console.debug('Calendar - set defaults');
 			var views = [];
 
 			this._header = {
@@ -515,7 +478,6 @@ define([
 		},
 
 		_setCalendarOptions: function (events) {
-			console.debug('Calendar - set calendar options');
 			var options = {
 				//contents
 				header: this._header,
