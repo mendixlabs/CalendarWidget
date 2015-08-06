@@ -331,6 +331,11 @@
 			<description>Microflow triggered when a new date-range is rendered, or when the view type switches.(http://fullcalendar.io/docs/display/viewRender/)</description>
 			<returnType type="Void" />
 		</property>
+        <property key="viewContextReference" type="entity" isPath="yes" pathType="reference" required="false" entityProperty="viewChangeEntity">
+            <caption>Reference to context entity (if used)</caption>
+            <category>View Change</category>
+            <description>Select the path from the view object to the context object to constain on it within your microflow.</description>
+        </property>
 		<property key="viewChangeEntity" type="entity" required="false" allowNonPersistableEntities="true">
 			<caption>Entity</caption>
 			<category>View Change</category>

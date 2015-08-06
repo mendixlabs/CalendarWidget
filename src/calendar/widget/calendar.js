@@ -80,7 +80,6 @@ define([
 
 		resize: function () {
 			this._fcNode.fullCalendar('render');
-			this._fetchObjects();
 		},
 
 		_addSubscriptions: function () {
@@ -155,10 +154,15 @@ define([
 					xpath: xpath,
 					callback: lang.hitch(this, this._prepareEvents)
 				}, this);
-			} else if (this.dataSourceType === "contextmf" && this.contextDatasourceMf) {
+			} else if (this.dataSourceType === "contextmf" && (this.contextDatasourceMf || this.viewContextReference)) {
 
 				if (this._mxObj) {
-					this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
+                    if (this.viewContextReference) {
+                        var view = this._fcNode.fullCalendar('getView');
+                        this._fetchPaginatedEvents(view.start, view.end);
+                    } else {
+					   this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
+                    }
 				}
 			} else if (this.dataSourceType === "mf" && this.datasourceMf) {
 				this._execMF(null, this.datasourceMf, lang.hitch(this, this._prepareEvents));
@@ -583,26 +587,35 @@ define([
 		},
 
 		_onViewChange: function (view, element) {
-				
-			if(this.viewChangeEntity !== '') {
+            this._fetchPaginatedEvents(view.start, view.end);
+		},
+		
+        _fetchPaginatedEvents: function(start, end) {
+            if(this.viewChangeEntity !== '') {
 				var eventData = {
-					start: view.start,
-					end: view.end
+					start: start,
+					end: end
 				};
 			
 				mx.data.create({
 					entity: this.viewChangeEntity,
-					callback: function (obj) {
+					callback: lang.hitch(this, function (obj) {
 						this._setVariables(obj, eventData, this.viewStartAttr, this.viewEndAttr);
-						this._execMF(obj, this.onviewchangemf);
-					},
+                        if (this.viewContextReference != '') {
+                            if (!this._mxObj) {
+                                return;
+                            }
+                            obj.addReference(this.viewContextReference.split('/')[0], this._mxObj.getGuid());
+                        }
+						this._execMF(obj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
+					}),
 					error: function (err) {
 						console.warn('Error creating object: ', err);
 					}
 				}, this);
 			}
-		},
-		
+        },
+        
 		// This function checks if properties are set which affect rendering of calendar and 
 		// thus require a destroy action
 		_hasDynamicCalendarPropertiesConfigured : function (){
