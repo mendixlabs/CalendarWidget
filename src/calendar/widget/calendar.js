@@ -4,7 +4,7 @@
 define([
     'dojo/_base/declare', 'mxui/widget/_WidgetBase',
     'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang',
-	'calendar/lib/jquery-2.1.3.min', 'calendar/lib/moment', 'calendar/lib/fullcalendar' , 'calendar/lib/lang-all',
+	'calendar/lib/jquery-2.1.3.min', 'calendar/lib/moment', 'calendar/lib/fullcalendar' , 'calendar/lib/lang-all'
 ], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang) {
 	'use strict';
 	
