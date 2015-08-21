@@ -16,6 +16,7 @@
 				<enumerationValue key="xpath">XPath retrieve</enumerationValue>
 				<enumerationValue key="mf">Microflow</enumerationValue>
 				<enumerationValue key="contextmf">Microflow with context object</enumerationValue>
+				<enumerationValue key="contextmf_viewspecific">Microflow with context object (Retrieve events for each view)</enumerationValue>
 			</enumerationValues>
 		</property>
 		<property key="eventEntity" type="entity">
@@ -45,6 +46,11 @@
 			<description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
 			<returnType type="Void" />
 		</property>
+		<property key="viewContextReference" type="entity" isPath="yes" pathType="reference" required="false" entityProperty="contextEntity">
+            <caption>Reference to ViewRender entity (if used)</caption>
+            <category>Dataview context (Optional)</category>
+            <description>Select the path from the dataview object to the view render object to constrain on it within your microflow.</description>
+        </property>
 		<property key="startPos" type="attribute" required="false" entityProperty="contextEntity">
 			<caption>Start pos attribute</caption>
 			<category>Dataview context (Optional)</category>
@@ -331,11 +337,7 @@
 			<description>Microflow triggered when a new date-range is rendered, or when the view type switches.(http://fullcalendar.io/docs/display/viewRender/)</description>
 			<returnType type="Void" />
 		</property>
-        <property key="viewContextReference" type="entity" isPath="yes" pathType="reference" required="false" entityProperty="viewChangeEntity">
-            <caption>Reference to context entity (if used)</caption>
-            <category>View Change</category>
-            <description>Select the path from the view object to the context object to constain on it within your microflow.</description>
-        </property>
+        
 		<property key="viewChangeEntity" type="entity" required="false" allowNonPersistableEntities="true">
 			<caption>Entity</caption>
 			<category>View Change</category>

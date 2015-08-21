@@ -15,13 +15,15 @@ The Calendar Widget is a Mendix implementation of the open-source jQuery widget 
 ## Configuration
 ### Data source
 #### Data source type
-This widget supports 3 types of data source. All these require the Event Entity to be set.
+This widget supports 4 types of data source. All these require the Event Entity to be set.
 
 The default is 'XPath retrieve'. This can be combined with an optional XPath Constraint.
 
 The 'Microflow' option uses the 'Data source microflow' to fill the events for the calendar. Make sure this microflow returns a list of objects of the same type as the 'Event Entity'.
 
 The 'Microflow with context object' lets you pass a context object (from a Dataview) to the microflow to retrieve the events. When using this option, you can use the 'Dataview Context (Optional)' options to set up the configuration for this. Make sure this microflow returns a list of objects of the same type as the 'Event Entity'.
+
+*NEW* The 'Microflow with context object (Retrieve events for each view)' does the same as the above version, but this one lets you filter them based on the current view. This requires the 'Reference to ViewRender entity (if used)' to be set. This reference will be set and the referenced ViewRender object will contain the Start and End datetime needed to constrain the events on.
 
 #### Event Entity
 The entity for the Event objects that will be shown on the Calendar.
@@ -37,6 +39,9 @@ These options are only applicable if the 'Data source type' is set to 'Microflow
 
 #### Dataview Entity
 The entity of the dataview in which the Calendar widget is placed.
+
+#### Reference to ViewRender entity (if used)
+This reference will be used to link the ViewRender object to the context object, so that it can be retrieved in the datasource microflow.
 
 #### Start pos attribute
 This option lets you specify an attribute of the Dataview object to be used as the start position where the Calendar opens.

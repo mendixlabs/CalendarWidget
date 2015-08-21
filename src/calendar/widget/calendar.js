@@ -154,16 +154,15 @@ define([
 					xpath: xpath,
 					callback: lang.hitch(this, this._prepareEvents)
 				}, this);
-			} else if (this.dataSourceType === "contextmf" && (this.contextDatasourceMf || this.viewContextReference)) {
-
-				if (this._mxObj) {
-                    if (this.viewContextReference) {
-                        var view = this._fcNode.fullCalendar('getView');
-                        this._fetchPaginatedEvents(view.start, view.end);
-                    } else {
-					   this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
-                    }
+			} else if (this.dataSourceType === "contextmf_viewspecific" && this.contextDatasourceMf) {
+				if (this._mxObj && this.viewContextReference) {
+					var view = this._fcNode.fullCalendar('getView');
+					this._fetchPaginatedEvents(view.start, view.end);
 				}
+			} else if (this.dataSourceType === "contextmf" && this.contextDatasourceMf) {
+				if (this._mxObj)
+					this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
+					
 			} else if (this.dataSourceType === "mf" && this.datasourceMf) {
 				this._execMF(null, this.datasourceMf, lang.hitch(this, this._prepareEvents));
 			} else {
@@ -202,6 +201,10 @@ define([
 			refTitles = {};
 			split = this.titleAttr.split("/");
 			thisRef = null;
+			
+			if (objs === "" || objs.length === 0) {
+				return;
+			}
 
 			if (split.length === 1) {
 				// titleAttr is a simple attribute and the key of objTitles is
@@ -228,7 +231,6 @@ define([
 					nocache: false,
 					callback: function (refObjs) {
 						var i = null,
-							index = null,
 							thisValue = null;
 
 						// Get the title string for each referenced object and store it
@@ -239,12 +241,12 @@ define([
 						// Now, loop through the objTitles array and replace the value (which is
 						// is the GUID of the referred object) with the actual title string extracted
 						// from the referred object.
-						for (index in objTitles) {
+						$.each(objTitles, function (index, obj) {
 							if (objTitles.hasOwnProperty(index)) {
 								thisValue = objTitles[index];
 								objTitles[index] = refTitles[objTitles[index]];
 							}
-						}
+						});
 						// Now that we finally have all of the referenced titles, we can call
 						// createEvents()
 						this._createEvents(objs, objTitles);
@@ -591,30 +593,44 @@ define([
 		},
 		
         _fetchPaginatedEvents: function(start, end) {
-            if(this.viewChangeEntity !== '') {
-				var eventData = {
-					start: start,
-					end: end
-				};
+            if (this.viewChangeEntity !== "" && this.viewContextReference !== "" &&this._mxObj) {
+				var reference = this.viewContextReference.split('/')[0],
+					refGuid = this._mxObj.getReference(reference),
+					eventData = {
+						start: start,
+						end: end
+					};
+				
+				if (refGuid !== "") {
+					mx.data.get({
+						guid: +(refGuid),
+						callback: lang.hitch(this, this._handlePaginatedObjects, eventData),
+						error: function (err) {
+							console.warn('Error retrieving referenced object: ', err);
+						}
+					});
+				} else {
+					mx.data.create({
+						entity: this.viewChangeEntity,
+						callback: lang.hitch(this, this._handlePaginatedObjects, eventData),
+						error: function (err) {
+							console.warn('Error creating object: ', err);
+						}
+					}, this);
+				}
 			
-				mx.data.create({
-					entity: this.viewChangeEntity,
-					callback: lang.hitch(this, function (obj) {
-						this._setVariables(obj, eventData, this.viewStartAttr, this.viewEndAttr);
-                        if (this.viewContextReference != '') {
-                            if (!this._mxObj) {
-                                return;
-                            }
-                            obj.addReference(this.viewContextReference.split('/')[0], this._mxObj.getGuid());
-                        }
-						this._execMF(obj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
-					}),
-					error: function (err) {
-						console.warn('Error creating object: ', err);
-					}
-				}, this);
 			}
         },
+		
+		_handlePaginatedObjects: function (eventData, viewrenderObj) {
+			var reference = this.viewContextReference.split('/')[0];
+			
+			this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
+			if (this.viewContextReference != '') {
+			    this._mxObj.addReference(reference, viewrenderObj.getGuid());
+			}
+			this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
+		},
         
 		// This function checks if properties are set which affect rendering of calendar and 
 		// thus require a destroy action
