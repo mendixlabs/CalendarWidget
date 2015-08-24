@@ -589,44 +589,92 @@ define([
 		},
 
 		_onViewChange: function (view, element) {
-            this._fetchPaginatedEvents(view.start, view.end);
+			var eventData = {
+				start: view.start,
+				end: view.end
+			};
+			
+			if (this.onviewchangemf !== "") {
+				if (this.viewContextReference !== "" && this._mxObj) {
+					var ref = this.viewContextReference.split('/')[0],
+						refGuid = this._mxObj.getReference(ref);
+
+					if (refGuid !== "") {
+						mx.data.get({
+							guid: +(refGuid),
+							callback: lang.hitch(this, function (eventData, viewrenderObj) {
+								
+								this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
+								this._execMF(this._mxObj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
+								
+							}, eventData),
+							error: function (err) {
+								console.warn('Error retrieving referenced object: ', err);
+							}
+						});
+					} else {
+						this._createViewChangeEntity(eventData, lang.hitch(this, function (eventData, viewrenderObj) {
+							
+							this._mxObj.addReference(ref, viewrenderObj.getGuid());
+							this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
+							this._execMF(this._mxObj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
+							
+						}, eventData));
+					}
+				}
+			}
+			
+			if (this.dataSourceType === "contextmf_viewspecific") {
+				this._fetchPaginatedEvents(view.start, view.end);
+			}
 		},
 		
         _fetchPaginatedEvents: function(start, end) {
-            if (this.viewChangeEntity !== "" && this.viewContextReference !== "" &&this._mxObj) {
-				var reference = this.viewContextReference.split('/')[0],
-					refGuid = this._mxObj.getReference(reference),
-					eventData = {
-						start: start,
-						end: end
-					};
+            if (this.viewChangeEntity !== "" && this._mxObj) {
+				var eventData = {
+					start: start,
+					end: end
+				};
 				
-				if (refGuid !== "") {
-					mx.data.get({
-						guid: +(refGuid),
-						callback: lang.hitch(this, this._handlePaginatedObjects, eventData),
-						error: function (err) {
-							console.warn('Error retrieving referenced object: ', err);
-						}
-					});
+				// Has dataview context, so link it via reference
+				if (this.viewContextReference !== "" && this._mxObj) {
+					var reference = this.viewContextReference.split('/')[0],
+						refGuid = this._mxObj.getReference(reference);
+					
+					if (refGuid !== "") {
+						mx.data.get({
+							guid: +(refGuid),
+							callback: lang.hitch(this, this._handlePaginatedObjects, eventData),
+							error: function (err) {
+								console.warn('Error retrieving referenced object: ', err);
+							}
+						});
+					} else {
+						this._createViewChangeEntity(eventData, this._handlePaginatedObjects);
+					}
 				} else {
-					mx.data.create({
-						entity: this.viewChangeEntity,
-						callback: lang.hitch(this, this._handlePaginatedObjects, eventData),
-						error: function (err) {
-							console.warn('Error creating object: ', err);
-						}
-					}, this);
+					// No dataview context
+					this._createViewChangeEntity(eventData, this._handlePaginatedObjects);
 				}
-			
 			}
         },
 		
+		_createViewChangeEntity: function (eventData, callback) {
+			mx.data.create({
+				entity: this.viewChangeEntity,
+				callback: lang.hitch(this, callback, eventData),
+				error: function (err) {
+					console.warn('Error creating object: ', err);
+				}
+			}, this);
+		},
+		
 		_handlePaginatedObjects: function (eventData, viewrenderObj) {
-			var reference = this.viewContextReference.split('/')[0];
+			var reference = this.viewContextReference.split('/')[0],
+				viewrenderObjId = viewrenderObj.getGuid();
 			
 			this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
-			if (this.viewContextReference != '') {
+			if (this.viewContextReference != '' && this._mxObj.getReference(reference) != viewrenderObjId) {
 			    this._mxObj.addReference(reference, viewrenderObj.getGuid());
 			}
 			this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));

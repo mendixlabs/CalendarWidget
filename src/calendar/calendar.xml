@@ -331,7 +331,7 @@
 				</property>
 			</properties>
 		</property>
-		<property key="onviewchangemf" type="microflow" required="false" entityProperty="viewChangeEntity">
+		<property key="onviewchangemf" type="microflow" required="false" entityProperty="contextEntity">
 			<caption>On view change</caption>
 			<category>View Change</category>
 			<description>Microflow triggered when a new date-range is rendered, or when the view type switches.(http://fullcalendar.io/docs/display/viewRender/)</description>
