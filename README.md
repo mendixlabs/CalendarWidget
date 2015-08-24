@@ -23,7 +23,7 @@ The 'Microflow' option uses the 'Data source microflow' to fill the events for t
 
 The 'Microflow with context object' lets you pass a context object (from a Dataview) to the microflow to retrieve the events. When using this option, you can use the 'Dataview Context (Optional)' options to set up the configuration for this. Make sure this microflow returns a list of objects of the same type as the 'Event Entity'.
 
-*NEW* The 'Microflow with context object (Retrieve events for each view)' does the same as the above version, but this one lets you filter them based on the current view. This requires the 'Reference to ViewRender entity (if used)' to be set. This reference will be set and the referenced ViewRender object will contain the Start and End datetime needed to constrain the events on.
+*NEW* The 'Microflow with context object (Retrieve events for each view)' does the same as the above version, but this one lets you filter them based on the current view. This requires the 'Reference to ViewRender entity (if used)' to be set. This reference will be set and the referenced ViewRender object will contain the Start and End datetime needed to constrain the events on. The normal 'Dataview data source microflow' is still used for this retrieve.
 
 #### Event Entity
 The entity for the Event objects that will be shown on the Calendar.
