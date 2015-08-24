@@ -64,11 +64,9 @@ define([
 			}
             this._handles = [];
 
-			if (obj) {
-				this._mxObj = obj;
-				this._fetchObjects();
-				this._renderCalendar();
-			}
+			this._mxObj = obj;
+			this._fetchObjects();
+			this._renderCalendar();
 
 			//subscribe to changes in the event entity and context object(if applicable). 
 			this._addSubscriptions();
