@@ -170,6 +170,8 @@ define([
 					errordiv = dom.div("Data source type 'Microflow with context object' is selected, but no microflow was specified for property 'Dataview data source microflow'");
 				} else if (this.dataSourceType === "mf") {
 					errordiv = dom.div("Data source type 'Microflow' is selected, but no microflow was specified for property 'Data source microflow'");
+				} else if (this.dataSourceType === "contextmf_viewspecific") {
+					errordiv = dom.div("Data source type 'Microflow with context object (Retrieve events for each view)' is selected, but no microflow was specified for property 'Dataview data source microflow'");
 				}
 
 				domStyle.set(errordiv, {
@@ -611,7 +613,7 @@ define([
 							}
 						});
 					} else {
-						this._createViewChangeEntity(eventData, lang.hitch(this, function (eventData, viewrenderObj) {
+						this._createViewChangeEntity(lang.hitch(this, function (eventData, viewrenderObj) {
 							
 							this._mxObj.addReference(ref, viewrenderObj.getGuid());
 							this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
@@ -648,19 +650,19 @@ define([
 							}
 						});
 					} else {
-						this._createViewChangeEntity(eventData, this._handlePaginatedObjects);
+						this._createViewChangeEntity(this._handlePaginatedObjects);
 					}
 				} else {
 					// No dataview context
-					this._createViewChangeEntity(eventData, this._handlePaginatedObjects);
+					this._createViewChangeEntity(this._handlePaginatedObjects);
 				}
 			}
         },
 		
-		_createViewChangeEntity: function (eventData, callback) {
+		_createViewChangeEntity: function (callback) {
 			mx.data.create({
 				entity: this.viewChangeEntity,
-				callback: lang.hitch(this, callback, eventData),
+				callback: lang.hitch(this, callback),
 				error: function (err) {
 					console.warn('Error creating object: ', err);
 				}
