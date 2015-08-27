@@ -513,7 +513,6 @@ define([
 				eventLimit: this.limitEvents,
 				scrollTime: this.scrollTime,
 			};
-			debugger;
 
 			if (this._titleFormat) {
 				options.titleFormat = this._titleFormat;
