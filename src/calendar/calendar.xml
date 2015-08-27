@@ -287,6 +287,11 @@
 			<category>Extra</category>
 			<description>The end time for the business hours of each week day. This option only applies to Agendaweek en AgendaDay views. Format: "17:00"</description>
 		</property>
+		<property key="scrollTime" type="string" defaultValue="00:00">
+			<caption>Scroll time</caption>
+			<category>Extra</category>
+			<description>Determines how far down the scroll pane is initially scrolled down. This option only applies to Agendaweek and AgendaDay views. Format: "08:00"</description>
+		</property>
 		<property key="notused1" type="object" isList="true" required="false">
 			<caption>Available views</caption>
 			<category>Extra</category>
