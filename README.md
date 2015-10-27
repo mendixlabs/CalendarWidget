@@ -106,9 +106,11 @@ An integer to set what the first day of the week is, where 0 = Sunday, 1 = Monda
 
 #### Custom time format
 Default: h:mm{ - h:mm}. For more information: http://fullcalendar.io/docs/text/timeFormat/
+Be aware that this format is mutually exclusive with the View specific time formats.
 
 #### Custom date format
 The date format that is shown in the column headings. For more information: http://fullcalendar.io/docs/text/columnFormat/
+Be aware that this format is mutually exclusive with the View specific date formats.
 
 #### Custom title format
 The header title format that is shown in the header's title. For more information: http://fullcalendar.io/docs/text/titleFormat/

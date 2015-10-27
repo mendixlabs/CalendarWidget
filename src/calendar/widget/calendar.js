@@ -418,19 +418,12 @@ define([
 				this._titleFormat[''] = this.titleFormat;
 			}
 
-			this._dateFormat = this.dateFormat || {
-				month: 'ddd', // Mon
-				week: 'ddd M/D', // Mon 9/7
-				day: 'dddd M/D' // Monday 9/7
-			};
-
 			if (this.dateFormat) {
-				this._dateFormat[''] = this.dateFormat;
+				this._dateFormat = this.dateFormat;
 			}
 
-			this._timeFormat = {};
 			if (this.timeFormat) {
-				this._timeFormat[''] = this.timeFormat;
+				this._timeFormat = this.timeFormat;
 			}
 
 			this._buttonText = {};
@@ -453,9 +446,18 @@ define([
 						this._titleFormat[viewName] = view.titleFormatViews;
 					}
 					if (view.dateFormatViews !== '') {
+						if (typeof this._dateFormat == "string") {
+							this._dateFormat = {};
+							this._dateFormat[''] = this.dateFormat;
+						}
+							
 						this._dateFormat[viewName] = view.dateFormatViews;
 					}
 					if (view.timeFormatViews !== '') {
+						if (typeof this._timeFormat == "string") {
+							this._timeFormat = {};
+							this._timeFormat[''] = this.timeFormat;
+						}
 						this._timeFormat[viewName] = view.timeFormatViews;
 					}
 
