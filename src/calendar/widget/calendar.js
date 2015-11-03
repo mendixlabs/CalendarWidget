@@ -652,19 +652,19 @@ define([
 							}
 						});
 					} else {
-						this._createViewChangeEntity(this._handlePaginatedObjects);
+						this._createViewChangeEntity(this._handlePaginatedObjects, eventData);
 					}
 				} else {
 					// No dataview context
-					this._createViewChangeEntity(this._handlePaginatedObjects);
+					this._createViewChangeEntity(this._handlePaginatedObjects, eventData);
 				}
 			}
         },
 		
-		_createViewChangeEntity: function (callback) {
+		_createViewChangeEntity: function (callback, eventData) {
 			mx.data.create({
 				entity: this.viewChangeEntity,
-				callback: lang.hitch(this, callback),
+				callback: lang.hitch(this, callback, eventData),
 				error: function (err) {
 					console.warn('Error creating object: ', err);
 				}

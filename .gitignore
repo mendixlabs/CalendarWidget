@@ -11,4 +11,4 @@ test/.project
 *.bak
 settings/
 node_modules/
-
+dist/
