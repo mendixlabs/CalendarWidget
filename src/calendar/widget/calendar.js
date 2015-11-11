@@ -513,6 +513,7 @@ define([
 				buttonText: this._buttonText,
 				lang: this.languageSetting,
 				eventLimit: this.limitEvents,
+				scrollTime: this.scrollTime,
 			};
 
 			if (this._titleFormat) {
