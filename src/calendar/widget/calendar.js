@@ -210,15 +210,15 @@ define([
 				// titleAttr is a simple attribute and the key of objTitles is
 				// the GUID of the object and the title is the attribute.
 				$.each(objs, lang.hitch(this, function (index, obj) {
-					objTitles[obj.getGUID()] = obj.get(this.titleAttr);
+					objTitles[obj.getGuid()] = obj.get(this.titleAttr);
 				}));
 				this._createEvents(objs, objTitles);
 			} else if (split.length === 3) {
 
 				// titleAttr is a reference and we have more work to do.
 				$.each(objs, function (index, obj) {
-					thisRef = obj.getAttribute(split[0]);
-					objTitles[obj.getGUID()] = thisRef;
+					thisRef = obj.get(split[0]);
+					objTitles[obj.getGuid()] = thisRef;
 					// objRefs should only contain the unique list of referred objects.
 					if (objRefs.indexOf(thisRef) < 0) {
 						objRefs.push(thisRef);
@@ -236,7 +236,7 @@ define([
 						// Get the title string for each referenced object and store it
 						// as the value in the refTitles array.
 						for (i = 0; i < refObjs.length; i++) {
-							refTitles[refObjs[i].getGUID()] = refObjs[i].get(split[2]);
+							refTitles[refObjs[i].getGuid()] = refObjs[i].get(split[2]);
 						}
 						// Now, loop through the objTitles array and replace the value (which is
 						// is the GUID of the referred object) with the actual title string extracted
@@ -275,7 +275,7 @@ define([
 
 					//create a new calendar event
 					newEvent = {
-						title: titles[obj.getGUID()],
+						title: titles[obj.getGuid()],
 						start: start,
 						end: end,
 						allDay: obj.get(this.alldayAttr),
@@ -604,7 +604,7 @@ define([
 
 					if (refGuid !== "") {
 						mx.data.get({
-							guid: +(refGuid),
+							guid: refGuid,
 							callback: lang.hitch(this, function (eventData, viewrenderObj) {
 								
 								this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
@@ -622,7 +622,7 @@ define([
 							this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
 							this._execMF(this._mxObj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
 							
-						}, eventData));
+						}), eventData);
 					}
 				}
 			}
@@ -646,7 +646,7 @@ define([
 					
 					if (refGuid !== "") {
 						mx.data.get({
-							guid: +(refGuid),
+							guid: refGuid,
 							callback: lang.hitch(this, this._handlePaginatedObjects, eventData),
 							error: function (err) {
 								console.warn('Error retrieving referenced object: ', err);
