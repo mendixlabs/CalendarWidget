@@ -1,6 +1,6 @@
 {
   "name": "Calendar",
-  "version": "4.6.0",
+  "version": "4.5.2",
   "description": "This is a calendar widget for Mendix. It shows a Calendar and can render objects as events in it.",
   "private": true,
   "dependencies": {

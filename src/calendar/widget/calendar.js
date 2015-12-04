@@ -7,9 +7,9 @@ define([
 	'calendar/lib/jquery-2.1.3.min', 'calendar/lib/moment', 'calendar/lib/fullcalendar' , 'calendar/lib/lang-all'
 ], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang) {
 	'use strict';
-	
+
 	var $ = _jQuery.noConflict(true);
-	
+
 	return declare('calendar.widget.calendar', [_WidgetBase], {
 		_mxObj: null,
 		_calendarBox: null,
@@ -38,13 +38,13 @@ define([
 			this._allowCreate = this.editable || (this.neweventmf !== null && this.neweventmf !== '');
 			this._shouldDestroyOnUpdate = this._hasDynamicCalendarPropertiesConfigured();
 		},
-		
+
 		startup: function () {
 			if(this._hasStarted) {
-				return;	
+				return;
 			}
 			this._hasStarted = true;
-			
+
 			//make a calendarbox
 			this._calendarBox = dom.create('div', {
 				'id': 'calendar_' + this.id
@@ -68,9 +68,9 @@ define([
 			this._fetchObjects();
 			this._renderCalendar();
 
-			//subscribe to changes in the event entity and context object(if applicable). 
+			//subscribe to changes in the event entity and context object(if applicable).
 			this._addSubscriptions();
-			
+
 			if (typeof callback !== 'undefined') {
 				callback();
 			}
@@ -91,9 +91,9 @@ define([
 				contextSubscription = null,
 				contextStartPosAttributeSubscription = null,
 				contextFirstDayAttributeAttributeSubscription = null;
-			
+
 			this._handles.push(subscription);
-			
+
 			if (this._mxObj){
 				contextSubscription = mx.data.subscribe({
 					guid: this._mxObj.getGuid(),
@@ -102,7 +102,7 @@ define([
 					})
 				});
 				this._handles.push(contextSubscription);
-				
+
 				if(this.startPos) {
 					contextStartPosAttributeSubscription = mx.data.subscribe({
 						guid: this._mxObj.getGuid(),
@@ -125,9 +125,9 @@ define([
 					});
 					this._handles.push(contextFirstDayAttributeAttributeSubscription);
 				}
-				
+
 			}
-	
+
 		},
 
 		_fetchObjects: function () {
@@ -160,7 +160,7 @@ define([
 			} else if (this.dataSourceType === "contextmf" && this.contextDatasourceMf) {
 				if (this._mxObj)
 					this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
-					
+
 			} else if (this.dataSourceType === "mf" && this.datasourceMf) {
 				this._execMF(null, this.datasourceMf, lang.hitch(this, this._prepareEvents));
 			} else {
@@ -201,7 +201,7 @@ define([
 			refTitles = {};
 			split = this.titleAttr.split("/");
 			thisRef = null;
-			
+
 			if (objs === "" || objs.length === 0) {
 				return;
 			}
@@ -309,21 +309,21 @@ define([
 
 		_renderCalendar: function (events) {
 			var options = this._setCalendarOptions(events);
-			
+
 			// Only destroy calendar when widget configuration requires full rerendering of calendar.
 			if (this._shouldDestroyOnUpdate) {
 				this._fcNode.fullCalendar('destroy');
 			}
-			
+
 			this._fcNode.fullCalendar(options);
-			
+
 			if (this._mxObj && this._mxObj.get(this.startPos)) {
 				this._fcNode.fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
 			}
 			else {
 				this._fcNode.fullCalendar('gotoDate', new Date());
 			}
-			
+
 		},
 
 		_onEventChange: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
@@ -379,7 +379,7 @@ define([
 						borderColor: color.border,
 						textColor: color.textColor
 					};
-					
+
 					//We have found the color so we can stop iterating
 					return false;
 				}
@@ -431,30 +431,34 @@ define([
 			this._views = {};
 
 			if (this._availableViews.length > 0) {
-				//fill default specifics				
+				//fill default specifics
 				$.each(this._availableViews, lang.hitch(this, function (index, view) {
 					var viewName = view.availableViews;
 					views.push(viewName);
-					
+
 					this._views[viewName] = {};
-					
+
 					if (view.eventLimit > 0) {
 						this._views[viewName].eventLimit = view.eventLimit;
 					}
-					
+
 					if (view.titleFormatViews !== '') {
 						this._titleFormat[viewName] = view.titleFormatViews;
 					}
 					if (view.dateFormatViews !== '') {
-						if (typeof this._dateFormat == "string") {
+						if (typeof this._dateFormat === 'undefined' || this._dateFormat === null) {
+							this._dateFormat = {};
+						} else if (typeof this._dateFormat == "string") {
 							this._dateFormat = {};
 							this._dateFormat[''] = this.dateFormat;
 						}
-							
+
 						this._dateFormat[viewName] = view.dateFormatViews;
 					}
 					if (view.timeFormatViews !== '') {
-						if (typeof this._timeFormat == "string") {
+						if (typeof this._timeFormat === 'undefined' || this._timeFormat === null) {
+							this._timeFormat = {}
+						} else if (typeof this._timeFormat == "string") {
 							this._timeFormat = {};
 							this._timeFormat[''] = this.timeFormat;
 						}
@@ -547,7 +551,7 @@ define([
 					dow: [1, 2, 3, 4, 5]
 				};
 			}
-			
+
 			if(this._mxObj)
 			{
 				if(this.showWeekendsAttribute){
@@ -557,7 +561,7 @@ define([
 					options.firstDay = this._mxObj.get(this.firstdayAttribute);
 				}
 			}
-			
+
 			return options;
 		},
 
@@ -599,7 +603,7 @@ define([
 				start: view.start,
 				end: view.end
 			};
-			
+
 			if (this.onviewchangemf !== "") {
 				if (this.viewContextReference !== "" && this._mxObj) {
 					var ref = this.viewContextReference.split('/')[0],
@@ -609,10 +613,10 @@ define([
 						mx.data.get({
 							guid: refGuid,
 							callback: lang.hitch(this, function (eventData, viewrenderObj) {
-								
+
 								this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
 								this._execMF(this._mxObj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
-								
+
 							}, eventData),
 							error: function (err) {
 								console.warn('Error retrieving referenced object: ', err);
@@ -620,33 +624,33 @@ define([
 						});
 					} else {
 						this._createViewChangeEntity(lang.hitch(this, function (eventData, viewrenderObj) {
-							
+
 							this._mxObj.addReference(ref, viewrenderObj.getGuid());
 							this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
 							this._execMF(this._mxObj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
-							
+
 						}), eventData);
 					}
 				}
 			}
-			
+
 			if (this.dataSourceType === "contextmf_viewspecific") {
 				this._fetchPaginatedEvents(view.start, view.end);
 			}
 		},
-		
+
         _fetchPaginatedEvents: function(start, end) {
             if (this.viewChangeEntity !== "" && this._mxObj) {
 				var eventData = {
 					start: start,
 					end: end
 				};
-				
+
 				// Has dataview context, so link it via reference
 				if (this.viewContextReference !== "" && this._mxObj) {
 					var reference = this.viewContextReference.split('/')[0],
 						refGuid = this._mxObj.getReference(reference);
-					
+
 					if (refGuid !== "") {
 						mx.data.get({
 							guid: refGuid,
@@ -664,7 +668,7 @@ define([
 				}
 			}
         },
-		
+
 		_createViewChangeEntity: function (callback, eventData) {
 			mx.data.create({
 				entity: this.viewChangeEntity,
@@ -674,19 +678,19 @@ define([
 				}
 			}, this);
 		},
-		
+
 		_handlePaginatedObjects: function (eventData, viewrenderObj) {
 			var reference = this.viewContextReference.split('/')[0],
 				viewrenderObjId = viewrenderObj.getGuid();
-			
+
 			this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
 			if (this.viewContextReference != '' && this._mxObj.getReference(reference) != viewrenderObjId) {
 			    this._mxObj.addReference(reference, viewrenderObj.getGuid());
 			}
 			this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
 		},
-        
-		// This function checks if properties are set which affect rendering of calendar and 
+
+		// This function checks if properties are set which affect rendering of calendar and
 		// thus require a destroy action
 		_hasDynamicCalendarPropertiesConfigured : function (){
 			if (this.showWeekendsAttribute && this.firstdayAttribute) {
@@ -695,9 +699,9 @@ define([
 			else {
 				return false;
 			}
-			
+
 		},
-		
+
 		uninitialize: function () {
 			if (this._handles.length > 0) {
 				dojoArray.forEach(this._handles, function (handle) {
