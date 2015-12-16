@@ -20,7 +20,7 @@ module.exports = function (grunt) {
     watch: {
       autoDeployUpdate: {
         "files": [ "./src/**/*" ],
-        "tasks": [ "newer:copy", "compress" ],
+        "tasks": [ "compress", "copy" ],
         options: {
           debounceDelay: 250,
           livereload: true
@@ -59,10 +59,10 @@ module.exports = function (grunt) {
           "./dist/" + pkg.name + "/*",
           "./test/deployment/web/Widgets/" + pkg.name + "/*",
           "./test/Widgets/" + pkg.name + ".mpk"
-        ]            
+        ]
     }
   });
-  
+
   grunt.loadNpmTasks("grunt-contrib-compress");
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-contrib-watch");
@@ -86,7 +86,7 @@ module.exports = function (grunt) {
       console.error('Cannot start Modeler, see error:');
       console.log(mendixApp.err);
       done();
-    }    
+    }
   });
 
   grunt.registerTask(
@@ -97,12 +97,12 @@ module.exports = function (grunt) {
 
   grunt.registerTask(
     "clean build",
-    "Compiles all the assets and copies the files to the build directory.", 
+    "Compiles all the assets and copies the files to the build directory.",
     [ "clean", "compress", "copy" ]
   );
 
   grunt.registerTask(
-    "build", 
+    "build",
     [ "clean build" ]
   );
 };
