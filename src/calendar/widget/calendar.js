@@ -5,15 +5,15 @@
 //logger.level(logger.DEBUG);
 
 define([
-    'dojo/_base/declare', 'mxui/widget/_WidgetBase',
-    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang',
-    'calendar/lib/jquery-2.1.3.min', 'calendar/lib/moment', 'calendar/lib/fullcalendar' , 'calendar/lib/lang-all'
+    "dojo/_base/declare", "mxui/widget/_WidgetBase",
+    "mxui/dom", "dojo/dom", "dojo/query", "dojo/dom-prop", "dojo/dom-geometry", "dojo/dom-class", "dojo/dom-style", "dojo/dom-construct", "dojo/_base/array", "dojo/_base/lang",
+    "calendar/lib/jquery-2.1.3.min", "calendar/lib/moment", "calendar/lib/fullcalendar" , "calendar/lib/lang-all"
 ], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang) {
-    'use strict';
+    "use strict";
 
     var $ = _jQuery.noConflict(true);
 
-    return declare('calendar.widget.calendar', [_WidgetBase], {
+    return declare("calendar.widget.calendar", [_WidgetBase], {
         _mxObj: null,
         _calendarBox: null,
         _handles: null,
@@ -31,28 +31,30 @@ define([
         _availableViews: null,
         _allowCreate: true,
         _shouldDestroyOnUpdate: false,
+        _triggeredRenderAll: false,
 
         postCreate: function () {
-            logger.debug(this.id + '.postCreate');
+            //logger.level(logger.DEBUG);
+            logger.debug(this.id + ".postCreate");
             this._colors = this.notused; //workaround for legacy users
             this._availableViews = this.notused1; //workaround for legacy users
             this._setDefaults(); //set default formatting options
             this._handles = [];
             this._eventSource = [];
-            this._allowCreate = this.editable || (this.neweventmf !== null && this.neweventmf !== '');
+            this._allowCreate = this.editable || (this.neweventmf !== null && this.neweventmf !== "");
             this._shouldDestroyOnUpdate = this._hasDynamicCalendarPropertiesConfigured();
         },
 
         startup: function () {
-            logger.debug(this.id + '.startup');
+            logger.debug(this.id + ".startup");
             if(this._hasStarted) {
                 return;
             }
             this._hasStarted = true;
 
             //make a calendarbox
-            this._calendarBox = dom.create('div', {
-                'id': 'calendar_' + this.id
+            this._calendarBox = dom.create("div", {
+                "id": "calendar_" + this.id
             });
             domConstruct.place(this._calendarBox, this.domNode);
 
@@ -62,13 +64,13 @@ define([
         },
 
         update: function (obj, callback) {
-            logger.debug(this.id + '.update');
+            logger.debug(this.id + ".update");
             if (this._handles && this._handles.length && this._handles.length > 0) {
                 dojoArray.forEach(this._handles, function (handle) {
                     mx.data.unsubscribe(handle);
                 });
             }
-                        this._handles = [];
+            this._handles = [];
 
             this._mxObj = obj;
             this._fetchObjects();
@@ -77,18 +79,18 @@ define([
             //subscribe to changes in the event entity and context object(if applicable).
             this._addSubscriptions();
 
-            if (typeof callback !== 'undefined') {
+            if (typeof callback !== "undefined") {
                 callback();
             }
         },
 
         resize: function () {
-            logger.debug(this.id + '.resize');
-            this._fcNode.fullCalendar('render');
+            logger.debug(this.id + ".resize");
+            this._fcNode.fullCalendar("render");
         },
 
         _addSubscriptions: function () {
-            logger.debug(this.id + '._addSubscriptions');
+            logger.debug(this.id + "._addSubscriptions");
             var subscription = mx.data.subscribe({
                     entity: this.eventEntity,
                     callback: lang.hitch(this, function (entity) {
@@ -133,21 +135,22 @@ define([
                     });
                     this._handles.push(contextFirstDayAttributeAttributeSubscription);
                 }
-
+                this._onEventAfterAllRender();
             }
 
         },
 
         _fetchObjects: function () {
-            logger.debug(this.id + '._fetchObjects');
+            logger.debug(this.id + "._fetchObjects");
             var constraint = null,
                 expectObj = null,
                 xpath = null,
                 errordiv = null;
 
             if (this.dataSourceType === "xpath") {
+                logger.debug(this.id + "._fetchObjects xpath");
                 constraint = this.eventConstraint;
-                expectObj = this.eventConstraint.indexOf('[%CurrentObject%]') >= 0;
+                expectObj = this.eventConstraint.indexOf("[%CurrentObject%]") >= 0;
 
                 if (this._mxObj && expectObj) {
                     constraint = this.eventConstraint.replace(/\[%CurrentObject%\]/gi, this._mxObj.getGuid());
@@ -156,21 +159,24 @@ define([
                     return;
                 }
 
-                xpath = '//' + this.eventEntity + constraint;
+                xpath = "//" + this.eventEntity + constraint;
                 mx.data.get({
                     xpath: xpath,
                     callback: lang.hitch(this, this._prepareEvents)
                 }, this);
             } else if (this.dataSourceType === "contextmf_viewspecific" && this.contextDatasourceMf) {
+                logger.debug(this.id + "._fetchObjects contextmf_viewspecific");
                 if (this._mxObj && this.viewContextReference) {
-                    var view = this._fcNode.fullCalendar('getView');
+                    var view = this._fcNode.fullCalendar("getView");
                     this._fetchPaginatedEvents(view.start, view.end);
                 }
             } else if (this.dataSourceType === "contextmf" && this.contextDatasourceMf) {
+                logger.debug(this.id + "._fetchObjects contextmf", this._mxObj);
                 if (this._mxObj) {
                     this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
                 }
             } else if (this.dataSourceType === "mf" && this.datasourceMf) {
+                logger.debug(this.id + "._fetchObjects mf");
                 this._execMF(null, this.datasourceMf, lang.hitch(this, this._prepareEvents));
             } else {
 
@@ -193,14 +199,14 @@ define([
         },
 
         _clearCalendar: function () {
-            logger.debug(this.id + '._clearCalendar');
+            logger.debug(this.id + "._clearCalendar");
             if (this._fcNode) {
-                this._fcNode.fullCalendar('removeEvents');
+                this._fcNode.fullCalendar("removeEvents");
             }
         },
 
         _prepareEvents: function (objs) {
-            logger.debug(this.id + '._prepareEvents');
+            logger.debug(this.id + "._prepareEvents");
             var objTitles = null,
                 objRefs = null,
                 refTitles = null,
@@ -213,7 +219,7 @@ define([
             split = this.titleAttr.split("/");
             thisRef = null;
 
-            if (objs === "" || objs.length === 0) {
+            if (typeof objs === "undefined" || objs === "" || objs.length === 0) {
                 return;
             }
 
@@ -272,7 +278,7 @@ define([
         },
 
         _createEvents: function (objs, titles) {
-            logger.debug(this.id + '._createEvents');
+            logger.debug(this.id + "._createEvents");
             var events = [],
                     objcolors = null;
 
@@ -302,15 +308,15 @@ define([
                 events.push(newEvent);
             }));
             //check if the calendar already exists (are we just updating events here?)
-            if (this._fcNode.hasClass('fc')) {
+            if (this._fcNode.hasClass("fc")) {
                 //if it does, remove, add the new source and refetch
-                this._fcNode.fullCalendar('render');
+                this._fcNode.fullCalendar("render");
                 if (this._eventSource && this._eventSource.length >= 1) {
-                    this._fcNode.fullCalendar('removeEventSource', this._eventSource);
+                    this._fcNode.fullCalendar("removeEventSource", this._eventSource);
                 }
 
-                this._fcNode.fullCalendar('addEventSource', events);
-                this._fcNode.fullCalendar('refetchEvents');
+                this._fcNode.fullCalendar("addEventSource", events);
+                this._fcNode.fullCalendar("refetchEvents");
             } else {
                 //else create the calendar
                 this._renderCalendar(events);
@@ -319,41 +325,41 @@ define([
         },
 
         _renderCalendar: function (events) {
-            logger.debug(this.id + '._renderCalendar');
+            logger.debug(this.id + "._renderCalendar");
             var options = this._setCalendarOptions(events);
 
             // Only destroy calendar when widget configuration requires full rerendering of calendar.
             if (this._shouldDestroyOnUpdate) {
-                this._fcNode.fullCalendar('destroy');
+                this._fcNode.fullCalendar("destroy");
             }
 
             this._fcNode.fullCalendar(options);
 
             if (this._mxObj && this._mxObj.get(this.startPos)) {
-                this._fcNode.fullCalendar('gotoDate', new Date(this._mxObj.get(this.startPos)));
+                this._fcNode.fullCalendar("gotoDate", new Date(this._mxObj.get(this.startPos)));
             }
             else {
-                this._fcNode.fullCalendar('gotoDate', new Date());
+                this._fcNode.fullCalendar("gotoDate", new Date());
             }
 
         },
 
         _onEventChange: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
-            logger.debug(this.id + '._onEventChange', event);
+            logger.debug(this.id + "._onEventChange", event);
             var obj = event.mxobject;
             this._setVariables(obj, event, this.startAttr, this.endAttr, allDay);
             this._execMF(obj, this.onchangemf);
         },
 
         _onEventClick: function (event) {
-            logger.debug(this.id + '._onEventClick', event);
+            logger.debug(this.id + "._onEventClick", event);
             var obj = event.mxobject;
             this._setVariables(obj, event, this.startAttr, this.endAttr);
             this._execMF(obj, this.onclickmf);
         },
 
         _onSelectionMade: function (startDate, endDate, allDay, jsEvent, view) {
-            logger.debug(this.id + '._onSelectionMade');
+            logger.debug(this.id + "._onSelectionMade");
             var eventData = {
                 start: startDate,
                 end: endDate
@@ -364,13 +370,13 @@ define([
                     entity: this.eventEntity,
                     callback: function (obj) {
                         this._setVariables(obj, eventData, this.startAttr, this.endAttr, allDay);
-                        if (this._mxObj && this.neweventref !== '') {
-                            obj.addReference(this.neweventref.split('/')[0], this._mxObj.getGuid());
+                        if (this._mxObj && this.neweventref !== "") {
+                            obj.addReference(this.neweventref.split("/")[0], this._mxObj.getGuid());
                         }
                         this._execMF(obj, this.neweventmf);
                     },
                     error: function (err) {
-                        console.warn('Error creating object: ', err);
+                        console.warn("Error creating object: ", err);
                     }
                 }, this);
 
@@ -383,7 +389,7 @@ define([
         },
 
         _getObjectColors: function (obj) {
-            logger.debug(this.id + '._getObjectColors');
+            logger.debug(this.id + "._getObjectColors");
             var objcolors = null;
 
             $.each(this._colors, lang.hitch(this, function (index, color) {
@@ -404,7 +410,7 @@ define([
         },
 
         _setVariables: function (obj, event, startAttribute, endAttribute, allDay) {
-            logger.debug(this.id + '._setVariables');
+            logger.debug(this.id + "._setVariables");
             //update the mx object
             obj.set(startAttribute, event.start);
             if (event.end !== null) {
@@ -417,22 +423,22 @@ define([
         },
 
         _setDefaults: function () {
-            logger.debug(this.id + '._setDefaults');
+            logger.debug(this.id + "._setDefaults");
             var views = [];
 
             this._header = {
-                left: 'title',
-                center: ''
+                left: "title",
+                center: ""
             };
 
             this._titleFormat = {
-                month: 'MMMM YYYY', // September 2009
+                month: "MMMM YYYY", // September 2009
                 week: "MMM D YYYY", // Sep 13 2009
-                day: 'MMMM D YYYY' //  Sep 8, 2009
+                day: "MMMM D YYYY" //  Sep 8, 2009
             };
 
             if (this.titleFormat) {
-                this._titleFormat[''] = this.titleFormat;
+                this._titleFormat[""] = this.titleFormat;
             }
 
             if (this.dateFormat) {
@@ -459,30 +465,30 @@ define([
                         this._views[viewName].eventLimit = view.eventLimit;
                     }
 
-                    if (view.titleFormatViews !== '') {
+                    if (view.titleFormatViews !== "") {
                         this._titleFormat[viewName] = view.titleFormatViews;
                     }
-                    if (view.dateFormatViews !== '') {
-                        if (typeof this._dateFormat === 'undefined' || this._dateFormat === null) {
+                    if (view.dateFormatViews !== "") {
+                        if (typeof this._dateFormat === "undefined" || this._dateFormat === null) {
                             this._dateFormat = {};
-                        } else if (typeof this._dateFormat == "string") {
+                        } else if (typeof this._dateFormat === "string") {
                             this._dateFormat = {};
-                            this._dateFormat[''] = this.dateFormat;
+                            this._dateFormat[""] = this.dateFormat;
                         }
 
                         this._dateFormat[viewName] = view.dateFormatViews;
                     }
-                    if (view.timeFormatViews !== '') {
-                        if (typeof this._timeFormat === 'undefined' || this._timeFormat === null) {
+                    if (view.timeFormatViews !== "") {
+                        if (typeof this._timeFormat === "undefined" || this._timeFormat === null) {
                             this._timeFormat = {};
-                        } else if (typeof this._timeFormat == "string") {
+                        } else if (typeof this._timeFormat === "string") {
                             this._timeFormat = {};
-                            this._timeFormat[''] = this.timeFormat;
+                            this._timeFormat[""] = this.timeFormat;
                         }
                         this._timeFormat[viewName] = view.timeFormatViews;
                     }
 
-                    if (view.labelViews !== '') {
+                    if (view.labelViews !== "") {
                         this._buttonText[viewName] = view.labelViews;
                     }
                 }));
@@ -493,21 +499,21 @@ define([
                 this._buttonText.today = this.todaycaption;
             }
 
-            this._header.right = 'today ' + views.join() + ' prev,next';
+            this._header.right = "today " + views.join() + " prev,next";
 
             this.monthNamesFormat = this.monthNamesFormat ? this.monthNamesFormat.split(",") : null;
             this.monthShortNamesFormat = this.monthShortNamesFormat ? this.monthShortNamesFormat.split(",") : null;
             this.dayNamesFormat = this.dayNamesFormat ? this.dayNamesFormat.split(",") : null;
             this.dayShortNamesFormat = this.dayShortNamesFormat ? this.dayShortNamesFormat.split(",") : null;
-            this.slotMinutes = this.slotMinutes ? this.slotMinutes : '00:30:00';
-            this.axisFormat = this.axisFormat ? this.axisFormat : 'h(:mm)a';
-            this.startTime = this.startTime ? this.startTime : '08:00';
-            this.endTime = this.endTime ? this.endTime : '17:00';
+            this.slotMinutes = this.slotMinutes ? this.slotMinutes : "00:30:00";
+            this.axisFormat = this.axisFormat ? this.axisFormat : "h(:mm)a";
+            this.startTime = this.startTime ? this.startTime : "08:00";
+            this.endTime = this.endTime ? this.endTime : "17:00";
 
         },
 
         _setCalendarOptions: function (events) {
-            logger.debug(this.id + '._setCalendarOptions');
+            logger.debug(this.id + "._setCalendarOptions");
             var options = {
                 //contents
                 header: this._header,
@@ -521,12 +527,13 @@ define([
                 eventClick: lang.hitch(this, this._onEventClick), //is called when an event is clicked
                 viewRender: lang.hitch(this, this._onViewChange), //is called when the view (start/end on month, week, etc) has changed
                 select: lang.hitch(this, this._onSelectionMade), //is called after a selection has been made
+                eventAfterAllRender: lang.hitch(this, this._onEventAfterAllRender),
                 //appearance
-                timezone: 'local',
+                timezone: "local",
                 views : this._views,
                 defaultView: this.defaultView,
                 firstDay: this.firstday,
-                height: this.calHeight===0 ? 'auto' : this.calHeight,
+                height: this.calHeight===0 ? "auto" : this.calHeight,
                 weekNumbers: this.showWeekNumbers,
                 weekNumberTitle: this.weeknumberTitle,
                 weekends: this.showWeekends,
@@ -584,7 +591,7 @@ define([
         },
 
         _execMF: function (obj, mf, cb) {
-            logger.debug(this.id + '._execMF', mf);
+            logger.debug(this.id + "._execMF", mf);
             if (mf) {
                 var params = {
                     applyto: "selection",
@@ -594,16 +601,18 @@ define([
                 if (obj) {
                     params.guids = [obj.getGuid()];
                 }
+                logger.debug(this.id + "._execMF params:", params);
                 mx.data.action({
                     store: {
                         caller: this.mxform
                     },
                     params: params,
-                    callback: function (objs) {
+                    callback: lang.hitch(this, function (objs) {
+                        logger.debug(this.id + "._execMF callback:", objs ? objs.length + " objects" : "null");
                         if (cb) {
                             cb(objs);
                         }
-                    },
+                    }),
                     error: function (error) {
                         if (cb) {
                             cb();
@@ -618,7 +627,8 @@ define([
         },
 
         _onViewChange: function (view, element) {
-            logger.debug(this.id + '._onViewChange');
+            logger.debug(this.id + "._onViewChange");
+            logger.debug("_onViewChange\nonviewChangeMF: ", this.onviewchangemf, "\nviewContextReference:", this.viewContextReference, "\n_mxObj", this._mxObj);
             var eventData = {
                 start: view.start,
                 end: view.end
@@ -626,8 +636,8 @@ define([
 
             if (this.onviewchangemf !== "") {
                 if (this.viewContextReference !== "" && this._mxObj) {
-                    var ref = this.viewContextReference.split('/')[0],
-                            refGuid = this._mxObj.getReference(ref);
+                    var ref = this.viewContextReference.split("/")[0],
+                        refGuid = this._mxObj.getReference(ref);
 
                     if (refGuid !== "") {
                         mx.data.get({
@@ -639,7 +649,7 @@ define([
 
                             }, eventData),
                             error: function (err) {
-                                console.warn('Error retrieving referenced object: ', err);
+                                console.warn("Error retrieving referenced object: ", err);
                             }
                         });
                     } else {
@@ -659,8 +669,16 @@ define([
             }
         },
 
+        _onEventAfterAllRender: function () {
+            // if (!this._triggeredRenderAll) {
+            //     logger.debug(this.id + "._onEventAfterAllRender");
+            //     this._triggeredRenderAll = true;
+            //     this._execMF(this._mxObj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
+            // }
+        },
+
         _fetchPaginatedEvents: function(start, end) {
-            logger.debug(this.id + '._fetchPaginatedEvents');
+            logger.debug(this.id + "._fetchPaginatedEvents");
             if (this.viewChangeEntity !== "" && this._mxObj) {
                 var eventData = {
                     start: start,
@@ -669,7 +687,7 @@ define([
 
                 // Has dataview context, so link it via reference
                 if (this.viewContextReference !== "" && this._mxObj) {
-                    var reference = this.viewContextReference.split('/')[0],
+                    var reference = this.viewContextReference.split("/")[0],
                         refGuid = this._mxObj.getReference(reference);
 
                     if (refGuid !== "") {
@@ -677,7 +695,7 @@ define([
                             guid: refGuid,
                             callback: lang.hitch(this, this._handlePaginatedObjects, eventData),
                             error: function (err) {
-                                console.warn('Error retrieving referenced object: ', err);
+                                console.warn("Error retrieving referenced object: ", err);
                             }
                         });
                     } else {
@@ -692,23 +710,23 @@ define([
         },
 
         _createViewChangeEntity: function (callback, eventData) {
-            logger.debug(this.id + '._createViewChangeEntity');
+            logger.debug(this.id + "._createViewChangeEntity");
             mx.data.create({
                 entity: this.viewChangeEntity,
                 callback: lang.hitch(this, callback, eventData),
                 error: function (err) {
-                    console.warn('Error creating object: ', err);
+                    console.warn("Error creating object: ", err);
                 }
             }, this);
         },
 
         _handlePaginatedObjects: function (eventData, viewrenderObj) {
-            logger.debug(this.id + '._handlePaginatedObjects');
-            var reference = this.viewContextReference.split('/')[0],
+            logger.debug(this.id + "._handlePaginatedObjects");
+            var reference = this.viewContextReference.split("/")[0],
                 viewrenderObjId = viewrenderObj.getGuid();
 
             this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
-            if (this.viewContextReference !== '' && this._mxObj.getReference(reference) !== viewrenderObjId) {
+            if (this.viewContextReference !== "" && this._mxObj.getReference(reference) !== viewrenderObjId) {
                     this._mxObj.addReference(reference, viewrenderObj.getGuid());
             }
             this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
@@ -717,7 +735,7 @@ define([
         // This function checks if properties are set which affect rendering of calendar and
         // thus require a destroy action
         _hasDynamicCalendarPropertiesConfigured : function (){
-            logger.debug(this.id + '._hasDynamicCalendarPropertiesConfigured');
+            logger.debug(this.id + "._hasDynamicCalendarPropertiesConfigured");
             if (this.showWeekendsAttribute && this.firstdayAttribute) {
                 return true;
             }  else {
@@ -727,7 +745,7 @@ define([
         },
 
         uninitialize: function () {
-            logger.debug(this.id + '.uninitialize');
+            logger.debug(this.id + ".uninitialize");
             if (this._handles.length > 0) {
                 dojoArray.forEach(this._handles, function (handle) {
                     mx.data.unsubscribe(handle);
