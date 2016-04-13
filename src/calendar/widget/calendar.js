@@ -755,6 +755,7 @@ define([
 
     });
 });
+
 require(["calendar/widget/calendar"], function () {
     "use strict";
 });

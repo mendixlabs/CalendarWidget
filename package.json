@@ -5,8 +5,7 @@
   "license": "Apache License, Version 2.0, January 2004",
   "author": "Mendix 2016",
   "private": true,
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "grunt": "0.4.5",
     "grunt-contrib-clean": "^0.6.0",
