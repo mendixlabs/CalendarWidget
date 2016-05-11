@@ -10,6 +10,7 @@
                 weekdays: "الأحد_الإتنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),
                 weekdaysShort: "احد_اتنين_ثلاثاء_اربعاء_خميس_جمعة_سبت".split("_"),
                 weekdaysMin: "ح_ن_ث_ر_خ_ج_س".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -52,14 +53,14 @@
             prevText: "&#x3C;السابق",
             nextText: "التالي&#x3E;",
             currentText: "اليوم",
-            monthNames: ["كانون الثاني", "شباط", "آذار", "نيسان", "مايو", "حزيران", "تموز", "آب", "أيلول", "تشرين الأول", "تشرين الثاني", "كانون الأول"],
+            monthNames: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"],
             monthNamesShort: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
             dayNames: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
-            dayNamesShort: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+            dayNamesShort: ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"],
             dayNamesMin: ["ح", "ن", "ث", "ر", "خ", "ج", "س"],
             weekHeader: "أسبوع",
             dateFormat: "dd/mm/yy",
-            firstDay: 6,
+            firstDay: 0,
             isRTL: !0,
             showMonthAfterYear: !1,
             yearSuffix: ""
@@ -78,102 +79,103 @@
         ! function() {
             "use strict";
             var a = {
-                    1: "١",
-                    2: "٢",
-                    3: "٣",
-                    4: "٤",
-                    5: "٥",
-                    6: "٦",
-                    7: "٧",
-                    8: "٨",
-                    9: "٩",
-                    0: "٠"
+                1: "١",
+                2: "٢",
+                3: "٣",
+                4: "٤",
+                5: "٥",
+                6: "٦",
+                7: "٧",
+                8: "٨",
+                9: "٩",
+                0: "٠"
+            },
+            c = {
+                "١": "1",
+                "٢": "2",
+                "٣": "3",
+                "٤": "4",
+                "٥": "5",
+                "٦": "6",
+                "٧": "7",
+                "٨": "8",
+                "٩": "9",
+                "٠": "0"
+            },
+            d = (b.defineLocale || b.lang).call(b, "ar-sa", {
+                months: "يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),
+                monthsShort: "يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),
+                weekdays: "الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),
+                weekdaysShort: "أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),
+                weekdaysMin: "ح_ن_ث_ر_خ_ج_س".split("_"),
+                weekdaysParseExact: !0,
+                longDateFormat: {
+                    LT: "HH:mm",
+                    LTS: "HH:mm:ss",
+                    L: "DD/MM/YYYY",
+                    LL: "D MMMM YYYY",
+                    LLL: "D MMMM YYYY HH:mm",
+                    LLLL: "dddd D MMMM YYYY HH:mm"
                 },
-                c = {
-                    "١": "1",
-                    "٢": "2",
-                    "٣": "3",
-                    "٤": "4",
-                    "٥": "5",
-                    "٦": "6",
-                    "٧": "7",
-                    "٨": "8",
-                    "٩": "9",
-                    "٠": "0"
+                meridiemParse: /ص|م/,
+                isPM: function(a) {
+                    return "م" === a
                 },
-                d = (b.defineLocale || b.lang).call(b, "ar-sa", {
-                    months: "يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),
-                    monthsShort: "يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),
-                    weekdays: "الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),
-                    weekdaysShort: "أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),
-                    weekdaysMin: "ح_ن_ث_ر_خ_ج_س".split("_"),
-                    longDateFormat: {
-                        LT: "HH:mm",
-                        LTS: "HH:mm:ss",
-                        L: "DD/MM/YYYY",
-                        LL: "D MMMM YYYY",
-                        LLL: "D MMMM YYYY HH:mm",
-                        LLLL: "dddd D MMMM YYYY HH:mm"
-                    },
-                    meridiemParse: /ص|م/,
-                    isPM: function(a) {
-                        return "م" === a
-                    },
-                    meridiem: function(a, b, c) {
-                        return 12 > a ? "ص" : "م"
-                    },
-                    calendar: {
-                        sameDay: "[اليوم على الساعة] LT",
-                        nextDay: "[غدا على الساعة] LT",
-                        nextWeek: "dddd [على الساعة] LT",
-                        lastDay: "[أمس على الساعة] LT",
-                        lastWeek: "dddd [على الساعة] LT",
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "في %s",
-                        past: "منذ %s",
-                        s: "ثوان",
-                        m: "دقيقة",
-                        mm: "%d دقائق",
-                        h: "ساعة",
-                        hh: "%d ساعات",
-                        d: "يوم",
-                        dd: "%d أيام",
-                        M: "شهر",
-                        MM: "%d أشهر",
-                        y: "سنة",
-                        yy: "%d سنوات"
-                    },
-                    preparse: function(a) {
-                        return a.replace(/[١٢٣٤٥٦٧٨٩٠]/g, function(a) {
-                            return c[a]
-                        }).replace(/،/g, ",")
-                    },
-                    postformat: function(b) {
-                        return b.replace(/\d/g, function(b) {
-                            return a[b]
-                        }).replace(/,/g, "،")
-                    },
-                    week: {
-                        dow: 6,
-                        doy: 12
-                    }
-                });
+                meridiem: function(a, b, c) {
+                    return 12 > a ? "ص" : "م"
+                },
+                calendar: {
+                    sameDay: "[اليوم على الساعة] LT",
+                    nextDay: "[غدا على الساعة] LT",
+                    nextWeek: "dddd [على الساعة] LT",
+                    lastDay: "[أمس على الساعة] LT",
+                    lastWeek: "dddd [على الساعة] LT",
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "في %s",
+                    past: "منذ %s",
+                    s: "ثوان",
+                    m: "دقيقة",
+                    mm: "%d دقائق",
+                    h: "ساعة",
+                    hh: "%d ساعات",
+                    d: "يوم",
+                    dd: "%d أيام",
+                    M: "شهر",
+                    MM: "%d أشهر",
+                    y: "سنة",
+                    yy: "%d سنوات"
+                },
+                preparse: function(a) {
+                    return a.replace(/[١٢٣٤٥٦٧٨٩٠]/g, function(a) {
+                        return c[a]
+                    }).replace(/،/g, ",")
+                },
+                postformat: function(b) {
+                    return b.replace(/\d/g, function(b) {
+                        return a[b]
+                    }).replace(/,/g, "،")
+                },
+                week: {
+                    dow: 6,
+                    doy: 12
+                }
+            });
             return d
         }(), a.fullCalendar.datepickerLang("ar-sa", "ar", {
             closeText: "إغلاق",
             prevText: "&#x3C;السابق",
             nextText: "التالي&#x3E;",
             currentText: "اليوم",
-            monthNames: ["كانون الثاني", "شباط", "آذار", "نيسان", "مايو", "حزيران", "تموز", "آب", "أيلول", "تشرين الأول", "تشرين الثاني", "كانون الأول"],
+            monthNames: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"],
             monthNamesShort: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
             dayNames: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
-            dayNamesShort: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+            dayNamesShort: ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"],
             dayNamesMin: ["ح", "ن", "ث", "ر", "خ", "ج", "س"],
             weekHeader: "أسبوع",
             dateFormat: "dd/mm/yy",
-            firstDay: 6,
+            firstDay: 0,
             isRTL: !0,
             showMonthAfterYear: !1,
             yearSuffix: ""
@@ -197,6 +199,7 @@
                 weekdays: "الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),
                 weekdaysShort: "أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),
                 weekdaysMin: "ح_ن_ث_ر_خ_ج_س".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -239,14 +242,14 @@
             prevText: "&#x3C;السابق",
             nextText: "التالي&#x3E;",
             currentText: "اليوم",
-            monthNames: ["كانون الثاني", "شباط", "آذار", "نيسان", "مايو", "حزيران", "تموز", "آب", "أيلول", "تشرين الأول", "تشرين الثاني", "كانون الأول"],
+            monthNames: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"],
             monthNamesShort: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
             dayNames: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
-            dayNamesShort: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+            dayNamesShort: ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"],
             dayNamesMin: ["ح", "ن", "ث", "ر", "خ", "ج", "س"],
             weekHeader: "أسبوع",
             dateFormat: "dd/mm/yy",
-            firstDay: 6,
+            firstDay: 0,
             isRTL: !0,
             showMonthAfterYear: !1,
             yearSuffix: ""
@@ -265,121 +268,122 @@
         ! function() {
             "use strict";
             var a = {
-                    1: "١",
-                    2: "٢",
-                    3: "٣",
-                    4: "٤",
-                    5: "٥",
-                    6: "٦",
-                    7: "٧",
-                    8: "٨",
-                    9: "٩",
-                    0: "٠"
+                1: "١",
+                2: "٢",
+                3: "٣",
+                4: "٤",
+                5: "٥",
+                6: "٦",
+                7: "٧",
+                8: "٨",
+                9: "٩",
+                0: "٠"
+            },
+            c = {
+                "١": "1",
+                "٢": "2",
+                "٣": "3",
+                "٤": "4",
+                "٥": "5",
+                "٦": "6",
+                "٧": "7",
+                "٨": "8",
+                "٩": "9",
+                "٠": "0"
+            },
+            d = function(a) {
+                return 0 === a ? 0 : 1 === a ? 1 : 2 === a ? 2 : a % 100 >= 3 && 10 >= a % 100 ? 3 : a % 100 >= 11 ? 4 : 5
+            },
+            e = {
+                s: ["أقل من ثانية", "ثانية واحدة", ["ثانيتان", "ثانيتين"], "%d ثوان", "%d ثانية", "%d ثانية"],
+                m: ["أقل من دقيقة", "دقيقة واحدة", ["دقيقتان", "دقيقتين"], "%d دقائق", "%d دقيقة", "%d دقيقة"],
+                h: ["أقل من ساعة", "ساعة واحدة", ["ساعتان", "ساعتين"], "%d ساعات", "%d ساعة", "%d ساعة"],
+                d: ["أقل من يوم", "يوم واحد", ["يومان", "يومين"], "%d أيام", "%d يومًا", "%d يوم"],
+                M: ["أقل من شهر", "شهر واحد", ["شهران", "شهرين"], "%d أشهر", "%d شهرا", "%d شهر"],
+                y: ["أقل من عام", "عام واحد", ["عامان", "عامين"], "%d أعوام", "%d عامًا", "%d عام"]
+            },
+            f = function(a) {
+                return function(b, c, f, g) {
+                    var h = d(b),
+                    i = e[a][d(b)];
+                    return 2 === h && (i = i[c ? 0 : 1]), i.replace(/%d/i, b)
+                }
+            },
+            g = ["كانون الثاني يناير", "شباط فبراير", "آذار مارس", "نيسان أبريل", "أيار مايو", "حزيران يونيو", "تموز يوليو", "آب أغسطس", "أيلول سبتمبر", "تشرين الأول أكتوبر", "تشرين الثاني نوفمبر", "كانون الأول ديسمبر"],
+            h = (b.defineLocale || b.lang).call(b, "ar", {
+                months: g,
+                monthsShort: g,
+                weekdays: "الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),
+                weekdaysShort: "أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),
+                weekdaysMin: "ح_ن_ث_ر_خ_ج_س".split("_"),
+                weekdaysParseExact: !0,
+                longDateFormat: {
+                    LT: "HH:mm",
+                    LTS: "HH:mm:ss",
+                    L: "D/‏M/‏YYYY",
+                    LL: "D MMMM YYYY",
+                    LLL: "D MMMM YYYY HH:mm",
+                    LLLL: "dddd D MMMM YYYY HH:mm"
                 },
-                c = {
-                    "١": "1",
-                    "٢": "2",
-                    "٣": "3",
-                    "٤": "4",
-                    "٥": "5",
-                    "٦": "6",
-                    "٧": "7",
-                    "٨": "8",
-                    "٩": "9",
-                    "٠": "0"
+                meridiemParse: /ص|م/,
+                isPM: function(a) {
+                    return "م" === a
                 },
-                d = function(a) {
-                    return 0 === a ? 0 : 1 === a ? 1 : 2 === a ? 2 : a % 100 >= 3 && 10 >= a % 100 ? 3 : a % 100 >= 11 ? 4 : 5
+                meridiem: function(a, b, c) {
+                    return 12 > a ? "ص" : "م"
                 },
-                e = {
-                    s: ["أقل من ثانية", "ثانية واحدة", ["ثانيتان", "ثانيتين"], "%d ثوان", "%d ثانية", "%d ثانية"],
-                    m: ["أقل من دقيقة", "دقيقة واحدة", ["دقيقتان", "دقيقتين"], "%d دقائق", "%d دقيقة", "%d دقيقة"],
-                    h: ["أقل من ساعة", "ساعة واحدة", ["ساعتان", "ساعتين"], "%d ساعات", "%d ساعة", "%d ساعة"],
-                    d: ["أقل من يوم", "يوم واحد", ["يومان", "يومين"], "%d أيام", "%d يومًا", "%d يوم"],
-                    M: ["أقل من شهر", "شهر واحد", ["شهران", "شهرين"], "%d أشهر", "%d شهرا", "%d شهر"],
-                    y: ["أقل من عام", "عام واحد", ["عامان", "عامين"], "%d أعوام", "%d عامًا", "%d عام"]
+                calendar: {
+                    sameDay: "[اليوم عند الساعة] LT",
+                    nextDay: "[غدًا عند الساعة] LT",
+                    nextWeek: "dddd [عند الساعة] LT",
+                    lastDay: "[أمس عند الساعة] LT",
+                    lastWeek: "dddd [عند الساعة] LT",
+                    sameElse: "L"
                 },
-                f = function(a) {
-                    return function(b, c, f, g) {
-                        var h = d(b),
-                            i = e[a][d(b)];
-                        return 2 === h && (i = i[c ? 0 : 1]), i.replace(/%d/i, b)
-                    }
+                relativeTime: {
+                    future: "بعد %s",
+                    past: "منذ %s",
+                    s: f("s"),
+                    m: f("m"),
+                    mm: f("m"),
+                    h: f("h"),
+                    hh: f("h"),
+                    d: f("d"),
+                    dd: f("d"),
+                    M: f("M"),
+                    MM: f("M"),
+                    y: f("y"),
+                    yy: f("y")
                 },
-                g = ["كانون الثاني يناير", "شباط فبراير", "آذار مارس", "نيسان أبريل", "أيار مايو", "حزيران يونيو", "تموز يوليو", "آب أغسطس", "أيلول سبتمبر", "تشرين الأول أكتوبر", "تشرين الثاني نوفمبر", "كانون الأول ديسمبر"],
-                h = (b.defineLocale || b.lang).call(b, "ar", {
-                    months: g,
-                    monthsShort: g,
-                    weekdays: "الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),
-                    weekdaysShort: "أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),
-                    weekdaysMin: "ح_ن_ث_ر_خ_ج_س".split("_"),
-                    longDateFormat: {
-                        LT: "HH:mm",
-                        LTS: "HH:mm:ss",
-                        L: "D/‏M/‏YYYY",
-                        LL: "D MMMM YYYY",
-                        LLL: "D MMMM YYYY HH:mm",
-                        LLLL: "dddd D MMMM YYYY HH:mm"
-                    },
-                    meridiemParse: /ص|م/,
-                    isPM: function(a) {
-                        return "م" === a
-                    },
-                    meridiem: function(a, b, c) {
-                        return 12 > a ? "ص" : "م"
-                    },
-                    calendar: {
-                        sameDay: "[اليوم عند الساعة] LT",
-                        nextDay: "[غدًا عند الساعة] LT",
-                        nextWeek: "dddd [عند الساعة] LT",
-                        lastDay: "[أمس عند الساعة] LT",
-                        lastWeek: "dddd [عند الساعة] LT",
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "بعد %s",
-                        past: "منذ %s",
-                        s: f("s"),
-                        m: f("m"),
-                        mm: f("m"),
-                        h: f("h"),
-                        hh: f("h"),
-                        d: f("d"),
-                        dd: f("d"),
-                        M: f("M"),
-                        MM: f("M"),
-                        y: f("y"),
-                        yy: f("y")
-                    },
-                    preparse: function(a) {
-                        return a.replace(/\u200f/g, "").replace(/[١٢٣٤٥٦٧٨٩٠]/g, function(a) {
-                            return c[a]
-                        }).replace(/،/g, ",")
-                    },
-                    postformat: function(b) {
-                        return b.replace(/\d/g, function(b) {
-                            return a[b]
-                        }).replace(/,/g, "،")
-                    },
-                    week: {
-                        dow: 6,
-                        doy: 12
-                    }
-                });
+                preparse: function(a) {
+                    return a.replace(/\u200f/g, "").replace(/[١٢٣٤٥٦٧٨٩٠]/g, function(a) {
+                        return c[a]
+                    }).replace(/،/g, ",")
+                },
+                postformat: function(b) {
+                    return b.replace(/\d/g, function(b) {
+                        return a[b]
+                    }).replace(/,/g, "،")
+                },
+                week: {
+                    dow: 6,
+                    doy: 12
+                }
+            });
             return h
         }(), a.fullCalendar.datepickerLang("ar", "ar", {
             closeText: "إغلاق",
             prevText: "&#x3C;السابق",
             nextText: "التالي&#x3E;",
             currentText: "اليوم",
-            monthNames: ["كانون الثاني", "شباط", "آذار", "نيسان", "مايو", "حزيران", "تموز", "آب", "أيلول", "تشرين الأول", "تشرين الثاني", "كانون الأول"],
+            monthNames: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"],
             monthNamesShort: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
             dayNames: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
-            dayNamesShort: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+            dayNamesShort: ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"],
             dayNamesMin: ["ح", "ن", "ث", "ر", "خ", "ج", "س"],
             weekHeader: "أسبوع",
             dateFormat: "dd/mm/yy",
-            firstDay: 6,
+            firstDay: 0,
             isRTL: !0,
             showMonthAfterYear: !1,
             yearSuffix: ""
@@ -421,12 +425,12 @@
                             case 0:
                             case 3:
                             case 6:
-                                return "[В изминалата] dddd [в] LT";
+                            return "[В изминалата] dddd [в] LT";
                             case 1:
                             case 2:
                             case 4:
                             case 5:
-                                return "[В изминалия] dddd [в] LT"
+                            return "[В изминалия] dddd [в] LT"
                         }
                     },
                     sameElse: "L"
@@ -449,7 +453,7 @@
                 ordinalParse: /\d{1,2}-(ев|ен|ти|ви|ри|ми)/,
                 ordinal: function(a) {
                     var b = a % 10,
-                        c = a % 100;
+                    c = a % 100;
                     return 0 === a ? a + "-ев" : 0 === c ? a + "-ен" : c > 10 && 20 > c ? a + "-ти" : 1 === b ? a + "-ви" : 2 === b ? a + "-ри" : 7 === b || 8 === b ? a + "-ми" : a + "-ти"
                 },
                 week: {
@@ -494,9 +498,11 @@
             var a = (b.defineLocale || b.lang).call(b, "ca", {
                 months: "gener_febrer_març_abril_maig_juny_juliol_agost_setembre_octubre_novembre_desembre".split("_"),
                 monthsShort: "gen._febr._mar._abr._mai._jun._jul._ag._set._oct._nov._des.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "diumenge_dilluns_dimarts_dimecres_dijous_divendres_dissabte".split("_"),
                 weekdaysShort: "dg._dl._dt._dc._dj._dv._ds.".split("_"),
                 weekdaysMin: "Dg_Dl_Dt_Dc_Dj_Dv_Ds".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "H:mm",
                     LTS: "H:mm:ss",
@@ -541,7 +547,7 @@
                 ordinalParse: /\d{1,2}(r|n|t|è|a)/,
                 ordinal: function(a, b) {
                     var c = 1 === a ? "r" : 2 === a ? "n" : 3 === a ? "r" : 4 === a ? "t" : "è";
-                    return ("w" === b || "W" === b) && (c = "a"), a + c
+                    return "w" !== b && "W" !== b || (c = "a"), a + c
                 },
                 week: {
                     dow: 1,
@@ -588,121 +594,121 @@
                 var f = b + " ";
                 switch (d) {
                     case "s":
-                        return c || e ? "pár sekund" : "pár sekundami";
+                    return c || e ? "pár sekund" : "pár sekundami";
                     case "m":
-                        return c ? "minuta" : e ? "minutu" : "minutou";
+                    return c ? "minuta" : e ? "minutu" : "minutou";
                     case "mm":
-                        return c || e ? f + (a(b) ? "minuty" : "minut") : f + "minutami";
+                    return c || e ? f + (a(b) ? "minuty" : "minut") : f + "minutami";
                     case "h":
-                        return c ? "hodina" : e ? "hodinu" : "hodinou";
+                    return c ? "hodina" : e ? "hodinu" : "hodinou";
                     case "hh":
-                        return c || e ? f + (a(b) ? "hodiny" : "hodin") : f + "hodinami";
+                    return c || e ? f + (a(b) ? "hodiny" : "hodin") : f + "hodinami";
                     case "d":
-                        return c || e ? "den" : "dnem";
+                    return c || e ? "den" : "dnem";
                     case "dd":
-                        return c || e ? f + (a(b) ? "dny" : "dní") : f + "dny";
+                    return c || e ? f + (a(b) ? "dny" : "dní") : f + "dny";
                     case "M":
-                        return c || e ? "měsíc" : "měsícem";
+                    return c || e ? "měsíc" : "měsícem";
                     case "MM":
-                        return c || e ? f + (a(b) ? "měsíce" : "měsíců") : f + "měsíci";
+                    return c || e ? f + (a(b) ? "měsíce" : "měsíců") : f + "měsíci";
                     case "y":
-                        return c || e ? "rok" : "rokem";
+                    return c || e ? "rok" : "rokem";
                     case "yy":
-                        return c || e ? f + (a(b) ? "roky" : "let") : f + "lety"
+                    return c || e ? f + (a(b) ? "roky" : "let") : f + "lety"
                 }
             }
             var d = "leden_únor_březen_duben_květen_červen_červenec_srpen_září_říjen_listopad_prosinec".split("_"),
-                e = "led_úno_bře_dub_kvě_čvn_čvc_srp_zář_říj_lis_pro".split("_"),
-                f = (b.defineLocale || b.lang).call(b, "cs", {
-                    months: d,
-                    monthsShort: e,
-                    monthsParse: function(a, b) {
-                        var c, d = [];
-                        for (c = 0; 12 > c; c++) d[c] = new RegExp("^" + a[c] + "$|^" + b[c] + "$", "i");
-                        return d
-                    }(d, e),
-                    shortMonthsParse: function(a) {
-                        var b, c = [];
-                        for (b = 0; 12 > b; b++) c[b] = new RegExp("^" + a[b] + "$", "i");
-                        return c
-                    }(e),
-                    longMonthsParse: function(a) {
-                        var b, c = [];
-                        for (b = 0; 12 > b; b++) c[b] = new RegExp("^" + a[b] + "$", "i");
-                        return c
-                    }(d),
-                    weekdays: "neděle_pondělí_úterý_středa_čtvrtek_pátek_sobota".split("_"),
-                    weekdaysShort: "ne_po_út_st_čt_pá_so".split("_"),
-                    weekdaysMin: "ne_po_út_st_čt_pá_so".split("_"),
-                    longDateFormat: {
-                        LT: "H:mm",
-                        LTS: "H:mm:ss",
-                        L: "DD.MM.YYYY",
-                        LL: "D. MMMM YYYY",
-                        LLL: "D. MMMM YYYY H:mm",
-                        LLLL: "dddd D. MMMM YYYY H:mm"
+            e = "led_úno_bře_dub_kvě_čvn_čvc_srp_zář_říj_lis_pro".split("_"),
+            f = (b.defineLocale || b.lang).call(b, "cs", {
+                months: d,
+                monthsShort: e,
+                monthsParse: function(a, b) {
+                    var c, d = [];
+                    for (c = 0; 12 > c; c++) d[c] = new RegExp("^" + a[c] + "$|^" + b[c] + "$", "i");
+                    return d
+                }(d, e),
+                shortMonthsParse: function(a) {
+                    var b, c = [];
+                    for (b = 0; 12 > b; b++) c[b] = new RegExp("^" + a[b] + "$", "i");
+                    return c
+                }(e),
+                longMonthsParse: function(a) {
+                    var b, c = [];
+                    for (b = 0; 12 > b; b++) c[b] = new RegExp("^" + a[b] + "$", "i");
+                    return c
+                }(d),
+                weekdays: "neděle_pondělí_úterý_středa_čtvrtek_pátek_sobota".split("_"),
+                weekdaysShort: "ne_po_út_st_čt_pá_so".split("_"),
+                weekdaysMin: "ne_po_út_st_čt_pá_so".split("_"),
+                longDateFormat: {
+                    LT: "H:mm",
+                    LTS: "H:mm:ss",
+                    L: "DD.MM.YYYY",
+                    LL: "D. MMMM YYYY",
+                    LLL: "D. MMMM YYYY H:mm",
+                    LLLL: "dddd D. MMMM YYYY H:mm"
+                },
+                calendar: {
+                    sameDay: "[dnes v] LT",
+                    nextDay: "[zítra v] LT",
+                    nextWeek: function() {
+                        switch (this.day()) {
+                            case 0:
+                            return "[v neděli v] LT";
+                            case 1:
+                            case 2:
+                            return "[v] dddd [v] LT";
+                            case 3:
+                            return "[ve středu v] LT";
+                            case 4:
+                            return "[ve čtvrtek v] LT";
+                            case 5:
+                            return "[v pátek v] LT";
+                            case 6:
+                            return "[v sobotu v] LT"
+                        }
                     },
-                    calendar: {
-                        sameDay: "[dnes v] LT",
-                        nextDay: "[zítra v] LT",
-                        nextWeek: function() {
-                            switch (this.day()) {
-                                case 0:
-                                    return "[v neděli v] LT";
-                                case 1:
-                                case 2:
-                                    return "[v] dddd [v] LT";
-                                case 3:
-                                    return "[ve středu v] LT";
-                                case 4:
-                                    return "[ve čtvrtek v] LT";
-                                case 5:
-                                    return "[v pátek v] LT";
-                                case 6:
-                                    return "[v sobotu v] LT"
-                            }
-                        },
-                        lastDay: "[včera v] LT",
-                        lastWeek: function() {
-                            switch (this.day()) {
-                                case 0:
-                                    return "[minulou neděli v] LT";
-                                case 1:
-                                case 2:
-                                    return "[minulé] dddd [v] LT";
-                                case 3:
-                                    return "[minulou středu v] LT";
-                                case 4:
-                                case 5:
-                                    return "[minulý] dddd [v] LT";
-                                case 6:
-                                    return "[minulou sobotu v] LT"
-                            }
-                        },
-                        sameElse: "L"
+                    lastDay: "[včera v] LT",
+                    lastWeek: function() {
+                        switch (this.day()) {
+                            case 0:
+                            return "[minulou neděli v] LT";
+                            case 1:
+                            case 2:
+                            return "[minulé] dddd [v] LT";
+                            case 3:
+                            return "[minulou středu v] LT";
+                            case 4:
+                            case 5:
+                            return "[minulý] dddd [v] LT";
+                            case 6:
+                            return "[minulou sobotu v] LT"
+                        }
                     },
-                    relativeTime: {
-                        future: "za %s",
-                        past: "před %s",
-                        s: c,
-                        m: c,
-                        mm: c,
-                        h: c,
-                        hh: c,
-                        d: c,
-                        dd: c,
-                        M: c,
-                        MM: c,
-                        y: c,
-                        yy: c
-                    },
-                    ordinalParse: /\d{1,2}\./,
-                    ordinal: "%d.",
-                    week: {
-                        dow: 1,
-                        doy: 4
-                    }
-                });
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "za %s",
+                    past: "před %s",
+                    s: c,
+                    m: c,
+                    mm: c,
+                    h: c,
+                    hh: c,
+                    d: c,
+                    dd: c,
+                    M: c,
+                    MM: c,
+                    y: c,
+                    yy: c
+                },
+                ordinalParse: /\d{1,2}\./,
+                ordinal: "%d.",
+                week: {
+                    dow: 1,
+                    doy: 4
+                }
+            });
             return f
         }(), a.fullCalendar.datepickerLang("cs", "cs", {
             closeText: "Zavřít",
@@ -828,9 +834,11 @@
             var c = (b.defineLocale || b.lang).call(b, "de-at", {
                 months: "Jänner_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),
                 monthsShort: "Jän._Febr._Mrz._Apr._Mai_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),
                 weekdaysShort: "So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),
                 weekdaysMin: "So_Mo_Di_Mi_Do_Fr_Sa".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -919,9 +927,11 @@
             var c = (b.defineLocale || b.lang).call(b, "de", {
                 months: "Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),
                 monthsShort: "Jan._Febr._Mrz._Apr._Mai_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),
                 weekdaysShort: "So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),
                 weekdaysMin: "So_Mo_Di_Mi_Do_Fr_Sa".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -1030,16 +1040,16 @@
                     lastWeek: function() {
                         switch (this.day()) {
                             case 6:
-                                return "[το προηγούμενο] dddd [{}] LT";
+                            return "[το προηγούμενο] dddd [{}] LT";
                             default:
-                                return "[την προηγούμενη] dddd [{}] LT"
+                            return "[την προηγούμενη] dddd [{}] LT"
                         }
                     },
                     sameElse: "L"
                 },
                 calendar: function(b, c) {
                     var d = this._calendarEl[b],
-                        e = c && c.hours();
+                    e = c && c.hours();
                     return a(d) && (d = d.apply(c)), d.replace("{}", e % 12 === 1 ? "στη" : "στις")
                 },
                 relativeTime: {
@@ -1097,10 +1107,7 @@
             "use strict";
             var a = (b.defineLocale || b.lang).call(b, "en-au", {
                 months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
-                monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sept_Oct_Nov_Dec".split("_"),
-                monthsParse: [/^jan/i, /^feb/i, /^mar/i, /^apr/i, /^may/i, /^jun/i, /^jul/i, /^aug/i, /^sep/i, /^oct/i, /^nov/i, /^dec/i],
-                longMonthsParse: [/^january$/i, /^february$/i, /^march$/i, /^april$/i, /^may$/i, /^june$/i, /^july$/i, /^august$/i, /^september$/i, /^october$/i, /^november$/i, /^december$/i],
-                shortMonthsParse: [/^jan$/i, /^feb$/i, /^mar$/i, /^apr$/i, /^may$/i, /^jun$/i, /^jul$/i, /^aug/i, /^sept?$/i, /^oct$/i, /^nov$/i, /^dec$/i],
+                monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
                 weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
                 weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
                 weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
@@ -1138,7 +1145,7 @@
                 ordinalParse: /\d{1,2}(st|nd|rd|th)/,
                 ordinal: function(a) {
                     var b = a % 10,
-                        c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
+                    c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
                     return a + c
                 },
                 week: {
@@ -1170,10 +1177,7 @@
             "use strict";
             var a = (b.defineLocale || b.lang).call(b, "en-ca", {
                 months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
-                monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sept_Oct_Nov_Dec".split("_"),
-                monthsParse: [/^jan/i, /^feb/i, /^mar/i, /^apr/i, /^may/i, /^jun/i, /^jul/i, /^aug/i, /^sep/i, /^oct/i, /^nov/i, /^dec/i],
-                longMonthsParse: [/^january$/i, /^february$/i, /^march$/i, /^april$/i, /^may$/i, /^june$/i, /^july$/i, /^august$/i, /^september$/i, /^october$/i, /^november$/i, /^december$/i],
-                shortMonthsParse: [/^jan$/i, /^feb$/i, /^mar$/i, /^apr$/i, /^may$/i, /^jun$/i, /^jul$/i, /^aug/i, /^sept?$/i, /^oct$/i, /^nov$/i, /^dec$/i],
+                monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
                 weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
                 weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
                 weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
@@ -1181,9 +1185,9 @@
                     LT: "h:mm A",
                     LTS: "h:mm:ss A",
                     L: "YYYY-MM-DD",
-                    LL: "D MMMM, YYYY",
-                    LLL: "D MMMM, YYYY h:mm A",
-                    LLLL: "dddd, D MMMM, YYYY h:mm A"
+                    LL: "MMMM D, YYYY",
+                    LLL: "MMMM D, YYYY h:mm A",
+                    LLLL: "dddd, MMMM D, YYYY h:mm A"
                 },
                 calendar: {
                     sameDay: "[Today at] LT",
@@ -1211,7 +1215,7 @@
                 ordinalParse: /\d{1,2}(st|nd|rd|th)/,
                 ordinal: function(a) {
                     var b = a % 10,
-                        c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
+                    c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
                     return a + c
                 }
             });
@@ -1223,10 +1227,7 @@
             "use strict";
             var a = (b.defineLocale || b.lang).call(b, "en-gb", {
                 months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
-                monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sept_Oct_Nov_Dec".split("_"),
-                monthsParse: [/^jan/i, /^feb/i, /^mar/i, /^apr/i, /^may/i, /^jun/i, /^jul/i, /^aug/i, /^sep/i, /^oct/i, /^nov/i, /^dec/i],
-                longMonthsParse: [/^january$/i, /^february$/i, /^march$/i, /^april$/i, /^may$/i, /^june$/i, /^july$/i, /^august$/i, /^september$/i, /^october$/i, /^november$/i, /^december$/i],
-                shortMonthsParse: [/^jan$/i, /^feb$/i, /^mar$/i, /^apr$/i, /^may$/i, /^jun$/i, /^jul$/i, /^aug/i, /^sept?$/i, /^oct$/i, /^nov$/i, /^dec$/i],
+                monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
                 weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
                 weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
                 weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
@@ -1264,7 +1265,7 @@
                 ordinalParse: /\d{1,2}(st|nd|rd|th)/,
                 ordinal: function(a) {
                     var b = a % 10,
-                        c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
+                    c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
                     return a + c
                 },
                 week: {
@@ -1297,9 +1298,6 @@
             var a = (b.defineLocale || b.lang).call(b, "en-ie", {
                 months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
                 monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
-                monthsParse: [/^jan/i, /^feb/i, /^mar/i, /^apr/i, /^may/i, /^jun/i, /^jul/i, /^aug/i, /^sep/i, /^oct/i, /^nov/i, /^dec/i],
-                longMonthsParse: [/^january$/i, /^february$/i, /^march$/i, /^april$/i, /^may$/i, /^june$/i, /^july$/i, /^august$/i, /^september$/i, /^october$/i, /^november$/i, /^december$/i],
-                shortMonthsParse: [/^jan$/i, /^feb$/i, /^mar$/i, /^apr$/i, /^may$/i, /^jun$/i, /^jul$/i, /^aug/i, /^sept?$/i, /^oct$/i, /^nov$/i, /^dec$/i],
                 weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
                 weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
                 weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
@@ -1337,7 +1335,7 @@
                 ordinalParse: /\d{1,2}(st|nd|rd|th)/,
                 ordinal: function(a) {
                     var b = a % 10,
-                        c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
+                    c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
                     return a + c
                 },
                 week: {
@@ -1353,10 +1351,7 @@
             "use strict";
             var a = (b.defineLocale || b.lang).call(b, "en-nz", {
                 months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
-                monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sept_Oct_Nov_Dec".split("_"),
-                monthsParse: [/^jan/i, /^feb/i, /^mar/i, /^apr/i, /^may/i, /^jun/i, /^jul/i, /^aug/i, /^sep/i, /^oct/i, /^nov/i, /^dec/i],
-                longMonthsParse: [/^january$/i, /^february$/i, /^march$/i, /^april$/i, /^may$/i, /^june$/i, /^july$/i, /^august$/i, /^september$/i, /^october$/i, /^november$/i, /^december$/i],
-                shortMonthsParse: [/^jan$/i, /^feb$/i, /^mar$/i, /^apr$/i, /^may$/i, /^jun$/i, /^jul$/i, /^aug/i, /^sept?$/i, /^oct$/i, /^nov$/i, /^dec$/i],
+                monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
                 weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
                 weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
                 weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
@@ -1394,7 +1389,7 @@
                 ordinalParse: /\d{1,2}(st|nd|rd|th)/,
                 ordinal: function(a) {
                     var b = a % 10,
-                        c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
+                    c = 1 === ~~(a % 100 / 10) ? "th" : 1 === b ? "st" : 2 === b ? "nd" : 3 === b ? "rd" : "th";
                     return a + c
                 },
                 week: {
@@ -1425,63 +1420,65 @@
         ! function() {
             "use strict";
             var a = "ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split("_"),
-                c = "ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"),
-                d = (b.defineLocale || b.lang).call(b, "es", {
-                    months: "enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split("_"),
-                    monthsShort: function(b, d) {
-                        return /-MMM-/.test(d) ? c[b.month()] : a[b.month()]
+            c = "ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"),
+            d = (b.defineLocale || b.lang).call(b, "es", {
+                months: "enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split("_"),
+                monthsShort: function(b, d) {
+                    return /-MMM-/.test(d) ? c[b.month()] : a[b.month()]
+                },
+                monthsParseExact: !0,
+                weekdays: "domingo_lunes_martes_miércoles_jueves_viernes_sábado".split("_"),
+                weekdaysShort: "dom._lun._mar._mié._jue._vie._sáb.".split("_"),
+                weekdaysMin: "do_lu_ma_mi_ju_vi_sá".split("_"),
+                weekdaysParseExact: !0,
+                longDateFormat: {
+                    LT: "H:mm",
+                    LTS: "H:mm:ss",
+                    L: "DD/MM/YYYY",
+                    LL: "D [de] MMMM [de] YYYY",
+                    LLL: "D [de] MMMM [de] YYYY H:mm",
+                    LLLL: "dddd, D [de] MMMM [de] YYYY H:mm"
+                },
+                calendar: {
+                    sameDay: function() {
+                        return "[hoy a la" + (1 !== this.hours() ? "s" : "") + "] LT"
                     },
-                    weekdays: "domingo_lunes_martes_miércoles_jueves_viernes_sábado".split("_"),
-                    weekdaysShort: "dom._lun._mar._mié._jue._vie._sáb.".split("_"),
-                    weekdaysMin: "do_lu_ma_mi_ju_vi_sá".split("_"),
-                    longDateFormat: {
-                        LT: "H:mm",
-                        LTS: "H:mm:ss",
-                        L: "DD/MM/YYYY",
-                        LL: "D [de] MMMM [de] YYYY",
-                        LLL: "D [de] MMMM [de] YYYY H:mm",
-                        LLLL: "dddd, D [de] MMMM [de] YYYY H:mm"
+                    nextDay: function() {
+                        return "[mañana a la" + (1 !== this.hours() ? "s" : "") + "] LT"
                     },
-                    calendar: {
-                        sameDay: function() {
-                            return "[hoy a la" + (1 !== this.hours() ? "s" : "") + "] LT"
-                        },
-                        nextDay: function() {
-                            return "[mañana a la" + (1 !== this.hours() ? "s" : "") + "] LT"
-                        },
-                        nextWeek: function() {
-                            return "dddd [a la" + (1 !== this.hours() ? "s" : "") + "] LT"
-                        },
-                        lastDay: function() {
-                            return "[ayer a la" + (1 !== this.hours() ? "s" : "") + "] LT"
-                        },
-                        lastWeek: function() {
-                            return "[el] dddd [pasado a la" + (1 !== this.hours() ? "s" : "") + "] LT"
-                        },
-                        sameElse: "L"
+                    nextWeek: function() {
+                        return "dddd [a la" + (1 !== this.hours() ? "s" : "") + "] LT"
                     },
-                    relativeTime: {
-                        future: "en %s",
-                        past: "hace %s",
-                        s: "unos segundos",
-                        m: "un minuto",
-                        mm: "%d minutos",
-                        h: "una hora",
-                        hh: "%d horas",
-                        d: "un día",
-                        dd: "%d días",
-                        M: "un mes",
-                        MM: "%d meses",
-                        y: "un año",
-                        yy: "%d años"
+                    lastDay: function() {
+                        return "[ayer a la" + (1 !== this.hours() ? "s" : "") + "] LT"
                     },
-                    ordinalParse: /\d{1,2}º/,
-                    ordinal: "%dº",
-                    week: {
-                        dow: 1,
-                        doy: 4
-                    }
-                });
+                    lastWeek: function() {
+                        return "[el] dddd [pasado a la" + (1 !== this.hours() ? "s" : "") + "] LT"
+                    },
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "en %s",
+                    past: "hace %s",
+                    s: "unos segundos",
+                    m: "un minuto",
+                    mm: "%d minutos",
+                    h: "una hora",
+                    hh: "%d horas",
+                    d: "un día",
+                    dd: "%d días",
+                    M: "un mes",
+                    MM: "%d meses",
+                    y: "un año",
+                    yy: "%d años"
+                },
+                ordinalParse: /\d{1,2}º/,
+                ordinal: "%dº",
+                week: {
+                    dow: 1,
+                    doy: 4
+                }
+            });
             return d
         }(), a.fullCalendar.datepickerLang("es", "es", {
             closeText: "Cerrar",
@@ -1514,90 +1511,91 @@
         ! function() {
             "use strict";
             var a = {
-                    1: "۱",
-                    2: "۲",
-                    3: "۳",
-                    4: "۴",
-                    5: "۵",
-                    6: "۶",
-                    7: "۷",
-                    8: "۸",
-                    9: "۹",
-                    0: "۰"
+                1: "۱",
+                2: "۲",
+                3: "۳",
+                4: "۴",
+                5: "۵",
+                6: "۶",
+                7: "۷",
+                8: "۸",
+                9: "۹",
+                0: "۰"
+            },
+            c = {
+                "۱": "1",
+                "۲": "2",
+                "۳": "3",
+                "۴": "4",
+                "۵": "5",
+                "۶": "6",
+                "۷": "7",
+                "۸": "8",
+                "۹": "9",
+                "۰": "0"
+            },
+            d = (b.defineLocale || b.lang).call(b, "fa", {
+                months: "ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),
+                monthsShort: "ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),
+                weekdays: "یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),
+                weekdaysShort: "یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),
+                weekdaysMin: "ی_د_س_چ_پ_ج_ش".split("_"),
+                weekdaysParseExact: !0,
+                longDateFormat: {
+                    LT: "HH:mm",
+                    LTS: "HH:mm:ss",
+                    L: "DD/MM/YYYY",
+                    LL: "D MMMM YYYY",
+                    LLL: "D MMMM YYYY HH:mm",
+                    LLLL: "dddd, D MMMM YYYY HH:mm"
                 },
-                c = {
-                    "۱": "1",
-                    "۲": "2",
-                    "۳": "3",
-                    "۴": "4",
-                    "۵": "5",
-                    "۶": "6",
-                    "۷": "7",
-                    "۸": "8",
-                    "۹": "9",
-                    "۰": "0"
+                meridiemParse: /قبل از ظهر|بعد از ظهر/,
+                isPM: function(a) {
+                    return /بعد از ظهر/.test(a)
                 },
-                d = (b.defineLocale || b.lang).call(b, "fa", {
-                    months: "ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),
-                    monthsShort: "ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر".split("_"),
-                    weekdays: "یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),
-                    weekdaysShort: "یک‌شنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج‌شنبه_جمعه_شنبه".split("_"),
-                    weekdaysMin: "ی_د_س_چ_پ_ج_ش".split("_"),
-                    longDateFormat: {
-                        LT: "HH:mm",
-                        LTS: "HH:mm:ss",
-                        L: "DD/MM/YYYY",
-                        LL: "D MMMM YYYY",
-                        LLL: "D MMMM YYYY HH:mm",
-                        LLLL: "dddd, D MMMM YYYY HH:mm"
-                    },
-                    meridiemParse: /قبل از ظهر|بعد از ظهر/,
-                    isPM: function(a) {
-                        return /بعد از ظهر/.test(a)
-                    },
-                    meridiem: function(a, b, c) {
-                        return 12 > a ? "قبل از ظهر" : "بعد از ظهر"
-                    },
-                    calendar: {
-                        sameDay: "[امروز ساعت] LT",
-                        nextDay: "[فردا ساعت] LT",
-                        nextWeek: "dddd [ساعت] LT",
-                        lastDay: "[دیروز ساعت] LT",
-                        lastWeek: "dddd [پیش] [ساعت] LT",
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "در %s",
-                        past: "%s پیش",
-                        s: "چندین ثانیه",
-                        m: "یک دقیقه",
-                        mm: "%d دقیقه",
-                        h: "یک ساعت",
-                        hh: "%d ساعت",
-                        d: "یک روز",
-                        dd: "%d روز",
-                        M: "یک ماه",
-                        MM: "%d ماه",
-                        y: "یک سال",
-                        yy: "%d سال"
-                    },
-                    preparse: function(a) {
-                        return a.replace(/[۰-۹]/g, function(a) {
-                            return c[a]
-                        }).replace(/،/g, ",")
-                    },
-                    postformat: function(b) {
-                        return b.replace(/\d/g, function(b) {
-                            return a[b]
-                        }).replace(/,/g, "،")
-                    },
-                    ordinalParse: /\d{1,2}م/,
-                    ordinal: "%dم",
-                    week: {
-                        dow: 6,
-                        doy: 12
-                    }
-                });
+                meridiem: function(a, b, c) {
+                    return 12 > a ? "قبل از ظهر" : "بعد از ظهر"
+                },
+                calendar: {
+                    sameDay: "[امروز ساعت] LT",
+                    nextDay: "[فردا ساعت] LT",
+                    nextWeek: "dddd [ساعت] LT",
+                    lastDay: "[دیروز ساعت] LT",
+                    lastWeek: "dddd [پیش] [ساعت] LT",
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "در %s",
+                    past: "%s پیش",
+                    s: "چندین ثانیه",
+                    m: "یک دقیقه",
+                    mm: "%d دقیقه",
+                    h: "یک ساعت",
+                    hh: "%d ساعت",
+                    d: "یک روز",
+                    dd: "%d روز",
+                    M: "یک ماه",
+                    MM: "%d ماه",
+                    y: "یک سال",
+                    yy: "%d سال"
+                },
+                preparse: function(a) {
+                    return a.replace(/[۰-۹]/g, function(a) {
+                        return c[a]
+                    }).replace(/،/g, ",")
+                },
+                postformat: function(b) {
+                    return b.replace(/\d/g, function(b) {
+                        return a[b]
+                    }).replace(/,/g, "،")
+                },
+                ordinalParse: /\d{1,2}م/,
+                ordinal: "%dم",
+                week: {
+                    dow: 6,
+                    doy: 12
+                }
+            });
             return d
         }(), a.fullCalendar.datepickerLang("fa", "fa", {
             closeText: "بستن",
@@ -1636,31 +1634,31 @@
                 var f = "";
                 switch (d) {
                     case "s":
-                        return e ? "muutaman sekunnin" : "muutama sekunti";
+                    return e ? "muutaman sekunnin" : "muutama sekunti";
                     case "m":
-                        return e ? "minuutin" : "minuutti";
+                    return e ? "minuutin" : "minuutti";
                     case "mm":
-                        f = e ? "minuutin" : "minuuttia";
-                        break;
+                    f = e ? "minuutin" : "minuuttia";
+                    break;
                     case "h":
-                        return e ? "tunnin" : "tunti";
+                    return e ? "tunnin" : "tunti";
                     case "hh":
-                        f = e ? "tunnin" : "tuntia";
-                        break;
+                    f = e ? "tunnin" : "tuntia";
+                    break;
                     case "d":
-                        return e ? "päivän" : "päivä";
+                    return e ? "päivän" : "päivä";
                     case "dd":
-                        f = e ? "päivän" : "päivää";
-                        break;
+                    f = e ? "päivän" : "päivää";
+                    break;
                     case "M":
-                        return e ? "kuukauden" : "kuukausi";
+                    return e ? "kuukauden" : "kuukausi";
                     case "MM":
-                        f = e ? "kuukauden" : "kuukautta";
-                        break;
+                    f = e ? "kuukauden" : "kuukautta";
+                    break;
                     case "y":
-                        return e ? "vuoden" : "vuosi";
+                    return e ? "vuoden" : "vuosi";
                     case "yy":
-                        f = e ? "vuoden" : "vuotta"
+                    f = e ? "vuoden" : "vuotta"
                 }
                 return f = c(a, e) + " " + f
             }
@@ -1669,55 +1667,55 @@
                 return 10 > a ? b ? e[a] : d[a] : a
             }
             var d = "nolla yksi kaksi kolme neljä viisi kuusi seitsemän kahdeksan yhdeksän".split(" "),
-                e = ["nolla", "yhden", "kahden", "kolmen", "neljän", "viiden", "kuuden", d[7], d[8], d[9]],
-                f = (b.defineLocale || b.lang).call(b, "fi", {
-                    months: "tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu".split("_"),
-                    monthsShort: "tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu".split("_"),
-                    weekdays: "sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai".split("_"),
-                    weekdaysShort: "su_ma_ti_ke_to_pe_la".split("_"),
-                    weekdaysMin: "su_ma_ti_ke_to_pe_la".split("_"),
-                    longDateFormat: {
-                        LT: "HH.mm",
-                        LTS: "HH.mm.ss",
-                        L: "DD.MM.YYYY",
-                        LL: "Do MMMM[ta] YYYY",
-                        LLL: "Do MMMM[ta] YYYY, [klo] HH.mm",
-                        LLLL: "dddd, Do MMMM[ta] YYYY, [klo] HH.mm",
-                        l: "D.M.YYYY",
-                        ll: "Do MMM YYYY",
-                        lll: "Do MMM YYYY, [klo] HH.mm",
-                        llll: "ddd, Do MMM YYYY, [klo] HH.mm"
-                    },
-                    calendar: {
-                        sameDay: "[tänään] [klo] LT",
-                        nextDay: "[huomenna] [klo] LT",
-                        nextWeek: "dddd [klo] LT",
-                        lastDay: "[eilen] [klo] LT",
-                        lastWeek: "[viime] dddd[na] [klo] LT",
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "%s päästä",
-                        past: "%s sitten",
-                        s: a,
-                        m: a,
-                        mm: a,
-                        h: a,
-                        hh: a,
-                        d: a,
-                        dd: a,
-                        M: a,
-                        MM: a,
-                        y: a,
-                        yy: a
-                    },
-                    ordinalParse: /\d{1,2}\./,
-                    ordinal: "%d.",
-                    week: {
-                        dow: 1,
-                        doy: 4
-                    }
-                });
+            e = ["nolla", "yhden", "kahden", "kolmen", "neljän", "viiden", "kuuden", d[7], d[8], d[9]],
+            f = (b.defineLocale || b.lang).call(b, "fi", {
+                months: "tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu".split("_"),
+                monthsShort: "tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu".split("_"),
+                weekdays: "sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai".split("_"),
+                weekdaysShort: "su_ma_ti_ke_to_pe_la".split("_"),
+                weekdaysMin: "su_ma_ti_ke_to_pe_la".split("_"),
+                longDateFormat: {
+                    LT: "HH.mm",
+                    LTS: "HH.mm.ss",
+                    L: "DD.MM.YYYY",
+                    LL: "Do MMMM[ta] YYYY",
+                    LLL: "Do MMMM[ta] YYYY, [klo] HH.mm",
+                    LLLL: "dddd, Do MMMM[ta] YYYY, [klo] HH.mm",
+                    l: "D.M.YYYY",
+                    ll: "Do MMM YYYY",
+                    lll: "Do MMM YYYY, [klo] HH.mm",
+                    llll: "ddd, Do MMM YYYY, [klo] HH.mm"
+                },
+                calendar: {
+                    sameDay: "[tänään] [klo] LT",
+                    nextDay: "[huomenna] [klo] LT",
+                    nextWeek: "dddd [klo] LT",
+                    lastDay: "[eilen] [klo] LT",
+                    lastWeek: "[viime] dddd[na] [klo] LT",
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "%s päästä",
+                    past: "%s sitten",
+                    s: a,
+                    m: a,
+                    mm: a,
+                    h: a,
+                    hh: a,
+                    d: a,
+                    dd: a,
+                    M: a,
+                    MM: a,
+                    y: a,
+                    yy: a
+                },
+                ordinalParse: /\d{1,2}\./,
+                ordinal: "%d.",
+                week: {
+                    dow: 1,
+                    doy: 4
+                }
+            });
             return f
         }(), a.fullCalendar.datepickerLang("fi", "fi", {
             closeText: "Sulje",
@@ -1752,9 +1750,11 @@
             var a = (b.defineLocale || b.lang).call(b, "fr-ca", {
                 months: "janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),
                 monthsShort: "janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),
                 weekdaysShort: "dim._lun._mar._mer._jeu._ven._sam.".split("_"),
                 weekdaysMin: "Di_Lu_Ma_Me_Je_Ve_Sa".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -1825,9 +1825,11 @@
             var a = (b.defineLocale || b.lang).call(b, "fr-ch", {
                 months: "janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),
                 monthsShort: "janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),
                 weekdaysShort: "dim._lun._mar._mer._jeu._ven._sam.".split("_"),
                 weekdaysMin: "Di_Lu_Ma_Me_Je_Ve_Sa".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -1902,9 +1904,11 @@
             var a = (b.defineLocale || b.lang).call(b, "fr", {
                 months: "janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),
                 monthsShort: "janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),
                 weekdaysShort: "dim._lun._mar._mer._jeu._ven._sam.".split("_"),
                 weekdaysMin: "Di_Lu_Ma_Me_Je_Ve_Sa".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -2024,6 +2028,13 @@
                     yy: function(a) {
                         return 2 === a ? "שנתיים" : a % 10 === 0 && 10 !== a ? a + " שנה" : a + " שנים"
                     }
+                },
+                meridiemParse: /אחה"צ|לפנה"צ|אחרי הצהריים|לפני הצהריים|לפנות בוקר|בבוקר|בערב/i,
+                isPM: function(a) {
+                    return /^(אחה"צ|אחרי הצהריים|בערב)$/.test(a)
+                },
+                meridiem: function(a, b, c) {
+                    return 5 > a ? "לפנות בוקר" : 10 > a ? "בבוקר" : 12 > a ? c ? 'לפנה"צ' : "לפני הצהריים" : 18 > a ? c ? 'אחה"צ' : "אחרי הצהריים" : "בערב"
                 }
             });
             return a
@@ -2059,88 +2070,89 @@
         ! function() {
             "use strict";
             var a = {
-                    1: "१",
-                    2: "२",
-                    3: "३",
-                    4: "४",
-                    5: "५",
-                    6: "६",
-                    7: "७",
-                    8: "८",
-                    9: "९",
-                    0: "०"
+                1: "१",
+                2: "२",
+                3: "३",
+                4: "४",
+                5: "५",
+                6: "६",
+                7: "७",
+                8: "८",
+                9: "९",
+                0: "०"
+            },
+            c = {
+                "१": "1",
+                "२": "2",
+                "३": "3",
+                "४": "4",
+                "५": "5",
+                "६": "6",
+                "७": "7",
+                "८": "8",
+                "९": "9",
+                "०": "0"
+            },
+            d = (b.defineLocale || b.lang).call(b, "hi", {
+                months: "जनवरी_फ़रवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितम्बर_अक्टूबर_नवम्बर_दिसम्बर".split("_"),
+                monthsShort: "जन._फ़र._मार्च_अप्रै._मई_जून_जुल._अग._सित._अक्टू._नव._दिस.".split("_"),
+                monthsParseExact: !0,
+                weekdays: "रविवार_सोमवार_मंगलवार_बुधवार_गुरूवार_शुक्रवार_शनिवार".split("_"),
+                weekdaysShort: "रवि_सोम_मंगल_बुध_गुरू_शुक्र_शनि".split("_"),
+                weekdaysMin: "र_सो_मं_बु_गु_शु_श".split("_"),
+                longDateFormat: {
+                    LT: "A h:mm बजे",
+                    LTS: "A h:mm:ss बजे",
+                    L: "DD/MM/YYYY",
+                    LL: "D MMMM YYYY",
+                    LLL: "D MMMM YYYY, A h:mm बजे",
+                    LLLL: "dddd, D MMMM YYYY, A h:mm बजे"
                 },
-                c = {
-                    "१": "1",
-                    "२": "2",
-                    "३": "3",
-                    "४": "4",
-                    "५": "5",
-                    "६": "6",
-                    "७": "7",
-                    "८": "8",
-                    "९": "9",
-                    "०": "0"
+                calendar: {
+                    sameDay: "[आज] LT",
+                    nextDay: "[कल] LT",
+                    nextWeek: "dddd, LT",
+                    lastDay: "[कल] LT",
+                    lastWeek: "[पिछले] dddd, LT",
+                    sameElse: "L"
                 },
-                d = (b.defineLocale || b.lang).call(b, "hi", {
-                    months: "जनवरी_फ़रवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितम्बर_अक्टूबर_नवम्बर_दिसम्बर".split("_"),
-                    monthsShort: "जन._फ़र._मार्च_अप्रै._मई_जून_जुल._अग._सित._अक्टू._नव._दिस.".split("_"),
-                    weekdays: "रविवार_सोमवार_मंगलवार_बुधवार_गुरूवार_शुक्रवार_शनिवार".split("_"),
-                    weekdaysShort: "रवि_सोम_मंगल_बुध_गुरू_शुक्र_शनि".split("_"),
-                    weekdaysMin: "र_सो_मं_बु_गु_शु_श".split("_"),
-                    longDateFormat: {
-                        LT: "A h:mm बजे",
-                        LTS: "A h:mm:ss बजे",
-                        L: "DD/MM/YYYY",
-                        LL: "D MMMM YYYY",
-                        LLL: "D MMMM YYYY, A h:mm बजे",
-                        LLLL: "dddd, D MMMM YYYY, A h:mm बजे"
-                    },
-                    calendar: {
-                        sameDay: "[आज] LT",
-                        nextDay: "[कल] LT",
-                        nextWeek: "dddd, LT",
-                        lastDay: "[कल] LT",
-                        lastWeek: "[पिछले] dddd, LT",
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "%s में",
-                        past: "%s पहले",
-                        s: "कुछ ही क्षण",
-                        m: "एक मिनट",
-                        mm: "%d मिनट",
-                        h: "एक घंटा",
-                        hh: "%d घंटे",
-                        d: "एक दिन",
-                        dd: "%d दिन",
-                        M: "एक महीने",
-                        MM: "%d महीने",
-                        y: "एक वर्ष",
-                        yy: "%d वर्ष"
-                    },
-                    preparse: function(a) {
-                        return a.replace(/[१२३४५६७८९०]/g, function(a) {
-                            return c[a]
-                        })
-                    },
-                    postformat: function(b) {
-                        return b.replace(/\d/g, function(b) {
-                            return a[b]
-                        })
-                    },
-                    meridiemParse: /रात|सुबह|दोपहर|शाम/,
-                    meridiemHour: function(a, b) {
-                        return 12 === a && (a = 0), "रात" === b ? 4 > a ? a : a + 12 : "सुबह" === b ? a : "दोपहर" === b ? a >= 10 ? a : a + 12 : "शाम" === b ? a + 12 : void 0
-                    },
-                    meridiem: function(a, b, c) {
-                        return 4 > a ? "रात" : 10 > a ? "सुबह" : 17 > a ? "दोपहर" : 20 > a ? "शाम" : "रात"
-                    },
-                    week: {
-                        dow: 0,
-                        doy: 6
-                    }
-                });
+                relativeTime: {
+                    future: "%s में",
+                    past: "%s पहले",
+                    s: "कुछ ही क्षण",
+                    m: "एक मिनट",
+                    mm: "%d मिनट",
+                    h: "एक घंटा",
+                    hh: "%d घंटे",
+                    d: "एक दिन",
+                    dd: "%d दिन",
+                    M: "एक महीने",
+                    MM: "%d महीने",
+                    y: "एक वर्ष",
+                    yy: "%d वर्ष"
+                },
+                preparse: function(a) {
+                    return a.replace(/[१२३४५६७८९०]/g, function(a) {
+                        return c[a]
+                    })
+                },
+                postformat: function(b) {
+                    return b.replace(/\d/g, function(b) {
+                        return a[b]
+                    })
+                },
+                meridiemParse: /रात|सुबह|दोपहर|शाम/,
+                meridiemHour: function(a, b) {
+                    return 12 === a && (a = 0), "रात" === b ? 4 > a ? a : a + 12 : "सुबह" === b ? a : "दोपहर" === b ? a >= 10 ? a : a + 12 : "शाम" === b ? a + 12 : void 0
+                },
+                meridiem: function(a, b, c) {
+                    return 4 > a ? "रात" : 10 > a ? "सुबह" : 17 > a ? "दोपहर" : 20 > a ? "शाम" : "रात"
+                },
+                week: {
+                    dow: 0,
+                    doy: 6
+                }
+            });
             return d
         }(), a.fullCalendar.datepickerLang("hi", "hi", {
             closeText: "बंद",
@@ -2179,19 +2191,19 @@
                 var d = a + " ";
                 switch (c) {
                     case "m":
-                        return b ? "jedna minuta" : "jedne minute";
+                    return b ? "jedna minuta" : "jedne minute";
                     case "mm":
-                        return d += 1 === a ? "minuta" : 2 === a || 3 === a || 4 === a ? "minute" : "minuta";
+                    return d += 1 === a ? "minuta" : 2 === a || 3 === a || 4 === a ? "minute" : "minuta";
                     case "h":
-                        return b ? "jedan sat" : "jednog sata";
+                    return b ? "jedan sat" : "jednog sata";
                     case "hh":
-                        return d += 1 === a ? "sat" : 2 === a || 3 === a || 4 === a ? "sata" : "sati";
+                    return d += 1 === a ? "sat" : 2 === a || 3 === a || 4 === a ? "sata" : "sati";
                     case "dd":
-                        return d += 1 === a ? "dan" : "dana";
+                    return d += 1 === a ? "dan" : "dana";
                     case "MM":
-                        return d += 1 === a ? "mjesec" : 2 === a || 3 === a || 4 === a ? "mjeseca" : "mjeseci";
+                    return d += 1 === a ? "mjesec" : 2 === a || 3 === a || 4 === a ? "mjeseca" : "mjeseci";
                     case "yy":
-                        return d += 1 === a ? "godina" : 2 === a || 3 === a || 4 === a ? "godine" : "godina"
+                    return d += 1 === a ? "godina" : 2 === a || 3 === a || 4 === a ? "godine" : "godina"
                 }
             }
             var c = (b.defineLocale || b.lang).call(b, "hr", {
@@ -2200,9 +2212,11 @@
                     standalone: "siječanj_veljača_ožujak_travanj_svibanj_lipanj_srpanj_kolovoz_rujan_listopad_studeni_prosinac".split("_")
                 },
                 monthsShort: "sij._velj._ožu._tra._svi._lip._srp._kol._ruj._lis._stu._pro.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "nedjelja_ponedjeljak_utorak_srijeda_četvrtak_petak_subota".split("_"),
                 weekdaysShort: "ned._pon._uto._sri._čet._pet._sub.".split("_"),
                 weekdaysMin: "ne_po_ut_sr_če_pe_su".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "H:mm",
                     LTS: "H:mm:ss",
@@ -2217,16 +2231,16 @@
                     nextWeek: function() {
                         switch (this.day()) {
                             case 0:
-                                return "[u] [nedjelju] [u] LT";
+                            return "[u] [nedjelju] [u] LT";
                             case 3:
-                                return "[u] [srijedu] [u] LT";
+                            return "[u] [srijedu] [u] LT";
                             case 6:
-                                return "[u] [subotu] [u] LT";
+                            return "[u] [subotu] [u] LT";
                             case 1:
                             case 2:
                             case 4:
                             case 5:
-                                return "[u] dddd [u] LT"
+                            return "[u] dddd [u] LT"
                         }
                     },
                     lastDay: "[jučer u] LT",
@@ -2234,14 +2248,14 @@
                         switch (this.day()) {
                             case 0:
                             case 3:
-                                return "[prošlu] dddd [u] LT";
+                            return "[prošlu] dddd [u] LT";
                             case 6:
-                                return "[prošle] [subote] [u] LT";
+                            return "[prošle] [subote] [u] LT";
                             case 1:
                             case 2:
                             case 4:
                             case 5:
-                                return "[prošli] dddd [u] LT"
+                            return "[prošli] dddd [u] LT"
                         }
                     },
                     sameElse: "L"
@@ -2306,27 +2320,27 @@
                 var e = a;
                 switch (c) {
                     case "s":
-                        return d || b ? "néhány másodperc" : "néhány másodperce";
+                    return d || b ? "néhány másodperc" : "néhány másodperce";
                     case "m":
-                        return "egy" + (d || b ? " perc" : " perce");
+                    return "egy" + (d || b ? " perc" : " perce");
                     case "mm":
-                        return e + (d || b ? " perc" : " perce");
+                    return e + (d || b ? " perc" : " perce");
                     case "h":
-                        return "egy" + (d || b ? " óra" : " órája");
+                    return "egy" + (d || b ? " óra" : " órája");
                     case "hh":
-                        return e + (d || b ? " óra" : " órája");
+                    return e + (d || b ? " óra" : " órája");
                     case "d":
-                        return "egy" + (d || b ? " nap" : " napja");
+                    return "egy" + (d || b ? " nap" : " napja");
                     case "dd":
-                        return e + (d || b ? " nap" : " napja");
+                    return e + (d || b ? " nap" : " napja");
                     case "M":
-                        return "egy" + (d || b ? " hónap" : " hónapja");
+                    return "egy" + (d || b ? " hónap" : " hónapja");
                     case "MM":
-                        return e + (d || b ? " hónap" : " hónapja");
+                    return e + (d || b ? " hónap" : " hónapja");
                     case "y":
-                        return "egy" + (d || b ? " év" : " éve");
+                    return "egy" + (d || b ? " év" : " éve");
                     case "yy":
-                        return e + (d || b ? " év" : " éve")
+                    return e + (d || b ? " év" : " éve")
                 }
                 return ""
             }
@@ -2335,61 +2349,61 @@
                 return (a ? "" : "[múlt] ") + "[" + d[this.day()] + "] LT[-kor]"
             }
             var d = "vasárnap hétfőn kedden szerdán csütörtökön pénteken szombaton".split(" "),
-                e = (b.defineLocale || b.lang).call(b, "hu", {
-                    months: "január_február_március_április_május_június_július_augusztus_szeptember_október_november_december".split("_"),
-                    monthsShort: "jan_feb_márc_ápr_máj_jún_júl_aug_szept_okt_nov_dec".split("_"),
-                    weekdays: "vasárnap_hétfő_kedd_szerda_csütörtök_péntek_szombat".split("_"),
-                    weekdaysShort: "vas_hét_kedd_sze_csüt_pén_szo".split("_"),
-                    weekdaysMin: "v_h_k_sze_cs_p_szo".split("_"),
-                    longDateFormat: {
-                        LT: "H:mm",
-                        LTS: "H:mm:ss",
-                        L: "YYYY.MM.DD.",
-                        LL: "YYYY. MMMM D.",
-                        LLL: "YYYY. MMMM D. H:mm",
-                        LLLL: "YYYY. MMMM D., dddd H:mm"
+            e = (b.defineLocale || b.lang).call(b, "hu", {
+                months: "január_február_március_április_május_június_július_augusztus_szeptember_október_november_december".split("_"),
+                monthsShort: "jan_feb_márc_ápr_máj_jún_júl_aug_szept_okt_nov_dec".split("_"),
+                weekdays: "vasárnap_hétfő_kedd_szerda_csütörtök_péntek_szombat".split("_"),
+                weekdaysShort: "vas_hét_kedd_sze_csüt_pén_szo".split("_"),
+                weekdaysMin: "v_h_k_sze_cs_p_szo".split("_"),
+                longDateFormat: {
+                    LT: "H:mm",
+                    LTS: "H:mm:ss",
+                    L: "YYYY.MM.DD.",
+                    LL: "YYYY. MMMM D.",
+                    LLL: "YYYY. MMMM D. H:mm",
+                    LLLL: "YYYY. MMMM D., dddd H:mm"
+                },
+                meridiemParse: /de|du/i,
+                isPM: function(a) {
+                    return "u" === a.charAt(1).toLowerCase()
+                },
+                meridiem: function(a, b, c) {
+                    return 12 > a ? c === !0 ? "de" : "DE" : c === !0 ? "du" : "DU"
+                },
+                calendar: {
+                    sameDay: "[ma] LT[-kor]",
+                    nextDay: "[holnap] LT[-kor]",
+                    nextWeek: function() {
+                        return c.call(this, !0)
                     },
-                    meridiemParse: /de|du/i,
-                    isPM: function(a) {
-                        return "u" === a.charAt(1).toLowerCase()
+                    lastDay: "[tegnap] LT[-kor]",
+                    lastWeek: function() {
+                        return c.call(this, !1)
                     },
-                    meridiem: function(a, b, c) {
-                        return 12 > a ? c === !0 ? "de" : "DE" : c === !0 ? "du" : "DU"
-                    },
-                    calendar: {
-                        sameDay: "[ma] LT[-kor]",
-                        nextDay: "[holnap] LT[-kor]",
-                        nextWeek: function() {
-                            return c.call(this, !0)
-                        },
-                        lastDay: "[tegnap] LT[-kor]",
-                        lastWeek: function() {
-                            return c.call(this, !1)
-                        },
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "%s múlva",
-                        past: "%s",
-                        s: a,
-                        m: a,
-                        mm: a,
-                        h: a,
-                        hh: a,
-                        d: a,
-                        dd: a,
-                        M: a,
-                        MM: a,
-                        y: a,
-                        yy: a
-                    },
-                    ordinalParse: /\d{1,2}\./,
-                    ordinal: "%d.",
-                    week: {
-                        dow: 1,
-                        doy: 7
-                    }
-                });
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "%s múlva",
+                    past: "%s",
+                    s: a,
+                    m: a,
+                    mm: a,
+                    h: a,
+                    hh: a,
+                    d: a,
+                    dd: a,
+                    M: a,
+                    MM: a,
+                    y: a,
+                    yy: a
+                },
+                ordinalParse: /\d{1,2}\./,
+                ordinal: "%d.",
+                week: {
+                    dow: 1,
+                    doy: 7
+                }
+            });
             return e
         }(), a.fullCalendar.datepickerLang("hu", "hu", {
             closeText: "bezár",
@@ -2503,32 +2517,32 @@
             "use strict";
 
             function a(a) {
-                return a % 100 === 11 ? !0 : a % 10 === 1 ? !1 : !0
+                return a % 100 === 11 ? !0 : a % 10 !== 1
             }
 
             function c(b, c, d, e) {
                 var f = b + " ";
                 switch (d) {
                     case "s":
-                        return c || e ? "nokkrar sekúndur" : "nokkrum sekúndum";
+                    return c || e ? "nokkrar sekúndur" : "nokkrum sekúndum";
                     case "m":
-                        return c ? "mínúta" : "mínútu";
+                    return c ? "mínúta" : "mínútu";
                     case "mm":
-                        return a(b) ? f + (c || e ? "mínútur" : "mínútum") : c ? f + "mínúta" : f + "mínútu";
+                    return a(b) ? f + (c || e ? "mínútur" : "mínútum") : c ? f + "mínúta" : f + "mínútu";
                     case "hh":
-                        return a(b) ? f + (c || e ? "klukkustundir" : "klukkustundum") : f + "klukkustund";
+                    return a(b) ? f + (c || e ? "klukkustundir" : "klukkustundum") : f + "klukkustund";
                     case "d":
-                        return c ? "dagur" : e ? "dag" : "degi";
+                    return c ? "dagur" : e ? "dag" : "degi";
                     case "dd":
-                        return a(b) ? c ? f + "dagar" : f + (e ? "daga" : "dögum") : c ? f + "dagur" : f + (e ? "dag" : "degi");
+                    return a(b) ? c ? f + "dagar" : f + (e ? "daga" : "dögum") : c ? f + "dagur" : f + (e ? "dag" : "degi");
                     case "M":
-                        return c ? "mánuður" : e ? "mánuð" : "mánuði";
+                    return c ? "mánuður" : e ? "mánuð" : "mánuði";
                     case "MM":
-                        return a(b) ? c ? f + "mánuðir" : f + (e ? "mánuði" : "mánuðum") : c ? f + "mánuður" : f + (e ? "mánuð" : "mánuði");
+                    return a(b) ? c ? f + "mánuðir" : f + (e ? "mánuði" : "mánuðum") : c ? f + "mánuður" : f + (e ? "mánuð" : "mánuði");
                     case "y":
-                        return c || e ? "ár" : "ári";
+                    return c || e ? "ár" : "ári";
                     case "yy":
-                        return a(b) ? f + (c || e ? "ár" : "árum") : f + (c || e ? "ár" : "ári")
+                    return a(b) ? f + (c || e ? "ár" : "árum") : f + (c || e ? "ár" : "ári")
                 }
             }
             var d = (b.defineLocale || b.lang).call(b, "is", {
@@ -2540,7 +2554,7 @@
                 longDateFormat: {
                     LT: "H:mm",
                     LTS: "H:mm:ss",
-                    L: "DD/MM/YYYY",
+                    L: "DD.MM.YYYY",
                     LL: "D. MMMM YYYY",
                     LLL: "D. MMMM YYYY [kl.] H:mm",
                     LLLL: "dddd, D. MMMM YYYY [kl.] H:mm"
@@ -2628,9 +2642,9 @@
                     lastWeek: function() {
                         switch (this.day()) {
                             case 0:
-                                return "[la scorsa] dddd [alle] LT";
+                            return "[la scorsa] dddd [alle] LT";
                             default:
-                                return "[lo scorso] dddd [alle] LT"
+                            return "[lo scorso] dddd [alle] LT"
                         }
                     },
                     sameElse: "L"
@@ -2721,6 +2735,17 @@
                     lastWeek: "[前週]dddd LT",
                     sameElse: "L"
                 },
+                ordinalParse: /\d{1,2}日/,
+                ordinal: function(a, b) {
+                    switch (b) {
+                        case "d":
+                        case "D":
+                        case "DDD":
+                        return a + "日";
+                        default:
+                        return a
+                    }
+                },
                 relativeTime: {
                     future: "%s後",
                     past: "%s前",
@@ -2795,17 +2820,17 @@
                 relativeTime: {
                     future: "%s 후",
                     past: "%s 전",
-                    s: "몇초",
+                    s: "몇 초",
                     ss: "%d초",
                     m: "일분",
                     mm: "%d분",
-                    h: "한시간",
+                    h: "한 시간",
                     hh: "%d시간",
                     d: "하루",
                     dd: "%d일",
-                    M: "한달",
+                    M: "한 달",
                     MM: "%d달",
-                    y: "일년",
+                    y: "일 년",
                     yy: "%d년"
                 },
                 ordinalParse: /\d{1,2}일/,
@@ -2871,74 +2896,75 @@
                 return 1 === a ? h + c(a, b, f[0], g) : b ? h + (d(a) ? e(f)[1] : e(f)[0]) : g ? h + e(f)[1] : h + (d(a) ? e(f)[1] : e(f)[2])
             }
             var g = {
-                    m: "minutė_minutės_minutę",
-                    mm: "minutės_minučių_minutes",
-                    h: "valanda_valandos_valandą",
-                    hh: "valandos_valandų_valandas",
-                    d: "diena_dienos_dieną",
-                    dd: "dienos_dienų_dienas",
-                    M: "mėnuo_mėnesio_mėnesį",
-                    MM: "mėnesiai_mėnesių_mėnesius",
-                    y: "metai_metų_metus",
-                    yy: "metai_metų_metus"
+                m: "minutė_minutės_minutę",
+                mm: "minutės_minučių_minutes",
+                h: "valanda_valandos_valandą",
+                hh: "valandos_valandų_valandas",
+                d: "diena_dienos_dieną",
+                dd: "dienos_dienų_dienas",
+                M: "mėnuo_mėnesio_mėnesį",
+                MM: "mėnesiai_mėnesių_mėnesius",
+                y: "metai_metų_metus",
+                yy: "metai_metų_metus"
+            },
+            h = (b.defineLocale || b.lang).call(b, "lt", {
+                months: {
+                    format: "sausio_vasario_kovo_balandžio_gegužės_birželio_liepos_rugpjūčio_rugsėjo_spalio_lapkričio_gruodžio".split("_"),
+                    standalone: "sausis_vasaris_kovas_balandis_gegužė_birželis_liepa_rugpjūtis_rugsėjis_spalis_lapkritis_gruodis".split("_")
                 },
-                h = (b.defineLocale || b.lang).call(b, "lt", {
-                    months: {
-                        format: "sausio_vasario_kovo_balandžio_gegužės_birželio_liepos_rugpjūčio_rugsėjo_spalio_lapkričio_gruodžio".split("_"),
-                        standalone: "sausis_vasaris_kovas_balandis_gegužė_birželis_liepa_rugpjūtis_rugsėjis_spalis_lapkritis_gruodis".split("_")
-                    },
-                    monthsShort: "sau_vas_kov_bal_geg_bir_lie_rgp_rgs_spa_lap_grd".split("_"),
-                    weekdays: {
-                        format: "sekmadienį_pirmadienį_antradienį_trečiadienį_ketvirtadienį_penktadienį_šeštadienį".split("_"),
-                        standalone: "sekmadienis_pirmadienis_antradienis_trečiadienis_ketvirtadienis_penktadienis_šeštadienis".split("_"),
-                        isFormat: /dddd HH:mm/
-                    },
-                    weekdaysShort: "Sek_Pir_Ant_Tre_Ket_Pen_Šeš".split("_"),
-                    weekdaysMin: "S_P_A_T_K_Pn_Š".split("_"),
-                    longDateFormat: {
-                        LT: "HH:mm",
-                        LTS: "HH:mm:ss",
-                        L: "YYYY-MM-DD",
-                        LL: "YYYY [m.] MMMM D [d.]",
-                        LLL: "YYYY [m.] MMMM D [d.], HH:mm [val.]",
-                        LLLL: "YYYY [m.] MMMM D [d.], dddd, HH:mm [val.]",
-                        l: "YYYY-MM-DD",
-                        ll: "YYYY [m.] MMMM D [d.]",
-                        lll: "YYYY [m.] MMMM D [d.], HH:mm [val.]",
-                        llll: "YYYY [m.] MMMM D [d.], ddd, HH:mm [val.]"
-                    },
-                    calendar: {
-                        sameDay: "[Šiandien] LT",
-                        nextDay: "[Rytoj] LT",
-                        nextWeek: "dddd LT",
-                        lastDay: "[Vakar] LT",
-                        lastWeek: "[Praėjusį] dddd LT",
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "po %s",
-                        past: "prieš %s",
-                        s: a,
-                        m: c,
-                        mm: f,
-                        h: c,
-                        hh: f,
-                        d: c,
-                        dd: f,
-                        M: c,
-                        MM: f,
-                        y: c,
-                        yy: f
-                    },
-                    ordinalParse: /\d{1,2}-oji/,
-                    ordinal: function(a) {
-                        return a + "-oji"
-                    },
-                    week: {
-                        dow: 1,
-                        doy: 4
-                    }
-                });
+                monthsShort: "sau_vas_kov_bal_geg_bir_lie_rgp_rgs_spa_lap_grd".split("_"),
+                weekdays: {
+                    format: "sekmadienį_pirmadienį_antradienį_trečiadienį_ketvirtadienį_penktadienį_šeštadienį".split("_"),
+                    standalone: "sekmadienis_pirmadienis_antradienis_trečiadienis_ketvirtadienis_penktadienis_šeštadienis".split("_"),
+                    isFormat: /dddd HH:mm/
+                },
+                weekdaysShort: "Sek_Pir_Ant_Tre_Ket_Pen_Šeš".split("_"),
+                weekdaysMin: "S_P_A_T_K_Pn_Š".split("_"),
+                weekdaysParseExact: !0,
+                longDateFormat: {
+                    LT: "HH:mm",
+                    LTS: "HH:mm:ss",
+                    L: "YYYY-MM-DD",
+                    LL: "YYYY [m.] MMMM D [d.]",
+                    LLL: "YYYY [m.] MMMM D [d.], HH:mm [val.]",
+                    LLLL: "YYYY [m.] MMMM D [d.], dddd, HH:mm [val.]",
+                    l: "YYYY-MM-DD",
+                    ll: "YYYY [m.] MMMM D [d.]",
+                    lll: "YYYY [m.] MMMM D [d.], HH:mm [val.]",
+                    llll: "YYYY [m.] MMMM D [d.], ddd, HH:mm [val.]"
+                },
+                calendar: {
+                    sameDay: "[Šiandien] LT",
+                    nextDay: "[Rytoj] LT",
+                    nextWeek: "dddd LT",
+                    lastDay: "[Vakar] LT",
+                    lastWeek: "[Praėjusį] dddd LT",
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "po %s",
+                    past: "prieš %s",
+                    s: a,
+                    m: c,
+                    mm: f,
+                    h: c,
+                    hh: f,
+                    d: c,
+                    dd: f,
+                    M: c,
+                    MM: f,
+                    y: c,
+                    yy: f
+                },
+                ordinalParse: /\d{1,2}-oji/,
+                ordinal: function(a) {
+                    return a + "-oji"
+                },
+                week: {
+                    dow: 1,
+                    doy: 4
+                }
+            });
             return h
         }(), a.fullCalendar.datepickerLang("lt", "lt", {
             closeText: "Uždaryti",
@@ -2987,61 +3013,62 @@
                 return b ? "dažas sekundes" : "dažām sekundēm"
             }
             var f = {
-                    m: "minūtes_minūtēm_minūte_minūtes".split("_"),
-                    mm: "minūtes_minūtēm_minūte_minūtes".split("_"),
-                    h: "stundas_stundām_stunda_stundas".split("_"),
-                    hh: "stundas_stundām_stunda_stundas".split("_"),
-                    d: "dienas_dienām_diena_dienas".split("_"),
-                    dd: "dienas_dienām_diena_dienas".split("_"),
-                    M: "mēneša_mēnešiem_mēnesis_mēneši".split("_"),
-                    MM: "mēneša_mēnešiem_mēnesis_mēneši".split("_"),
-                    y: "gada_gadiem_gads_gadi".split("_"),
-                    yy: "gada_gadiem_gads_gadi".split("_")
+                m: "minūtes_minūtēm_minūte_minūtes".split("_"),
+                mm: "minūtes_minūtēm_minūte_minūtes".split("_"),
+                h: "stundas_stundām_stunda_stundas".split("_"),
+                hh: "stundas_stundām_stunda_stundas".split("_"),
+                d: "dienas_dienām_diena_dienas".split("_"),
+                dd: "dienas_dienām_diena_dienas".split("_"),
+                M: "mēneša_mēnešiem_mēnesis_mēneši".split("_"),
+                MM: "mēneša_mēnešiem_mēnesis_mēneši".split("_"),
+                y: "gada_gadiem_gads_gadi".split("_"),
+                yy: "gada_gadiem_gads_gadi".split("_")
+            },
+            g = (b.defineLocale || b.lang).call(b, "lv", {
+                months: "janvāris_februāris_marts_aprīlis_maijs_jūnijs_jūlijs_augusts_septembris_oktobris_novembris_decembris".split("_"),
+                monthsShort: "jan_feb_mar_apr_mai_jūn_jūl_aug_sep_okt_nov_dec".split("_"),
+                weekdays: "svētdiena_pirmdiena_otrdiena_trešdiena_ceturtdiena_piektdiena_sestdiena".split("_"),
+                weekdaysShort: "Sv_P_O_T_C_Pk_S".split("_"),
+                weekdaysMin: "Sv_P_O_T_C_Pk_S".split("_"),
+                weekdaysParseExact: !0,
+                longDateFormat: {
+                    LT: "HH:mm",
+                    LTS: "HH:mm:ss",
+                    L: "DD.MM.YYYY.",
+                    LL: "YYYY. [gada] D. MMMM",
+                    LLL: "YYYY. [gada] D. MMMM, HH:mm",
+                    LLLL: "YYYY. [gada] D. MMMM, dddd, HH:mm"
                 },
-                g = (b.defineLocale || b.lang).call(b, "lv", {
-                    months: "janvāris_februāris_marts_aprīlis_maijs_jūnijs_jūlijs_augusts_septembris_oktobris_novembris_decembris".split("_"),
-                    monthsShort: "jan_feb_mar_apr_mai_jūn_jūl_aug_sep_okt_nov_dec".split("_"),
-                    weekdays: "svētdiena_pirmdiena_otrdiena_trešdiena_ceturtdiena_piektdiena_sestdiena".split("_"),
-                    weekdaysShort: "Sv_P_O_T_C_Pk_S".split("_"),
-                    weekdaysMin: "Sv_P_O_T_C_Pk_S".split("_"),
-                    longDateFormat: {
-                        LT: "HH:mm",
-                        LTS: "HH:mm:ss",
-                        L: "DD.MM.YYYY.",
-                        LL: "YYYY. [gada] D. MMMM",
-                        LLL: "YYYY. [gada] D. MMMM, HH:mm",
-                        LLLL: "YYYY. [gada] D. MMMM, dddd, HH:mm"
-                    },
-                    calendar: {
-                        sameDay: "[Šodien pulksten] LT",
-                        nextDay: "[Rīt pulksten] LT",
-                        nextWeek: "dddd [pulksten] LT",
-                        lastDay: "[Vakar pulksten] LT",
-                        lastWeek: "[Pagājušā] dddd [pulksten] LT",
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "pēc %s",
-                        past: "pirms %s",
-                        s: e,
-                        m: d,
-                        mm: c,
-                        h: d,
-                        hh: c,
-                        d: d,
-                        dd: c,
-                        M: d,
-                        MM: c,
-                        y: d,
-                        yy: c
-                    },
-                    ordinalParse: /\d{1,2}\./,
-                    ordinal: "%d.",
-                    week: {
-                        dow: 1,
-                        doy: 4
-                    }
-                });
+                calendar: {
+                    sameDay: "[Šodien pulksten] LT",
+                    nextDay: "[Rīt pulksten] LT",
+                    nextWeek: "dddd [pulksten] LT",
+                    lastDay: "[Vakar pulksten] LT",
+                    lastWeek: "[Pagājušā] dddd [pulksten] LT",
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "pēc %s",
+                    past: "pirms %s",
+                    s: e,
+                    m: d,
+                    mm: c,
+                    h: d,
+                    hh: c,
+                    d: d,
+                    dd: c,
+                    M: d,
+                    MM: c,
+                    y: d,
+                    yy: c
+                },
+                ordinalParse: /\d{1,2}\./,
+                ordinal: "%d.",
+                week: {
+                    dow: 1,
+                    doy: 4
+                }
+            });
             return g
         }(), a.fullCalendar.datepickerLang("lv", "lv", {
             closeText: "Aizvērt",
@@ -3078,9 +3105,11 @@
             var a = (b.defineLocale || b.lang).call(b, "nb", {
                 months: "januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),
                 monthsShort: "jan._feb._mars_april_mai_juni_juli_aug._sep._okt._nov._des.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),
                 weekdaysShort: "sø._ma._ti._on._to._fr._lø.".split("_"),
                 weekdaysMin: "sø_ma_ti_on_to_fr_lø".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -3099,7 +3128,7 @@
                 },
                 relativeTime: {
                     future: "om %s",
-                    past: "for %s siden",
+                    past: "%s siden",
                     s: "noen sekunder",
                     m: "ett minutt",
                     mm: "%d minutter",
@@ -3151,55 +3180,57 @@
         ! function() {
             "use strict";
             var a = "jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.".split("_"),
-                c = "jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec".split("_"),
-                d = (b.defineLocale || b.lang).call(b, "nl", {
-                    months: "januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split("_"),
-                    monthsShort: function(b, d) {
-                        return /-MMM-/.test(d) ? c[b.month()] : a[b.month()]
-                    },
-                    weekdays: "zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),
-                    weekdaysShort: "zo._ma._di._wo._do._vr._za.".split("_"),
-                    weekdaysMin: "Zo_Ma_Di_Wo_Do_Vr_Za".split("_"),
-                    longDateFormat: {
-                        LT: "HH:mm",
-                        LTS: "HH:mm:ss",
-                        L: "DD-MM-YYYY",
-                        LL: "D MMMM YYYY",
-                        LLL: "D MMMM YYYY HH:mm",
-                        LLLL: "dddd D MMMM YYYY HH:mm"
-                    },
-                    calendar: {
-                        sameDay: "[vandaag om] LT",
-                        nextDay: "[morgen om] LT",
-                        nextWeek: "dddd [om] LT",
-                        lastDay: "[gisteren om] LT",
-                        lastWeek: "[afgelopen] dddd [om] LT",
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "over %s",
-                        past: "%s geleden",
-                        s: "een paar seconden",
-                        m: "één minuut",
-                        mm: "%d minuten",
-                        h: "één uur",
-                        hh: "%d uur",
-                        d: "één dag",
-                        dd: "%d dagen",
-                        M: "één maand",
-                        MM: "%d maanden",
-                        y: "één jaar",
-                        yy: "%d jaar"
-                    },
-                    ordinalParse: /\d{1,2}(ste|de)/,
-                    ordinal: function(a) {
-                        return a + (1 === a || 8 === a || a >= 20 ? "ste" : "de")
-                    },
-                    week: {
-                        dow: 1,
-                        doy: 4
-                    }
-                });
+            c = "jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec".split("_"),
+            d = (b.defineLocale || b.lang).call(b, "nl", {
+                months: "januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split("_"),
+                monthsShort: function(b, d) {
+                    return /-MMM-/.test(d) ? c[b.month()] : a[b.month()]
+                },
+                monthsParseExact: !0,
+                weekdays: "zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),
+                weekdaysShort: "zo._ma._di._wo._do._vr._za.".split("_"),
+                weekdaysMin: "Zo_Ma_Di_Wo_Do_Vr_Za".split("_"),
+                weekdaysParseExact: !0,
+                longDateFormat: {
+                    LT: "HH:mm",
+                    LTS: "HH:mm:ss",
+                    L: "DD-MM-YYYY",
+                    LL: "D MMMM YYYY",
+                    LLL: "D MMMM YYYY HH:mm",
+                    LLLL: "dddd D MMMM YYYY HH:mm"
+                },
+                calendar: {
+                    sameDay: "[vandaag om] LT",
+                    nextDay: "[morgen om] LT",
+                    nextWeek: "dddd [om] LT",
+                    lastDay: "[gisteren om] LT",
+                    lastWeek: "[afgelopen] dddd [om] LT",
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "over %s",
+                    past: "%s geleden",
+                    s: "een paar seconden",
+                    m: "één minuut",
+                    mm: "%d minuten",
+                    h: "één uur",
+                    hh: "%d uur",
+                    d: "één dag",
+                    dd: "%d dagen",
+                    M: "één maand",
+                    MM: "%d maanden",
+                    y: "één jaar",
+                    yy: "%d jaar"
+                },
+                ordinalParse: /\d{1,2}(ste|de)/,
+                ordinal: function(a) {
+                    return a + (1 === a || 8 === a || a >= 20 ? "ste" : "de")
+                },
+                week: {
+                    dow: 1,
+                    doy: 4
+                }
+            });
             return d
         }(), a.fullCalendar.datepickerLang("nl", "nl", {
             closeText: "Sluiten",
@@ -3240,78 +3271,78 @@
                 var e = b + " ";
                 switch (d) {
                     case "m":
-                        return c ? "minuta" : "minutę";
+                    return c ? "minuta" : "minutę";
                     case "mm":
-                        return e + (a(b) ? "minuty" : "minut");
+                    return e + (a(b) ? "minuty" : "minut");
                     case "h":
-                        return c ? "godzina" : "godzinę";
+                    return c ? "godzina" : "godzinę";
                     case "hh":
-                        return e + (a(b) ? "godziny" : "godzin");
+                    return e + (a(b) ? "godziny" : "godzin");
                     case "MM":
-                        return e + (a(b) ? "miesiące" : "miesięcy");
+                    return e + (a(b) ? "miesiące" : "miesięcy");
                     case "yy":
-                        return e + (a(b) ? "lata" : "lat")
+                    return e + (a(b) ? "lata" : "lat")
                 }
             }
             var d = "styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień".split("_"),
-                e = "stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_września_października_listopada_grudnia".split("_"),
-                f = (b.defineLocale || b.lang).call(b, "pl", {
-                    months: function(a, b) {
-                        return "" === b ? "(" + e[a.month()] + "|" + d[a.month()] + ")" : /D MMMM/.test(b) ? e[a.month()] : d[a.month()]
+            e = "stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_września_października_listopada_grudnia".split("_"),
+            f = (b.defineLocale || b.lang).call(b, "pl", {
+                months: function(a, b) {
+                    return "" === b ? "(" + e[a.month()] + "|" + d[a.month()] + ")" : /D MMMM/.test(b) ? e[a.month()] : d[a.month()]
+                },
+                monthsShort: "sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),
+                weekdays: "niedziela_poniedziałek_wtorek_środa_czwartek_piątek_sobota".split("_"),
+                weekdaysShort: "nie_pon_wt_śr_czw_pt_sb".split("_"),
+                weekdaysMin: "Nd_Pn_Wt_Śr_Cz_Pt_So".split("_"),
+                longDateFormat: {
+                    LT: "HH:mm",
+                    LTS: "HH:mm:ss",
+                    L: "DD.MM.YYYY",
+                    LL: "D MMMM YYYY",
+                    LLL: "D MMMM YYYY HH:mm",
+                    LLLL: "dddd, D MMMM YYYY HH:mm"
+                },
+                calendar: {
+                    sameDay: "[Dziś o] LT",
+                    nextDay: "[Jutro o] LT",
+                    nextWeek: "[W] dddd [o] LT",
+                    lastDay: "[Wczoraj o] LT",
+                    lastWeek: function() {
+                        switch (this.day()) {
+                            case 0:
+                            return "[W zeszłą niedzielę o] LT";
+                            case 3:
+                            return "[W zeszłą środę o] LT";
+                            case 6:
+                            return "[W zeszłą sobotę o] LT";
+                            default:
+                            return "[W zeszły] dddd [o] LT"
+                        }
                     },
-                    monthsShort: "sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),
-                    weekdays: "niedziela_poniedziałek_wtorek_środa_czwartek_piątek_sobota".split("_"),
-                    weekdaysShort: "nie_pon_wt_śr_czw_pt_sb".split("_"),
-                    weekdaysMin: "Nd_Pn_Wt_Śr_Cz_Pt_So".split("_"),
-                    longDateFormat: {
-                        LT: "HH:mm",
-                        LTS: "HH:mm:ss",
-                        L: "DD.MM.YYYY",
-                        LL: "D MMMM YYYY",
-                        LLL: "D MMMM YYYY HH:mm",
-                        LLLL: "dddd, D MMMM YYYY HH:mm"
-                    },
-                    calendar: {
-                        sameDay: "[Dziś o] LT",
-                        nextDay: "[Jutro o] LT",
-                        nextWeek: "[W] dddd [o] LT",
-                        lastDay: "[Wczoraj o] LT",
-                        lastWeek: function() {
-                            switch (this.day()) {
-                                case 0:
-                                    return "[W zeszłą niedzielę o] LT";
-                                case 3:
-                                    return "[W zeszłą środę o] LT";
-                                case 6:
-                                    return "[W zeszłą sobotę o] LT";
-                                default:
-                                    return "[W zeszły] dddd [o] LT"
-                            }
-                        },
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "za %s",
-                        past: "%s temu",
-                        s: "kilka sekund",
-                        m: c,
-                        mm: c,
-                        h: c,
-                        hh: c,
-                        d: "1 dzień",
-                        dd: "%d dni",
-                        M: "miesiąc",
-                        MM: c,
-                        y: "rok",
-                        yy: c
-                    },
-                    ordinalParse: /\d{1,2}\./,
-                    ordinal: "%d.",
-                    week: {
-                        dow: 1,
-                        doy: 4
-                    }
-                });
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "za %s",
+                    past: "%s temu",
+                    s: "kilka sekund",
+                    m: c,
+                    mm: c,
+                    h: c,
+                    hh: c,
+                    d: "1 dzień",
+                    dd: "%d dni",
+                    M: "miesiąc",
+                    MM: c,
+                    y: "rok",
+                    yy: c
+                },
+                ordinalParse: /\d{1,2}\./,
+                ordinal: "%d.",
+                week: {
+                    dow: 1,
+                    doy: 4
+                }
+            });
             return f
         }(), a.fullCalendar.datepickerLang("pl", "pl", {
             closeText: "Zamknij",
@@ -3346,9 +3377,10 @@
             var a = (b.defineLocale || b.lang).call(b, "pt-br", {
                 months: "Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro".split("_"),
                 monthsShort: "Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez".split("_"),
-                weekdays: "Domingo_Segunda-Feira_Terça-Feira_Quarta-Feira_Quinta-Feira_Sexta-Feira_Sábado".split("_"),
+                weekdays: "Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado".split("_"),
                 weekdaysShort: "Dom_Seg_Ter_Qua_Qui_Sex_Sáb".split("_"),
                 weekdaysMin: "Dom_2ª_3ª_4ª_5ª_6ª_Sáb".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -3424,6 +3456,7 @@
                 weekdays: "Domingo_Segunda-Feira_Terça-Feira_Quarta-Feira_Quinta-Feira_Sexta-Feira_Sábado".split("_"),
                 weekdaysShort: "Dom_Seg_Ter_Qua_Qui_Sex_Sáb".split("_"),
                 weekdaysMin: "Dom_2ª_3ª_4ª_5ª_6ª_Sáb".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -3498,18 +3531,19 @@
 
             function a(a, b, c) {
                 var d = {
-                        mm: "minute",
-                        hh: "ore",
-                        dd: "zile",
-                        MM: "luni",
-                        yy: "ani"
-                    },
-                    e = " ";
+                    mm: "minute",
+                    hh: "ore",
+                    dd: "zile",
+                    MM: "luni",
+                    yy: "ani"
+                },
+                e = " ";
                 return (a % 100 >= 20 || a >= 100 && a % 100 === 0) && (e = " de "), a + e + d[c]
             }
             var c = (b.defineLocale || b.lang).call(b, "ro", {
                 months: "ianuarie_februarie_martie_aprilie_mai_iunie_iulie_august_septembrie_octombrie_noiembrie_decembrie".split("_"),
                 monthsShort: "ian._febr._mart._apr._mai_iun._iul._aug._sept._oct._nov._dec.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "duminică_luni_marți_miercuri_joi_vineri_sâmbătă".split("_"),
                 weekdaysShort: "Dum_Lun_Mar_Mie_Joi_Vin_Sâm".split("_"),
                 weekdaysMin: "Du_Lu_Ma_Mi_Jo_Vi_Sâ".split("_"),
@@ -3600,113 +3634,117 @@
                 };
                 return "m" === d ? c ? "минута" : "минуту" : b + " " + a(e[d], +b)
             }
-            var d = [/^янв/i, /^фев/i, /^мар/i, /^апр/i, /^ма[й|я]/i, /^июн/i, /^июл/i, /^авг/i, /^сен/i, /^окт/i, /^ноя/i, /^дек/i],
-                e = (b.defineLocale || b.lang).call(b, "ru", {
-                    months: {
-                        format: "Января_Февраля_Марта_Апреля_Мая_Июня_Июля_Августа_Сентября_Октября_Ноября_Декабря".split("_"),
-                        standalone: "Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь".split("_")
-                    },
-                    monthsShort: {
-                        format: "янв_фев_мар_апр_мая_июня_июля_авг_сен_окт_ноя_дек".split("_"),
-                        standalone: "янв_фев_март_апр_май_июнь_июль_авг_сен_окт_ноя_дек".split("_")
-                    },
-                    weekdays: {
-                        standalone: "Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота".split("_"),
-                        format: "Воскресенье_Понедельник_Вторник_Среду_Четверг_Пятницу_Субботу".split("_"),
-                        isFormat: /\[ ?[Вв] ?(?:прошлую|следующую|эту)? ?\] ?dddd/
-                    },
-                    weekdaysShort: "Вс_Пн_Вт_Ср_Чт_Пт_Сб".split("_"),
-                    weekdaysMin: "Вс_Пн_Вт_Ср_Чт_Пт_Сб".split("_"),
-                    monthsParse: d,
-                    longMonthsParse: d,
-                    shortMonthsParse: d,
-                    longDateFormat: {
-                        LT: "HH:mm",
-                        LTS: "HH:mm:ss",
-                        L: "DD.MM.YYYY",
-                        LL: "D MMMM YYYY г.",
-                        LLL: "D MMMM YYYY г., HH:mm",
-                        LLLL: "dddd, D MMMM YYYY г., HH:mm"
-                    },
-                    calendar: {
-                        sameDay: "[Сегодня в] LT",
-                        nextDay: "[Завтра в] LT",
-                        lastDay: "[Вчера в] LT",
-                        nextWeek: function(a) {
-                            if (a.week() === this.week()) return 2 === this.day() ? "[Во] dddd [в] LT" : "[В] dddd [в] LT";
-                            switch (this.day()) {
-                                case 0:
-                                    return "[В следующее] dddd [в] LT";
-                                case 1:
-                                case 2:
-                                case 4:
-                                    return "[В следующий] dddd [в] LT";
-                                case 3:
-                                case 5:
-                                case 6:
-                                    return "[В следующую] dddd [в] LT"
-                            }
-                        },
-                        lastWeek: function(a) {
-                            if (a.week() === this.week()) return 2 === this.day() ? "[Во] dddd [в] LT" : "[В] dddd [в] LT";
-                            switch (this.day()) {
-                                case 0:
-                                    return "[В прошлое] dddd [в] LT";
-                                case 1:
-                                case 2:
-                                case 4:
-                                    return "[В прошлый] dddd [в] LT";
-                                case 3:
-                                case 5:
-                                case 6:
-                                    return "[В прошлую] dddd [в] LT"
-                            }
-                        },
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "через %s",
-                        past: "%s назад",
-                        s: "несколько секунд",
-                        m: c,
-                        mm: c,
-                        h: "час",
-                        hh: c,
-                        d: "день",
-                        dd: c,
-                        M: "месяц",
-                        MM: c,
-                        y: "год",
-                        yy: c
-                    },
-                    meridiemParse: /ночи|утра|дня|вечера/i,
-                    isPM: function(a) {
-                        return /^(дня|вечера)$/.test(a)
-                    },
-                    meridiem: function(a, b, c) {
-                        return 4 > a ? "ночи" : 12 > a ? "утра" : 17 > a ? "дня" : "вечера"
-                    },
-                    ordinalParse: /\d{1,2}-(й|го|я)/,
-                    ordinal: function(a, b) {
-                        switch (b) {
-                            case "M":
-                            case "d":
-                            case "DDD":
-                                return a + "-й";
-                            case "D":
-                                return a + "-го";
-                            case "w":
-                            case "W":
-                                return a + "-я";
-                            default:
-                                return a
+            var d = [/^янв/i, /^фев/i, /^мар/i, /^апр/i, /^ма[йя]/i, /^июн/i, /^июл/i, /^авг/i, /^сен/i, /^окт/i, /^ноя/i, /^дек/i],
+            e = (b.defineLocale || b.lang).call(b, "ru", {
+                months: {
+                    format: "января_февраля_марта_апреля_мая_июня_июля_августа_сентября_октября_ноября_декабря".split("_"),
+                    standalone: "январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_")
+                },
+                monthsShort: {
+                    format: "янв._февр._мар._апр._мая_июня_июля_авг._сент._окт._нояб._дек.".split("_"),
+                    standalone: "янв._февр._март_апр._май_июнь_июль_авг._сент._окт._нояб._дек.".split("_")
+                },
+                weekdays: {
+                    standalone: "воскресенье_понедельник_вторник_среда_четверг_пятница_суббота".split("_"),
+                    format: "воскресенье_понедельник_вторник_среду_четверг_пятницу_субботу".split("_"),
+                    isFormat: /\[ ?[Вв] ?(?:прошлую|следующую|эту)? ?\] ?dddd/
+                },
+                weekdaysShort: "вс_пн_вт_ср_чт_пт_сб".split("_"),
+                weekdaysMin: "вс_пн_вт_ср_чт_пт_сб".split("_"),
+                monthsParse: d,
+                longMonthsParse: d,
+                shortMonthsParse: d,
+                monthsRegex: /^(сентябр[яь]|октябр[яь]|декабр[яь]|феврал[яь]|январ[яь]|апрел[яь]|августа?|ноябр[яь]|сент\.|февр\.|нояб\.|июнь|янв.|июль|дек.|авг.|апр.|марта|мар[.т]|окт.|июн[яь]|июл[яь]|ма[яй])/i,
+                monthsShortRegex: /^(сентябр[яь]|октябр[яь]|декабр[яь]|феврал[яь]|январ[яь]|апрел[яь]|августа?|ноябр[яь]|сент\.|февр\.|нояб\.|июнь|янв.|июль|дек.|авг.|апр.|марта|мар[.т]|окт.|июн[яь]|июл[яь]|ма[яй])/i,
+                monthsStrictRegex: /^(сентябр[яь]|октябр[яь]|декабр[яь]|феврал[яь]|январ[яь]|апрел[яь]|августа?|ноябр[яь]|марта?|июн[яь]|июл[яь]|ма[яй])/i,
+                monthsShortStrictRegex: /^(нояб\.|февр\.|сент\.|июль|янв\.|июн[яь]|мар[.т]|авг\.|апр\.|окт\.|дек\.|ма[яй])/i,
+                longDateFormat: {
+                    LT: "HH:mm",
+                    LTS: "HH:mm:ss",
+                    L: "DD.MM.YYYY",
+                    LL: "D MMMM YYYY г.",
+                    LLL: "D MMMM YYYY г., HH:mm",
+                    LLLL: "dddd, D MMMM YYYY г., HH:mm"
+                },
+                calendar: {
+                    sameDay: "[Сегодня в] LT",
+                    nextDay: "[Завтра в] LT",
+                    lastDay: "[Вчера в] LT",
+                    nextWeek: function(a) {
+                        if (a.week() === this.week()) return 2 === this.day() ? "[Во] dddd [в] LT" : "[В] dddd [в] LT";
+                        switch (this.day()) {
+                            case 0:
+                            return "[В следующее] dddd [в] LT";
+                            case 1:
+                            case 2:
+                            case 4:
+                            return "[В следующий] dddd [в] LT";
+                            case 3:
+                            case 5:
+                            case 6:
+                            return "[В следующую] dddd [в] LT"
                         }
                     },
-                    week: {
-                        dow: 1,
-                        doy: 7
+                    lastWeek: function(a) {
+                        if (a.week() === this.week()) return 2 === this.day() ? "[Во] dddd [в] LT" : "[В] dddd [в] LT";
+                        switch (this.day()) {
+                            case 0:
+                            return "[В прошлое] dddd [в] LT";
+                            case 1:
+                            case 2:
+                            case 4:
+                            return "[В прошлый] dddd [в] LT";
+                            case 3:
+                            case 5:
+                            case 6:
+                            return "[В прошлую] dddd [в] LT"
+                        }
+                    },
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "через %s",
+                    past: "%s назад",
+                    s: "несколько секунд",
+                    m: c,
+                    mm: c,
+                    h: "час",
+                    hh: c,
+                    d: "день",
+                    dd: c,
+                    M: "месяц",
+                    MM: c,
+                    y: "год",
+                    yy: c
+                },
+                meridiemParse: /ночи|утра|дня|вечера/i,
+                isPM: function(a) {
+                    return /^(дня|вечера)$/.test(a)
+                },
+                meridiem: function(a, b, c) {
+                    return 4 > a ? "ночи" : 12 > a ? "утра" : 17 > a ? "дня" : "вечера"
+                },
+                ordinalParse: /\d{1,2}-(й|го|я)/,
+                ordinal: function(a, b) {
+                    switch (b) {
+                        case "M":
+                        case "d":
+                        case "DDD":
+                        return a + "-й";
+                        case "D":
+                        return a + "-го";
+                        case "w":
+                        case "W":
+                        return a + "-я";
+                        default:
+                        return a
                     }
-                });
+                },
+                week: {
+                    dow: 1,
+                    doy: 7
+                }
+            });
             return e
         }(), a.fullCalendar.datepickerLang("ru", "ru", {
             closeText: "Закрыть",
@@ -3749,106 +3787,106 @@
                 var f = b + " ";
                 switch (d) {
                     case "s":
-                        return c || e ? "pár sekúnd" : "pár sekundami";
+                    return c || e ? "pár sekúnd" : "pár sekundami";
                     case "m":
-                        return c ? "minúta" : e ? "minútu" : "minútou";
+                    return c ? "minúta" : e ? "minútu" : "minútou";
                     case "mm":
-                        return c || e ? f + (a(b) ? "minúty" : "minút") : f + "minútami";
+                    return c || e ? f + (a(b) ? "minúty" : "minút") : f + "minútami";
                     case "h":
-                        return c ? "hodina" : e ? "hodinu" : "hodinou";
+                    return c ? "hodina" : e ? "hodinu" : "hodinou";
                     case "hh":
-                        return c || e ? f + (a(b) ? "hodiny" : "hodín") : f + "hodinami";
+                    return c || e ? f + (a(b) ? "hodiny" : "hodín") : f + "hodinami";
                     case "d":
-                        return c || e ? "deň" : "dňom";
+                    return c || e ? "deň" : "dňom";
                     case "dd":
-                        return c || e ? f + (a(b) ? "dni" : "dní") : f + "dňami";
+                    return c || e ? f + (a(b) ? "dni" : "dní") : f + "dňami";
                     case "M":
-                        return c || e ? "mesiac" : "mesiacom";
+                    return c || e ? "mesiac" : "mesiacom";
                     case "MM":
-                        return c || e ? f + (a(b) ? "mesiace" : "mesiacov") : f + "mesiacmi";
+                    return c || e ? f + (a(b) ? "mesiace" : "mesiacov") : f + "mesiacmi";
                     case "y":
-                        return c || e ? "rok" : "rokom";
+                    return c || e ? "rok" : "rokom";
                     case "yy":
-                        return c || e ? f + (a(b) ? "roky" : "rokov") : f + "rokmi"
+                    return c || e ? f + (a(b) ? "roky" : "rokov") : f + "rokmi"
                 }
             }
             var d = "január_február_marec_apríl_máj_jún_júl_august_september_október_november_december".split("_"),
-                e = "jan_feb_mar_apr_máj_jún_júl_aug_sep_okt_nov_dec".split("_"),
-                f = (b.defineLocale || b.lang).call(b, "sk", {
-                    months: d,
-                    monthsShort: e,
-                    weekdays: "nedeľa_pondelok_utorok_streda_štvrtok_piatok_sobota".split("_"),
-                    weekdaysShort: "ne_po_ut_st_št_pi_so".split("_"),
-                    weekdaysMin: "ne_po_ut_st_št_pi_so".split("_"),
-                    longDateFormat: {
-                        LT: "H:mm",
-                        LTS: "H:mm:ss",
-                        L: "DD.MM.YYYY",
-                        LL: "D. MMMM YYYY",
-                        LLL: "D. MMMM YYYY H:mm",
-                        LLLL: "dddd D. MMMM YYYY H:mm"
+            e = "jan_feb_mar_apr_máj_jún_júl_aug_sep_okt_nov_dec".split("_"),
+            f = (b.defineLocale || b.lang).call(b, "sk", {
+                months: d,
+                monthsShort: e,
+                weekdays: "nedeľa_pondelok_utorok_streda_štvrtok_piatok_sobota".split("_"),
+                weekdaysShort: "ne_po_ut_st_št_pi_so".split("_"),
+                weekdaysMin: "ne_po_ut_st_št_pi_so".split("_"),
+                longDateFormat: {
+                    LT: "H:mm",
+                    LTS: "H:mm:ss",
+                    L: "DD.MM.YYYY",
+                    LL: "D. MMMM YYYY",
+                    LLL: "D. MMMM YYYY H:mm",
+                    LLLL: "dddd D. MMMM YYYY H:mm"
+                },
+                calendar: {
+                    sameDay: "[dnes o] LT",
+                    nextDay: "[zajtra o] LT",
+                    nextWeek: function() {
+                        switch (this.day()) {
+                            case 0:
+                            return "[v nedeľu o] LT";
+                            case 1:
+                            case 2:
+                            return "[v] dddd [o] LT";
+                            case 3:
+                            return "[v stredu o] LT";
+                            case 4:
+                            return "[vo štvrtok o] LT";
+                            case 5:
+                            return "[v piatok o] LT";
+                            case 6:
+                            return "[v sobotu o] LT"
+                        }
                     },
-                    calendar: {
-                        sameDay: "[dnes o] LT",
-                        nextDay: "[zajtra o] LT",
-                        nextWeek: function() {
-                            switch (this.day()) {
-                                case 0:
-                                    return "[v nedeľu o] LT";
-                                case 1:
-                                case 2:
-                                    return "[v] dddd [o] LT";
-                                case 3:
-                                    return "[v stredu o] LT";
-                                case 4:
-                                    return "[vo štvrtok o] LT";
-                                case 5:
-                                    return "[v piatok o] LT";
-                                case 6:
-                                    return "[v sobotu o] LT"
-                            }
-                        },
-                        lastDay: "[včera o] LT",
-                        lastWeek: function() {
-                            switch (this.day()) {
-                                case 0:
-                                    return "[minulú nedeľu o] LT";
-                                case 1:
-                                case 2:
-                                    return "[minulý] dddd [o] LT";
-                                case 3:
-                                    return "[minulú stredu o] LT";
-                                case 4:
-                                case 5:
-                                    return "[minulý] dddd [o] LT";
-                                case 6:
-                                    return "[minulú sobotu o] LT"
-                            }
-                        },
-                        sameElse: "L"
+                    lastDay: "[včera o] LT",
+                    lastWeek: function() {
+                        switch (this.day()) {
+                            case 0:
+                            return "[minulú nedeľu o] LT";
+                            case 1:
+                            case 2:
+                            return "[minulý] dddd [o] LT";
+                            case 3:
+                            return "[minulú stredu o] LT";
+                            case 4:
+                            case 5:
+                            return "[minulý] dddd [o] LT";
+                            case 6:
+                            return "[minulú sobotu o] LT"
+                        }
                     },
-                    relativeTime: {
-                        future: "za %s",
-                        past: "pred %s",
-                        s: c,
-                        m: c,
-                        mm: c,
-                        h: c,
-                        hh: c,
-                        d: c,
-                        dd: c,
-                        M: c,
-                        MM: c,
-                        y: c,
-                        yy: c
-                    },
-                    ordinalParse: /\d{1,2}\./,
-                    ordinal: "%d.",
-                    week: {
-                        dow: 1,
-                        doy: 4
-                    }
-                });
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "za %s",
+                    past: "pred %s",
+                    s: c,
+                    m: c,
+                    mm: c,
+                    h: c,
+                    hh: c,
+                    d: c,
+                    dd: c,
+                    M: c,
+                    MM: c,
+                    y: c,
+                    yy: c
+                },
+                ordinalParse: /\d{1,2}\./,
+                ordinal: "%d.",
+                week: {
+                    dow: 1,
+                    doy: 4
+                }
+            });
             return f
         }(), a.fullCalendar.datepickerLang("sk", "sk", {
             closeText: "Zavrieť",
@@ -3887,35 +3925,37 @@
                 var e = a + " ";
                 switch (c) {
                     case "s":
-                        return b || d ? "nekaj sekund" : "nekaj sekundami";
+                    return b || d ? "nekaj sekund" : "nekaj sekundami";
                     case "m":
-                        return b ? "ena minuta" : "eno minuto";
+                    return b ? "ena minuta" : "eno minuto";
                     case "mm":
-                        return e += 1 === a ? b ? "minuta" : "minuto" : 2 === a ? b || d ? "minuti" : "minutama" : 5 > a ? b || d ? "minute" : "minutami" : b || d ? "minut" : "minutami";
+                    return e += 1 === a ? b ? "minuta" : "minuto" : 2 === a ? b || d ? "minuti" : "minutama" : 5 > a ? b || d ? "minute" : "minutami" : b || d ? "minut" : "minutami";
                     case "h":
-                        return b ? "ena ura" : "eno uro";
+                    return b ? "ena ura" : "eno uro";
                     case "hh":
-                        return e += 1 === a ? b ? "ura" : "uro" : 2 === a ? b || d ? "uri" : "urama" : 5 > a ? b || d ? "ure" : "urami" : b || d ? "ur" : "urami";
+                    return e += 1 === a ? b ? "ura" : "uro" : 2 === a ? b || d ? "uri" : "urama" : 5 > a ? b || d ? "ure" : "urami" : b || d ? "ur" : "urami";
                     case "d":
-                        return b || d ? "en dan" : "enim dnem";
+                    return b || d ? "en dan" : "enim dnem";
                     case "dd":
-                        return e += 1 === a ? b || d ? "dan" : "dnem" : 2 === a ? b || d ? "dni" : "dnevoma" : b || d ? "dni" : "dnevi";
+                    return e += 1 === a ? b || d ? "dan" : "dnem" : 2 === a ? b || d ? "dni" : "dnevoma" : b || d ? "dni" : "dnevi";
                     case "M":
-                        return b || d ? "en mesec" : "enim mesecem";
+                    return b || d ? "en mesec" : "enim mesecem";
                     case "MM":
-                        return e += 1 === a ? b || d ? "mesec" : "mesecem" : 2 === a ? b || d ? "meseca" : "mesecema" : 5 > a ? b || d ? "mesece" : "meseci" : b || d ? "mesecev" : "meseci";
+                    return e += 1 === a ? b || d ? "mesec" : "mesecem" : 2 === a ? b || d ? "meseca" : "mesecema" : 5 > a ? b || d ? "mesece" : "meseci" : b || d ? "mesecev" : "meseci";
                     case "y":
-                        return b || d ? "eno leto" : "enim letom";
+                    return b || d ? "eno leto" : "enim letom";
                     case "yy":
-                        return e += 1 === a ? b || d ? "leto" : "letom" : 2 === a ? b || d ? "leti" : "letoma" : 5 > a ? b || d ? "leta" : "leti" : b || d ? "let" : "leti"
+                    return e += 1 === a ? b || d ? "leto" : "letom" : 2 === a ? b || d ? "leti" : "letoma" : 5 > a ? b || d ? "leta" : "leti" : b || d ? "let" : "leti"
                 }
             }
             var c = (b.defineLocale || b.lang).call(b, "sl", {
                 months: "januar_februar_marec_april_maj_junij_julij_avgust_september_oktober_november_december".split("_"),
                 monthsShort: "jan._feb._mar._apr._maj._jun._jul._avg._sep._okt._nov._dec.".split("_"),
+                monthsParseExact: !0,
                 weekdays: "nedelja_ponedeljek_torek_sreda_četrtek_petek_sobota".split("_"),
                 weekdaysShort: "ned._pon._tor._sre._čet._pet._sob.".split("_"),
                 weekdaysMin: "ne_po_to_sr_če_pe_so".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "H:mm",
                     LTS: "H:mm:ss",
@@ -3930,32 +3970,32 @@
                     nextWeek: function() {
                         switch (this.day()) {
                             case 0:
-                                return "[v] [nedeljo] [ob] LT";
+                            return "[v] [nedeljo] [ob] LT";
                             case 3:
-                                return "[v] [sredo] [ob] LT";
+                            return "[v] [sredo] [ob] LT";
                             case 6:
-                                return "[v] [soboto] [ob] LT";
+                            return "[v] [soboto] [ob] LT";
                             case 1:
                             case 2:
                             case 4:
                             case 5:
-                                return "[v] dddd [ob] LT"
+                            return "[v] dddd [ob] LT"
                         }
                     },
                     lastDay: "[včeraj ob] LT",
                     lastWeek: function() {
                         switch (this.day()) {
                             case 0:
-                                return "[prejšnjo] [nedeljo] [ob] LT";
+                            return "[prejšnjo] [nedeljo] [ob] LT";
                             case 3:
-                                return "[prejšnjo] [sredo] [ob] LT";
+                            return "[prejšnjo] [sredo] [ob] LT";
                             case 6:
-                                return "[prejšnjo] [soboto] [ob] LT";
+                            return "[prejšnjo] [soboto] [ob] LT";
                             case 1:
                             case 2:
                             case 4:
                             case 5:
-                                return "[prejšnji] dddd [ob] LT"
+                            return "[prejšnji] dddd [ob] LT"
                         }
                     },
                     sameElse: "L"
@@ -4014,84 +4054,86 @@
         ! function() {
             "use strict";
             var a = {
-                    words: {
-                        m: ["један минут", "једне минуте"],
-                        mm: ["минут", "минуте", "минута"],
-                        h: ["један сат", "једног сата"],
-                        hh: ["сат", "сата", "сати"],
-                        dd: ["дан", "дана", "дана"],
-                        MM: ["месец", "месеца", "месеци"],
-                        yy: ["година", "године", "година"]
-                    },
-                    correctGrammaticalCase: function(a, b) {
-                        return 1 === a ? b[0] : a >= 2 && 4 >= a ? b[1] : b[2]
-                    },
-                    translate: function(b, c, d) {
-                        var e = a.words[d];
-                        return 1 === d.length ? c ? e[0] : e[1] : b + " " + a.correctGrammaticalCase(b, e)
-                    }
+                words: {
+                    m: ["један минут", "једне минуте"],
+                    mm: ["минут", "минуте", "минута"],
+                    h: ["један сат", "једног сата"],
+                    hh: ["сат", "сата", "сати"],
+                    dd: ["дан", "дана", "дана"],
+                    MM: ["месец", "месеца", "месеци"],
+                    yy: ["година", "године", "година"]
                 },
-                c = (b.defineLocale || b.lang).call(b, "sr-cyrl", {
-                    months: ["јануар", "фебруар", "март", "април", "мај", "јун", "јул", "август", "септембар", "октобар", "новембар", "децембар"],
-                    monthsShort: ["јан.", "феб.", "мар.", "апр.", "мај", "јун", "јул", "авг.", "сеп.", "окт.", "нов.", "дец."],
-                    weekdays: ["недеља", "понедељак", "уторак", "среда", "четвртак", "петак", "субота"],
-                    weekdaysShort: ["нед.", "пон.", "уто.", "сре.", "чет.", "пет.", "суб."],
-                    weekdaysMin: ["не", "по", "ут", "ср", "че", "пе", "су"],
-                    longDateFormat: {
-                        LT: "H:mm",
-                        LTS: "H:mm:ss",
-                        L: "DD. MM. YYYY",
-                        LL: "D. MMMM YYYY",
-                        LLL: "D. MMMM YYYY H:mm",
-                        LLLL: "dddd, D. MMMM YYYY H:mm"
+                correctGrammaticalCase: function(a, b) {
+                    return 1 === a ? b[0] : a >= 2 && 4 >= a ? b[1] : b[2]
+                },
+                translate: function(b, c, d) {
+                    var e = a.words[d];
+                    return 1 === d.length ? c ? e[0] : e[1] : b + " " + a.correctGrammaticalCase(b, e)
+                }
+            },
+            c = (b.defineLocale || b.lang).call(b, "sr-cyrl", {
+                months: "јануар_фебруар_март_април_мај_јун_јул_август_септембар_октобар_новембар_децембар".split("_"),
+                monthsShort: "јан._феб._мар._апр._мај_јун_јул_авг._сеп._окт._нов._дец.".split("_"),
+                monthsParseExact: !0,
+                weekdays: "недеља_понедељак_уторак_среда_четвртак_петак_субота".split("_"),
+                weekdaysShort: "нед._пон._уто._сре._чет._пет._суб.".split("_"),
+                weekdaysMin: "не_по_ут_ср_че_пе_су".split("_"),
+                weekdaysParseExact: !0,
+                longDateFormat: {
+                    LT: "H:mm",
+                    LTS: "H:mm:ss",
+                    L: "DD. MM. YYYY",
+                    LL: "D. MMMM YYYY",
+                    LLL: "D. MMMM YYYY H:mm",
+                    LLLL: "dddd, D. MMMM YYYY H:mm"
+                },
+                calendar: {
+                    sameDay: "[данас у] LT",
+                    nextDay: "[сутра у] LT",
+                    nextWeek: function() {
+                        switch (this.day()) {
+                            case 0:
+                            return "[у] [недељу] [у] LT";
+                            case 3:
+                            return "[у] [среду] [у] LT";
+                            case 6:
+                            return "[у] [суботу] [у] LT";
+                            case 1:
+                            case 2:
+                            case 4:
+                            case 5:
+                            return "[у] dddd [у] LT"
+                        }
                     },
-                    calendar: {
-                        sameDay: "[данас у] LT",
-                        nextDay: "[сутра у] LT",
-                        nextWeek: function() {
-                            switch (this.day()) {
-                                case 0:
-                                    return "[у] [недељу] [у] LT";
-                                case 3:
-                                    return "[у] [среду] [у] LT";
-                                case 6:
-                                    return "[у] [суботу] [у] LT";
-                                case 1:
-                                case 2:
-                                case 4:
-                                case 5:
-                                    return "[у] dddd [у] LT"
-                            }
-                        },
-                        lastDay: "[јуче у] LT",
-                        lastWeek: function() {
-                            var a = ["[прошле] [недеље] [у] LT", "[прошлог] [понедељка] [у] LT", "[прошлог] [уторка] [у] LT", "[прошле] [среде] [у] LT", "[прошлог] [четвртка] [у] LT", "[прошлог] [петка] [у] LT", "[прошле] [суботе] [у] LT"];
-                            return a[this.day()]
-                        },
-                        sameElse: "L"
+                    lastDay: "[јуче у] LT",
+                    lastWeek: function() {
+                        var a = ["[прошле] [недеље] [у] LT", "[прошлог] [понедељка] [у] LT", "[прошлог] [уторка] [у] LT", "[прошле] [среде] [у] LT", "[прошлог] [четвртка] [у] LT", "[прошлог] [петка] [у] LT", "[прошле] [суботе] [у] LT"];
+                        return a[this.day()]
                     },
-                    relativeTime: {
-                        future: "за %s",
-                        past: "пре %s",
-                        s: "неколико секунди",
-                        m: a.translate,
-                        mm: a.translate,
-                        h: a.translate,
-                        hh: a.translate,
-                        d: "дан",
-                        dd: a.translate,
-                        M: "месец",
-                        MM: a.translate,
-                        y: "годину",
-                        yy: a.translate
-                    },
-                    ordinalParse: /\d{1,2}\./,
-                    ordinal: "%d.",
-                    week: {
-                        dow: 1,
-                        doy: 7
-                    }
-                });
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "за %s",
+                    past: "пре %s",
+                    s: "неколико секунди",
+                    m: a.translate,
+                    mm: a.translate,
+                    h: a.translate,
+                    hh: a.translate,
+                    d: "дан",
+                    dd: a.translate,
+                    M: "месец",
+                    MM: a.translate,
+                    y: "годину",
+                    yy: a.translate
+                },
+                ordinalParse: /\d{1,2}\./,
+                ordinal: "%d.",
+                week: {
+                    dow: 1,
+                    doy: 7
+                }
+            });
             return c
         }(), a.fullCalendar.datepickerLang("sr-cyrl", "sr", {
             closeText: "Затвори",
@@ -4126,84 +4168,86 @@
         ! function() {
             "use strict";
             var a = {
-                    words: {
-                        m: ["jedan minut", "jedne minute"],
-                        mm: ["minut", "minute", "minuta"],
-                        h: ["jedan sat", "jednog sata"],
-                        hh: ["sat", "sata", "sati"],
-                        dd: ["dan", "dana", "dana"],
-                        MM: ["mesec", "meseca", "meseci"],
-                        yy: ["godina", "godine", "godina"]
-                    },
-                    correctGrammaticalCase: function(a, b) {
-                        return 1 === a ? b[0] : a >= 2 && 4 >= a ? b[1] : b[2]
-                    },
-                    translate: function(b, c, d) {
-                        var e = a.words[d];
-                        return 1 === d.length ? c ? e[0] : e[1] : b + " " + a.correctGrammaticalCase(b, e)
-                    }
+                words: {
+                    m: ["jedan minut", "jedne minute"],
+                    mm: ["minut", "minute", "minuta"],
+                    h: ["jedan sat", "jednog sata"],
+                    hh: ["sat", "sata", "sati"],
+                    dd: ["dan", "dana", "dana"],
+                    MM: ["mesec", "meseca", "meseci"],
+                    yy: ["godina", "godine", "godina"]
                 },
-                c = (b.defineLocale || b.lang).call(b, "sr", {
-                    months: ["januar", "februar", "mart", "april", "maj", "jun", "jul", "avgust", "septembar", "oktobar", "novembar", "decembar"],
-                    monthsShort: ["jan.", "feb.", "mar.", "apr.", "maj", "jun", "jul", "avg.", "sep.", "okt.", "nov.", "dec."],
-                    weekdays: ["nedelja", "ponedeljak", "utorak", "sreda", "četvrtak", "petak", "subota"],
-                    weekdaysShort: ["ned.", "pon.", "uto.", "sre.", "čet.", "pet.", "sub."],
-                    weekdaysMin: ["ne", "po", "ut", "sr", "če", "pe", "su"],
-                    longDateFormat: {
-                        LT: "H:mm",
-                        LTS: "H:mm:ss",
-                        L: "DD. MM. YYYY",
-                        LL: "D. MMMM YYYY",
-                        LLL: "D. MMMM YYYY H:mm",
-                        LLLL: "dddd, D. MMMM YYYY H:mm"
+                correctGrammaticalCase: function(a, b) {
+                    return 1 === a ? b[0] : a >= 2 && 4 >= a ? b[1] : b[2]
+                },
+                translate: function(b, c, d) {
+                    var e = a.words[d];
+                    return 1 === d.length ? c ? e[0] : e[1] : b + " " + a.correctGrammaticalCase(b, e)
+                }
+            },
+            c = (b.defineLocale || b.lang).call(b, "sr", {
+                months: "januar_februar_mart_april_maj_jun_jul_avgust_septembar_oktobar_novembar_decembar".split("_"),
+                monthsShort: "jan._feb._mar._apr._maj_jun_jul_avg._sep._okt._nov._dec.".split("_"),
+                monthsParseExact: !0,
+                weekdays: "nedelja_ponedeljak_utorak_sreda_četvrtak_petak_subota".split("_"),
+                weekdaysShort: "ned._pon._uto._sre._čet._pet._sub.".split("_"),
+                weekdaysMin: "ne_po_ut_sr_če_pe_su".split("_"),
+                weekdaysParseExact: !0,
+                longDateFormat: {
+                    LT: "H:mm",
+                    LTS: "H:mm:ss",
+                    L: "DD. MM. YYYY",
+                    LL: "D. MMMM YYYY",
+                    LLL: "D. MMMM YYYY H:mm",
+                    LLLL: "dddd, D. MMMM YYYY H:mm"
+                },
+                calendar: {
+                    sameDay: "[danas u] LT",
+                    nextDay: "[sutra u] LT",
+                    nextWeek: function() {
+                        switch (this.day()) {
+                            case 0:
+                            return "[u] [nedelju] [u] LT";
+                            case 3:
+                            return "[u] [sredu] [u] LT";
+                            case 6:
+                            return "[u] [subotu] [u] LT";
+                            case 1:
+                            case 2:
+                            case 4:
+                            case 5:
+                            return "[u] dddd [u] LT"
+                        }
                     },
-                    calendar: {
-                        sameDay: "[danas u] LT",
-                        nextDay: "[sutra u] LT",
-                        nextWeek: function() {
-                            switch (this.day()) {
-                                case 0:
-                                    return "[u] [nedelju] [u] LT";
-                                case 3:
-                                    return "[u] [sredu] [u] LT";
-                                case 6:
-                                    return "[u] [subotu] [u] LT";
-                                case 1:
-                                case 2:
-                                case 4:
-                                case 5:
-                                    return "[u] dddd [u] LT"
-                            }
-                        },
-                        lastDay: "[juče u] LT",
-                        lastWeek: function() {
-                            var a = ["[prošle] [nedelje] [u] LT", "[prošlog] [ponedeljka] [u] LT", "[prošlog] [utorka] [u] LT", "[prošle] [srede] [u] LT", "[prošlog] [četvrtka] [u] LT", "[prošlog] [petka] [u] LT", "[prošle] [subote] [u] LT"];
-                            return a[this.day()]
-                        },
-                        sameElse: "L"
+                    lastDay: "[juče u] LT",
+                    lastWeek: function() {
+                        var a = ["[prošle] [nedelje] [u] LT", "[prošlog] [ponedeljka] [u] LT", "[prošlog] [utorka] [u] LT", "[prošle] [srede] [u] LT", "[prošlog] [četvrtka] [u] LT", "[prošlog] [petka] [u] LT", "[prošle] [subote] [u] LT"];
+                        return a[this.day()]
                     },
-                    relativeTime: {
-                        future: "za %s",
-                        past: "pre %s",
-                        s: "nekoliko sekundi",
-                        m: a.translate,
-                        mm: a.translate,
-                        h: a.translate,
-                        hh: a.translate,
-                        d: "dan",
-                        dd: a.translate,
-                        M: "mesec",
-                        MM: a.translate,
-                        y: "godinu",
-                        yy: a.translate
-                    },
-                    ordinalParse: /\d{1,2}\./,
-                    ordinal: "%d.",
-                    week: {
-                        dow: 1,
-                        doy: 7
-                    }
-                });
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "za %s",
+                    past: "pre %s",
+                    s: "nekoliko sekundi",
+                    m: a.translate,
+                    mm: a.translate,
+                    h: a.translate,
+                    hh: a.translate,
+                    d: "dan",
+                    dd: a.translate,
+                    M: "mesec",
+                    MM: a.translate,
+                    y: "godinu",
+                    yy: a.translate
+                },
+                ordinalParse: /\d{1,2}\./,
+                ordinal: "%d.",
+                week: {
+                    dow: 1,
+                    doy: 7
+                }
+            });
             return c
         }(), a.fullCalendar.datepickerLang("sr", "sr", {
             closeText: "Затвори",
@@ -4248,8 +4292,10 @@
                     LTS: "HH:mm:ss",
                     L: "YYYY-MM-DD",
                     LL: "D MMMM YYYY",
-                    LLL: "D MMMM YYYY HH:mm",
-                    LLLL: "dddd D MMMM YYYY HH:mm"
+                    LLL: "D MMMM YYYY [kl.] HH:mm",
+                    LLLL: "dddd D MMMM YYYY [kl.] HH:mm",
+                    lll: "D MMM YYYY HH:mm",
+                    llll: "ddd D MMM YYYY HH:mm"
                 },
                 calendar: {
                     sameDay: "[Idag] LT",
@@ -4277,7 +4323,7 @@
                 ordinalParse: /\d{1,2}(e|a)/,
                 ordinal: function(a) {
                     var b = a % 10,
-                        c = 1 === ~~(a % 100 / 10) ? "e" : 1 === b ? "a" : 2 === b ? "a" : "e";
+                    c = 1 === ~~(a % 100 / 10) ? "e" : 1 === b ? "a" : 2 === b ? "a" : "e";
                     return a + c
                 },
                 week: {
@@ -4319,9 +4365,11 @@
             var a = (b.defineLocale || b.lang).call(b, "th", {
                 months: "มกราคม_กุมภาพันธ์_มีนาคม_เมษายน_พฤษภาคม_มิถุนายน_กรกฎาคม_สิงหาคม_กันยายน_ตุลาคม_พฤศจิกายน_ธันวาคม".split("_"),
                 monthsShort: "มกรา_กุมภา_มีนา_เมษา_พฤษภา_มิถุนา_กรกฎา_สิงหา_กันยา_ตุลา_พฤศจิกา_ธันวา".split("_"),
+                monthsParseExact: !0,
                 weekdays: "อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัสบดี_ศุกร์_เสาร์".split("_"),
                 weekdaysShort: "อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัส_ศุกร์_เสาร์".split("_"),
                 weekdaysMin: "อา._จ._อ._พ._พฤ._ศ._ส.".split("_"),
+                weekdaysParseExact: !0,
                 longDateFormat: {
                     LT: "H นาฬิกา m นาที",
                     LTS: "H นาฬิกา m นาที s วินาที",
@@ -4393,75 +4441,75 @@
         ! function() {
             "use strict";
             var a = {
-                    1: "'inci",
-                    5: "'inci",
-                    8: "'inci",
-                    70: "'inci",
-                    80: "'inci",
-                    2: "'nci",
-                    7: "'nci",
-                    20: "'nci",
-                    50: "'nci",
-                    3: "'üncü",
-                    4: "'üncü",
-                    100: "'üncü",
-                    6: "'ncı",
-                    9: "'uncu",
-                    10: "'uncu",
-                    30: "'uncu",
-                    60: "'ıncı",
-                    90: "'ıncı"
+                1: "'inci",
+                5: "'inci",
+                8: "'inci",
+                70: "'inci",
+                80: "'inci",
+                2: "'nci",
+                7: "'nci",
+                20: "'nci",
+                50: "'nci",
+                3: "'üncü",
+                4: "'üncü",
+                100: "'üncü",
+                6: "'ncı",
+                9: "'uncu",
+                10: "'uncu",
+                30: "'uncu",
+                60: "'ıncı",
+                90: "'ıncı"
+            },
+            c = (b.defineLocale || b.lang).call(b, "tr", {
+                months: "Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık".split("_"),
+                monthsShort: "Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara".split("_"),
+                weekdays: "Pazar_Pazartesi_Salı_Çarşamba_Perşembe_Cuma_Cumartesi".split("_"),
+                weekdaysShort: "Paz_Pts_Sal_Çar_Per_Cum_Cts".split("_"),
+                weekdaysMin: "Pz_Pt_Sa_Ça_Pe_Cu_Ct".split("_"),
+                longDateFormat: {
+                    LT: "HH:mm",
+                    LTS: "HH:mm:ss",
+                    L: "DD.MM.YYYY",
+                    LL: "D MMMM YYYY",
+                    LLL: "D MMMM YYYY HH:mm",
+                    LLLL: "dddd, D MMMM YYYY HH:mm"
                 },
-                c = (b.defineLocale || b.lang).call(b, "tr", {
-                    months: "Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık".split("_"),
-                    monthsShort: "Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara".split("_"),
-                    weekdays: "Pazar_Pazartesi_Salı_Çarşamba_Perşembe_Cuma_Cumartesi".split("_"),
-                    weekdaysShort: "Paz_Pts_Sal_Çar_Per_Cum_Cts".split("_"),
-                    weekdaysMin: "Pz_Pt_Sa_Ça_Pe_Cu_Ct".split("_"),
-                    longDateFormat: {
-                        LT: "HH:mm",
-                        LTS: "HH:mm:ss",
-                        L: "DD.MM.YYYY",
-                        LL: "D MMMM YYYY",
-                        LLL: "D MMMM YYYY HH:mm",
-                        LLLL: "dddd, D MMMM YYYY HH:mm"
-                    },
-                    calendar: {
-                        sameDay: "[bugün saat] LT",
-                        nextDay: "[yarın saat] LT",
-                        nextWeek: "[haftaya] dddd [saat] LT",
-                        lastDay: "[dün] LT",
-                        lastWeek: "[geçen hafta] dddd [saat] LT",
-                        sameElse: "L"
-                    },
-                    relativeTime: {
-                        future: "%s sonra",
-                        past: "%s önce",
-                        s: "birkaç saniye",
-                        m: "bir dakika",
-                        mm: "%d dakika",
-                        h: "bir saat",
-                        hh: "%d saat",
-                        d: "bir gün",
-                        dd: "%d gün",
-                        M: "bir ay",
-                        MM: "%d ay",
-                        y: "bir yıl",
-                        yy: "%d yıl"
-                    },
-                    ordinalParse: /\d{1,2}'(inci|nci|üncü|ncı|uncu|ıncı)/,
-                    ordinal: function(b) {
-                        if (0 === b) return b + "'ıncı";
-                        var c = b % 10,
-                            d = b % 100 - c,
-                            e = b >= 100 ? 100 : null;
-                        return b + (a[c] || a[d] || a[e])
-                    },
-                    week: {
-                        dow: 1,
-                        doy: 7
-                    }
-                });
+                calendar: {
+                    sameDay: "[bugün saat] LT",
+                    nextDay: "[yarın saat] LT",
+                    nextWeek: "[haftaya] dddd [saat] LT",
+                    lastDay: "[dün] LT",
+                    lastWeek: "[geçen hafta] dddd [saat] LT",
+                    sameElse: "L"
+                },
+                relativeTime: {
+                    future: "%s sonra",
+                    past: "%s önce",
+                    s: "birkaç saniye",
+                    m: "bir dakika",
+                    mm: "%d dakika",
+                    h: "bir saat",
+                    hh: "%d saat",
+                    d: "bir gün",
+                    dd: "%d gün",
+                    M: "bir ay",
+                    MM: "%d ay",
+                    y: "bir yıl",
+                    yy: "%d yıl"
+                },
+                ordinalParse: /\d{1,2}'(inci|nci|üncü|ncı|uncu|ıncı)/,
+                ordinal: function(b) {
+                    if (0 === b) return b + "'ıncı";
+                    var c = b % 10,
+                    d = b % 100 - c,
+                    e = b >= 100 ? 100 : null;
+                    return b + (a[c] || a[d] || a[e])
+                },
+                week: {
+                    dow: 1,
+                    doy: 7
+                }
+            });
             return c
         }(), a.fullCalendar.datepickerLang("tr", "tr", {
             closeText: "kapat",
@@ -4513,11 +4561,11 @@
 
             function d(a, b) {
                 var c = {
-                        nominative: "неділя_понеділок_вівторок_середа_четвер_п’ятниця_субота".split("_"),
-                        accusative: "неділю_понеділок_вівторок_середу_четвер_п’ятницю_суботу".split("_"),
-                        genitive: "неділі_понеділка_вівторка_середи_четверга_п’ятниці_суботи".split("_")
-                    },
-                    d = /(\[[ВвУу]\]) ?dddd/.test(b) ? "accusative" : /\[?(?:минулої|наступної)? ?\] ?dddd/.test(b) ? "genitive" : "nominative";
+                    nominative: "неділя_понеділок_вівторок_середа_четвер_п’ятниця_субота".split("_"),
+                    accusative: "неділю_понеділок_вівторок_середу_четвер_п’ятницю_суботу".split("_"),
+                    genitive: "неділі_понеділка_вівторка_середи_четверга_п’ятниці_суботи".split("_")
+                },
+                d = /(\[[ВвУу]\]) ?dddd/.test(b) ? "accusative" : /\[?(?:минулої|наступної)? ?\] ?dddd/.test(b) ? "genitive" : "nominative";
                 return c[d][a.day()]
             }
 
@@ -4554,11 +4602,11 @@
                             case 3:
                             case 5:
                             case 6:
-                                return e("[Минулої] dddd [").call(this);
+                            return e("[Минулої] dddd [").call(this);
                             case 1:
                             case 2:
                             case 4:
-                                return e("[Минулого] dddd [").call(this)
+                            return e("[Минулого] dddd [").call(this)
                         }
                     },
                     sameElse: "L"
@@ -4593,11 +4641,11 @@
                         case "DDD":
                         case "w":
                         case "W":
-                            return a + "-й";
+                        return a + "-й";
                         case "D":
-                            return a + "-го";
+                        return a + "-го";
                         default:
-                            return a
+                        return a
                     }
                 },
                 week: {
@@ -4641,9 +4689,18 @@
             var a = (b.defineLocale || b.lang).call(b, "vi", {
                 months: "tháng 1_tháng 2_tháng 3_tháng 4_tháng 5_tháng 6_tháng 7_tháng 8_tháng 9_tháng 10_tháng 11_tháng 12".split("_"),
                 monthsShort: "Th01_Th02_Th03_Th04_Th05_Th06_Th07_Th08_Th09_Th10_Th11_Th12".split("_"),
+                monthsParseExact: !0,
                 weekdays: "chủ nhật_thứ hai_thứ ba_thứ tư_thứ năm_thứ sáu_thứ bảy".split("_"),
                 weekdaysShort: "CN_T2_T3_T4_T5_T6_T7".split("_"),
                 weekdaysMin: "CN_T2_T3_T4_T5_T6_T7".split("_"),
+                weekdaysParseExact: !0,
+                meridiemParse: /sa|ch/i,
+                isPM: function(a) {
+                    return /^ch$/i.test(a)
+                },
+                meridiem: function(a, b, c) {
+                    return 12 > a ? c ? "sa" : "SA" : c ? "ch" : "CH"
+                },
                 longDateFormat: {
                     LT: "HH:mm",
                     LTS: "HH:mm:ss",
@@ -4759,7 +4816,7 @@
                     },
                     nextWeek: function() {
                         var a, c;
-                        return a = b().startOf("week"), c = this.unix() - a.unix() >= 604800 ? "[下]" : "[本]", 0 === this.minutes() ? c + "dddAh点整" : c + "dddAh点mm"
+                        return a = b().startOf("week"), c = this.diff(a, "days") >= 7 ? "[下]" : "[本]", 0 === this.minutes() ? c + "dddAh点整" : c + "dddAh点mm"
                     },
                     lastWeek: function() {
                         var a, c;
@@ -4773,14 +4830,14 @@
                         case "d":
                         case "D":
                         case "DDD":
-                            return a + "日";
+                        return a + "日";
                         case "M":
-                            return a + "月";
+                        return a + "月";
                         case "w":
                         case "W":
-                            return a + "周";
+                        return a + "周";
                         default:
-                            return a
+                        return a
                     }
                 },
                 relativeTime: {
@@ -4876,29 +4933,29 @@
                         case "d":
                         case "D":
                         case "DDD":
-                            return a + "日";
+                        return a + "日";
                         case "M":
-                            return a + "月";
+                        return a + "月";
                         case "w":
                         case "W":
-                            return a + "週";
+                        return a + "週";
                         default:
-                            return a
+                        return a
                     }
                 },
                 relativeTime: {
                     future: "%s內",
                     past: "%s前",
                     s: "幾秒",
-                    m: "一分鐘",
+                    m: "1分鐘",
                     mm: "%d分鐘",
-                    h: "一小時",
+                    h: "1小時",
                     hh: "%d小時",
-                    d: "一天",
+                    d: "1天",
                     dd: "%d天",
-                    M: "一個月",
+                    M: "1個月",
                     MM: "%d個月",
-                    y: "一年",
+                    y: "1年",
                     yy: "%d年"
                 }
             });
