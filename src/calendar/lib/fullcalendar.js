@@ -11993,6 +11993,11 @@
     	duration: { weeks: 1 }
     };
 
+    fcViews.fourWeeks = {
+    	'class': MonthView,
+    	duration: { weeks: 4 } // important for prev/next
+    };
+
     fcViews.month = {
     	'class': MonthView,
     	duration: { months: 1 }, // important for prev/next
