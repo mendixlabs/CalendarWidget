@@ -107,6 +107,7 @@ define([
             };
             options.resources = [];
             options.resourceLabelText = this.resourceLabelText;
+            options.schedulerLicenseKey = this.schedulerLicenseKey;
 
             return options;
         },
