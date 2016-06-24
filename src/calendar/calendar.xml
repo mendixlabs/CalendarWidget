@@ -246,6 +246,7 @@
 			<description>Which is the default view when the widget is loaded</description>
 			<enumerationValues>
 				<enumerationValue key="month">Month</enumerationValue>
+				<enumerationValue key="fourWeeks">Four weeks</enumerationValue>
 				<enumerationValue key="basicWeek">Basic week</enumerationValue>
 				<enumerationValue key="basicDay">Basic day</enumerationValue>
 				<enumerationValue key="agendaWeek">Agenda week</enumerationValue>
@@ -303,6 +304,7 @@
 					<description></description>
 					<enumerationValues>
 						<enumerationValue key="month">Month</enumerationValue>
+						<enumerationValue key="fourWeeks">Four weeks</enumerationValue>
 						<enumerationValue key="basicWeek">Basic week</enumerationValue>
 						<enumerationValue key="basicDay">Basic day</enumerationValue>
 						<enumerationValue key="agendaWeek">Agenda week</enumerationValue>
