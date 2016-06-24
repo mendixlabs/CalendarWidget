@@ -16,8 +16,9 @@ define([
     "calendar/lib/jquery",
     "calendar/lib/moment",
     "calendar/lib/fullcalendar",
-    "calendar/lib/lang-all"
-], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang) {
+    "calendar/lib/lang-all",
+    "calendar/lib/scheduler"
+], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang, scheduler) {
     "use strict";
 
     var $ = _jQuery.noConflict(true);
@@ -44,7 +45,6 @@ define([
 
         postCreate: function () {
             logger.debug(this.id + ".postCreate");
-
             this._colors = this.notused; //workaround for legacy users
             this._availableViews = this.notused1; //workaround for legacy users
             this._setDefaults(); //set default formatting options
@@ -96,6 +96,52 @@ define([
             this._fcNode.fullCalendar("render");
         },
 
+        _setSchedulerOptions: function(options) {
+            logger.debug(this.id + "._setSchedulerOptions");
+            if (options.views.timelineThreeDays) {
+                options.views.timelineThreeDays = {
+                    eventLimit: options.views.timelineThreeDays.eventLimit,
+                    type: 'timeline',
+                    duration: { days: 3 }
+                }
+            };
+            options.resources = [];
+            options.resourceLabelText = this.resourceLabelText;
+
+            return options;
+        },
+        
+        _getResources: function(entity, callback) {
+            logger.debug(this.id + "._getResources");
+            mx.data.get({
+                xpath: "//" + this.resourceEntity,
+                callback: lang.hitch(this, function (objs) {
+                    logger.debug(this.id + "._getResources callback:", objs ? objs.length + " objects" : "null");
+                    if (callback) {
+                        callback(objs);
+                    }
+                }), 
+                error: function (error) {
+                    if (callback) {
+                        callback();
+                    }
+                    console.warn(error.description);
+                }
+            });
+        },
+    
+        _prepareResources: function(resources) {
+            var resourceTitle = this.resourceTitle
+            var node = this._fcNode
+
+            resources.forEach(function(resource) {
+                var fullCalenderResource = {}
+                fullCalenderResource.title = resource.get(resourceTitle)
+                fullCalenderResource.id = resource.getGuid()
+                node.fullCalendar('addResource', fullCalenderResource)
+            })
+        },
+        
         _addSubscriptions: function () {
             logger.debug(this.id + "._addSubscriptions");
             var subscription = mx.data.subscribe({
@@ -154,6 +200,11 @@ define([
                 xpath = null,
                 errordiv = null;
 
+           if (this.resourceEntity) {
+                logger.debug(this.id + "._fetchObjects resources");
+                this._getResources(this.resourceEntity, lang.hitch(this, this._prepareResources));
+            }
+            
             if (this.dataSourceType === "xpath") {
                 logger.debug(this.id + "._fetchObjects xpath");
                 constraint = this.eventConstraint;
@@ -287,48 +338,64 @@ define([
         _createEvents: function (objs, titles) {
             logger.debug(this.id + "._createEvents");
             var events = [],
-                    objcolors = null;
+                objcolors = null,
+                resourceEntity = this.resourceEntity,
+                resourceEventPath = this.resourceEventPath,
+                promises = [];
 
             $.each(objs, lang.hitch(this, function (index, obj) {
-                //get the colors
-                if (this._colors.length > 0 && this.typeAttr) {
-                    objcolors = this._getObjectColors(obj);
-                }
-                //get the dates
-                var start = new Date(obj.get(this.startAttr)),
-                        end = new Date(obj.get(this.endAttr)),
-                        //create a new calendar event
-                        newEvent = {
-                            title: titles[obj.getGuid()],
-                            start: start,
-                            end: end,
-                            allDay: obj.get(this.alldayAttr),
-                            editable: this.editable,
-                            mxobject: obj //we add the mxobject to be able to handle events with relative ease.
-                        };
 
-                if (objcolors) {
-                    newEvent.backgroundColor = objcolors.backgroundColor;
-                    newEvent.borderColor = objcolors.borderColor;
-                    newEvent.textColor = objcolors.textColor;
-                }
-                events.push(newEvent);
+                var promise = $.Deferred(lang.hitch(this, function(callback) {
+                    obj.fetch(resourceEventPath, lang.hitch(this, function(resource) {
+                        var resourceRefId = (resource !== null) ?  resource.getGuid() : 0;
+
+                        //get the colors
+                        if (this._colors.length > 0 && this.typeAttr) {
+                            objcolors = this._getObjectColors(obj);
+                        }
+                        //get the dates
+                        var start = new Date(obj.get(this.startAttr)),
+                            end = new Date(obj.get(this.endAttr)),
+                            //create a new calendar event
+                            newEvent = {
+                                title: titles[obj.getGuid()],
+                                resourceId: resourceRefId,
+                                start: start,
+                                end: end,
+                                allDay: obj.get(this.alldayAttr),
+                                editable: this.editable,
+                                mxobject: obj //we add the mxobject to be able to handle events with relative ease.
+                            };
+
+                        if (objcolors) {
+                            newEvent.backgroundColor = objcolors.backgroundColor;
+                            newEvent.borderColor = objcolors.borderColor;
+                            newEvent.textColor = objcolors.textColor;
+                        }
+
+                        events.push(newEvent);
+                        callback.resolve();
+                }))}))
+                promises.push(promise);
             }));
-            //check if the calendar already exists (are we just updating events here?)
-            if (this._fcNode.hasClass("fc")) {
-                //if it does, remove, add the new source and refetch
-                this._fcNode.fullCalendar("render");
-                if (this._eventSource && this._eventSource.length >= 1) {
-                    this._fcNode.fullCalendar("removeEventSource", this._eventSource);
-                }
 
-                this._fcNode.fullCalendar("addEventSource", events);
-                this._fcNode.fullCalendar("refetchEvents");
-            } else {
-                //else create the calendar
-                this._renderCalendar(events);
-            }
-            this._eventSource = events;
+            $.when.apply($, promises).done(lang.hitch(this, function() {
+                //check if the calendar already exists (are we just updating events here?)
+                if (this._fcNode.hasClass("fc")) {
+                    //if it does, remove, add the new source and refetch
+                    this._fcNode.fullCalendar("render");
+                    if (this._eventSource && this._eventSource.length >= 1) {
+                        this._fcNode.fullCalendar("removeEventSource", this._eventSource);
+                    }
+
+                    this._fcNode.fullCalendar("addEventSource", events);
+                    this._fcNode.fullCalendar("refetchEvents");
+                } else {
+                    //else create the calendar
+                    this._renderCalendar(events);
+                }
+                this._eventSource = events;
+            }));
         },
 
         _renderCalendar: function (events) {
@@ -593,6 +660,8 @@ define([
                     options.firstDay = this._mxObj.get(this.firstdayAttribute);
                 }
             }
+
+            if (this.resourceEntity) options = this._setSchedulerOptions(options)
 
             return options;
         },
