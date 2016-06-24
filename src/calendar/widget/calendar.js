@@ -10,7 +10,7 @@ define([
     "dojo/dom-class",
     "dojo/dom-style",
     "dojo/dom-construct",
-    "dojo/_base/array", 
+    "dojo/_base/array",
     "dojo/_base/lang",
 
     "calendar/lib/jquery",
@@ -43,8 +43,8 @@ define([
         _triggeredRenderAll: false,
 
         postCreate: function () {
-            //logger.level(logger.DEBUG);
             logger.debug(this.id + ".postCreate");
+
             this._colors = this.notused; //workaround for legacy users
             this._availableViews = this.notused1; //workaround for legacy users
             this._setDefaults(); //set default formatting options
@@ -88,9 +88,7 @@ define([
             //subscribe to changes in the event entity and context object(if applicable).
             this._addSubscriptions();
 
-            if (typeof callback !== "undefined") {
-                callback();
-            }
+            mendix.lang.nullExec(callback);
         },
 
         resize: function () {
@@ -637,7 +635,7 @@ define([
 
         _onViewChange: function (view, element) {
             logger.debug(this.id + "._onViewChange");
-            logger.debug("_onViewChange\nonviewChangeMF: ", this.onviewchangemf, "\nviewContextReference:", this.viewContextReference, "\n_mxObj", this._mxObj);
+            //logger.debug("_onViewChange\nonviewChangeMF: ", this.onviewchangemf, "\nviewContextReference:", this.viewContextReference, "\n_mxObj", this._mxObj);
             var eventData = {
                 start: view.start,
                 end: view.end
