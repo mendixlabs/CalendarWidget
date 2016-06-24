@@ -5,7 +5,7 @@ This is a calendar widget for Mendix. It shows a Calendar and can render objects
 For more information on contributing to this repository visit [Contributing to a GitHub repository](https://world.mendix.com/display/howto50/Contributing+to+a+GitHub+repository)!
 
 ## Dependencies
-- FullCalendar v2.3.2
+- FullCalendar v2.8.0
 - JQuery v2.1.3
 - Moments.js v2.9.0
 
