@@ -160,6 +160,7 @@ define([
                 expectObj = this.eventConstraint.indexOf("[%CurrentObject%]") >= 0;
 
                 if (this._mxObj && expectObj) {
+                    this._clearCalendar();
                     constraint = this.eventConstraint.replace(/\[%CurrentObject%\]/gi, this._mxObj.getGuid());
                 } else if (expectObj) {
                     this._clearCalendar();
