@@ -23,6 +23,7 @@ define([
     var $ = _jQuery.noConflict(true);
 
     return declare("calendar.widget.calendar", [_WidgetBase], {
+
         _mxObj: null,
         _calendarBox: null,
         _handles: null,
@@ -58,9 +59,8 @@ define([
             if (this._hasStarted) {
                 return;
             }
-            this._hasStarted = true;
 
-            //make a calendarbox
+            this._hasStarted = true;
             this._calendarBox = dom.create("div", {
                 "id": "calendar_" + this.id
             });
@@ -141,9 +141,9 @@ define([
             logger.debug(this.id + "._resetSubscriptions");
 
             if (this._handles && this._handles.length && this._handles.length > 0) {
-                dojoArray.forEach(this._handles, function(handle) {
-                    mx.data.unsubscribe(handle);
-                });
+                dojoArray.forEach(this._handles, lang.hitch(this, function(handle) {
+                    this.unsubscribe(handle);
+                }));
             }
             this._handles = [];
 
@@ -482,12 +482,12 @@ define([
             return objcolors;
         },
 
-        _setVariables: function(obj, event, startAttribute, endAttribute, allDay) {
+        _setVariables: function(obj, evt, startAttribute, endAttribute, allDay) {
             logger.debug(this.id + "._setVariables");
             //update the mx object
-            obj.set(startAttribute, event.start);
-            if (event.end !== null) {
-                obj.set(endAttribute, event.end);
+            obj.set(startAttribute, evt.start);
+            if (evt.end !== null) {
+                obj.set(endAttribute, evt.end);
             }
 
             if (allDay !== null) {
@@ -565,7 +565,6 @@ define([
                         this._buttonText[viewName] = view.labelViews;
                     }
                 }));
-
             }
 
             if (this.todaycaption) {
@@ -574,15 +573,14 @@ define([
 
             this._header.right = "today " + views.join() + " prev,next";
 
-            this.monthNamesFormat = this.monthNamesFormat ? this.monthNamesFormat.split(",") : null;
-            this.monthShortNamesFormat = this.monthShortNamesFormat ? this.monthShortNamesFormat.split(",") : null;
-            this.dayNamesFormat = this.dayNamesFormat ? this.dayNamesFormat.split(",") : null;
-            this.dayShortNamesFormat = this.dayShortNamesFormat ? this.dayShortNamesFormat.split(",") : null;
-            this.slotMinutes = this.slotMinutes ? this.slotMinutes : "00:30:00";
-            this.axisFormat = this.axisFormat ? this.axisFormat : "h(:mm)a";
-            this.startTime = this.startTime ? this.startTime : "08:00";
-            this.endTime = this.endTime ? this.endTime : "17:00";
-
+            this.monthNamesFormat       = this.monthNamesFormat ? this.monthNamesFormat.split(",") : null;
+            this.monthShortNamesFormat  = this.monthShortNamesFormat ? this.monthShortNamesFormat.split(",") : null;
+            this.dayNamesFormat         = this.dayNamesFormat ? this.dayNamesFormat.split(",") : null;
+            this.dayShortNamesFormat    = this.dayShortNamesFormat ? this.dayShortNamesFormat.split(",") : null;
+            this.slotMinutes            = this.slotMinutes ? this.slotMinutes : "00:30:00";
+            this.axisFormat             = this.axisFormat ? this.axisFormat : "h(:mm)a";
+            this.startTime              = this.startTime ? this.startTime : "08:00";
+            this.endTime                = this.endTime ? this.endTime : "17:00";
         },
 
         _setCalendarOptions: function(events) {
@@ -661,6 +659,8 @@ define([
 
             if (this.resourceEntity) {
                 options = this._setSchedulerOptions(options);
+            } else {
+                options.schedulerLicenseKey = "GPL-My-Project-Is-Open-Source"; // This key is set to make sure we don't get the "valid license key" message in our calendar. This must be set in the modeler (part of Calendar with Scheduler)
             }
 
             return options;
@@ -719,10 +719,8 @@ define([
                         mx.data.get({
                             guid: refGuid,
                             callback: lang.hitch(this, function(eventData, viewrenderObj) {
-
                                 this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
                                 this._execMF(this._mxObj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
-
                             }, eventData),
                             error: function(err) {
                                 console.warn("Error retrieving referenced object: ", err);
@@ -730,11 +728,9 @@ define([
                         });
                     } else {
                         this._createViewChangeEntity(lang.hitch(this, function(eventData, viewrenderObj) {
-
                             this._mxObj.addReference(ref, viewrenderObj.getGuid());
                             this._setVariables(viewrenderObj, eventData, this.viewStartAttr, this.viewEndAttr);
                             this._execMF(this._mxObj, this.onviewchangemf, lang.hitch(this, this._prepareEvents));
-
                         }), eventData);
                     }
                 }
@@ -814,10 +810,8 @@ define([
             logger.debug(this.id + "._hasDynamicCalendarPropertiesConfigured");
             if (this.showWeekendsAttribute && this.firstdayAttribute) {
                 return true;
-            } else {
-                return false;
             }
-
+            return false;
         },
 
         uninitialize: function() {
