@@ -1,12 +1,11 @@
 {
   "name": "calendar",
-  "version": "5.1.1",
+  "version": "5.2.0",
   "description": "This is a calendar widget for Mendix. It shows a Calendar and can render objects as events in it.",
   "license": "Apache License, Version 2.0, January 2004",
   "author": "Mendix 2016",
   "private": true,
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",

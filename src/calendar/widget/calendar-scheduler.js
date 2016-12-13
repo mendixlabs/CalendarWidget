@@ -7,7 +7,6 @@ define([
 
     return declare("calendar.widget.calendar", [calendarWidget], {
 
-
     });
 });
 
