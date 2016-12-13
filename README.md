@@ -175,3 +175,29 @@ The starting date of the view (fullcalendar's intervalStart of the view). E.g. f
 
 #### End date
 The end date of the view (fullcalendar's intervalEnd of the view). E.g. last day of the month when rendering month view.
+
+### Scheduler (Calendar with Scheduler)
+
+This uses the [Scheduler premium addon](https://fullcalendar.io/scheduler/).
+
+> Be aware, this is a commercial product for which you need a [License](https://fullcalendar.io/scheduler/license/), which can be obtained at the [Fullcalendar website](https://fullcalendar.io/scheduler/purchase/).
+
+#### Scheduler License Key
+
+Obtain a license and insert this to use the scheduler.
+
+#### Resource Entity
+
+The resource entity.
+
+#### Resource reference
+
+The association from the resource to the event.
+
+#### Resource Label Title
+
+Title of the resources column.
+
+#### Resource Title
+
+Title of the resource.
