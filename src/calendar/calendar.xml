@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="calendar.widget.calendar" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>calendar</name>
-    <description>Calendar.</description>
+    <name>Calendar</name>
+    <description>Calendar</description>
 
     <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAANkE3LLaAgAAAbVJREFUeJylkL9qVEEUxn9zM3dD0mx3MS4uxCCIlSRF/Jft1gSfQCzSuJUvYKmWeYTIphEs0goKYkRUdrXSBYsQglhY+ADBu/HOnHMs7ubuCrFw/Zr5ZpjzO9857ukKD713D5hCMdojt7vqbK3VzElm5oOmiEsRPNFmMDzqEjQIMQRiiIRfBcXxMcWwIIaYe4BEh6AJrlAsKDEIRVBUDBUjKsRoqEIQCNEogiM/+jnvdledTRP/RP6o85jzS0tgYBiqipqhIpgpIoqqIlqeKlLeRRjmOR6g2WxShMDnwfeKvPDi3h+dftzarvy5xhyiwtfDQxKARqPB2YUzAKy3l1lvLwOwuLnF4uYWAGvXL3L1ygUAsiwjy7JyBIDabA1VBWC2Vjt9Vp/inAMg9Z5EkzEA4GSTz55/LEcAvj25XwHevP3C+K9hZhMAM2yU4PK1FgADttm4uYKI8Or1gNaNS4gKvf4BqoZqCUgATMfESZkaOno3M0x05BVMxwnUrNrBoP+uArzc+1T59739yqtSgT1AmqbU63Xu3G6fusC/6UO/VwJ2ut1/KpyUB7jb6UxVvNPt/n+C3whO5yPEeUjNAAAAAElFTkSuQmCC</icon>
 
