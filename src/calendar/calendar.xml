@@ -19,6 +19,11 @@
 				<enumerationValue key="contextmf_viewspecific">Microflow with context object (Retrieve events for each view)</enumerationValue>
 			</enumerationValues>
 		</property>
+        <property key="schedulerLicenseKey" type="string">
+			<caption>Scheduler License Key</caption>
+			<category>License Key</category>
+			<description>Read the following licence agreement http://fullcalendar.io/scheduler/license/ and get a license.</description>
+		</property>
 		<property key="eventEntity" type="entity">
 			<caption>Event Entity</caption>
 			<category>Data source</category>
@@ -35,6 +40,16 @@
 			<description>Setting this microflow will override the XPath retrieve option, and solely use this microflow to fill the calendar.</description>
 			<returnType type="Void" />
 		</property>
+        <property key="resourceEntity" type="entity">
+			<caption>Resource Entity</caption>
+			<category>Data source</category>
+			<description>The resource entity.</description>
+		</property>
+        <property key="resourceEventPath" type="entity" isPath="yes" pathType="reference" entityProperty="eventEntity">
+            <caption>Resource reference</caption>
+            <category>Data source</category>
+            <description>The association from the resource to the event</description>
+        </property>
 		<property key="contextEntity" type="entity" required="false">
 			<caption>Dataview Entity</caption>
 			<category>Dataview context (Optional)</category>
@@ -110,6 +125,19 @@
 			<description>Boolean attribute to define/save whether this is an all day event.</description>
 			<attributeTypes>
 				<attributeType name="Boolean" />
+			</attributeTypes>
+		</property>
+        <property key="resourceLabelText" type="string">
+			<caption>Resource Label Title</caption>
+			<category>Event data</category>
+			<description>Title of the resources column</description>
+		</property>
+        <property key="resourceTitle" type="attribute" isPath="optional" pathType="reference" entityProperty="resourceEntity">
+			<caption>Resource Title</caption>
+			<category>Event data</category>
+			<description>Title of the resource</description>
+            <attributeTypes>
+				<attributeType name="String" />
 			</attributeTypes>
 		</property>
 		<property key="limitEvents" type="boolean" defaultValue="false">
@@ -309,6 +337,8 @@
 						<enumerationValue key="basicDay">Basic day</enumerationValue>
 						<enumerationValue key="agendaWeek">Agenda week</enumerationValue>
 						<enumerationValue key="agendaDay">Agenda day</enumerationValue>
+                        <enumerationValue key="timelineDay">Day timeline</enumerationValue>
+                        <enumerationValue key="timelineThreeDays">3 day timeline</enumerationValue>
 					</enumerationValues>
 				</property>
 				<property key="timeFormatViews" type="translatableString" required="false">
