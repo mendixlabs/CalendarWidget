@@ -5,7 +5,8 @@
   "license": "Apache License, Version 2.0, January 2004",
   "author": "Mendix 2016",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
