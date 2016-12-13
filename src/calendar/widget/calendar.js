@@ -16,9 +16,8 @@ define([
     "calendar/lib/jquery",
     "calendar/lib/moment",
     "calendar/lib/fullcalendar",
-    "calendar/lib/lang-all",
-    "calendar/lib/scheduler"
-], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang, scheduler) {
+    "calendar/lib/lang-all"
+], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang) {
     "use strict";
 
     var $ = _jQuery.noConflict(true);
@@ -111,7 +110,7 @@ define([
 
             return options;
         },
-        
+
         _getResources: function(entity, callback) {
             logger.debug(this.id + "._getResources");
             mx.data.get({
@@ -121,7 +120,7 @@ define([
                     if (callback) {
                         callback(objs);
                     }
-                }), 
+                }),
                 error: function (error) {
                     if (callback) {
                         callback();
@@ -130,7 +129,7 @@ define([
                 }
             });
         },
-    
+
         _prepareResources: function(resources) {
             var resourceTitle = this.resourceTitle
             var node = this._fcNode
@@ -142,7 +141,7 @@ define([
                 node.fullCalendar('addResource', fullCalenderResource)
             })
         },
-        
+
         _addSubscriptions: function () {
             logger.debug(this.id + "._addSubscriptions");
             var subscription = mx.data.subscribe({
@@ -205,7 +204,7 @@ define([
                 logger.debug(this.id + "._fetchObjects resources");
                 this._getResources(this.resourceEntity, lang.hitch(this, this._prepareResources));
             }
-            
+
             if (this.dataSourceType === "xpath") {
                 logger.debug(this.id + "._fetchObjects xpath");
                 constraint = this.eventConstraint;
@@ -834,6 +833,4 @@ define([
     });
 });
 
-require(["calendar/widget/calendar"], function () {
-    "use strict";
-});
+require(["calendar/widget/calendar"]);
