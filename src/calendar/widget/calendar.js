@@ -24,6 +24,11 @@ define([
 
     return declare("calendar.widget.calendar", [_WidgetBase], {
 
+        /*
+            defaultView:  month !fourWeeks basicWeek basicDay agendaWeek agendaDay
+            availableViews: month !fourWeeks basicWeek basicDay agendaWeek agendaDay timelineDay timelineThreeDays
+        */
+
         _mxObj: null,
         _calendarBox: null,
         _handles: null,
@@ -32,7 +37,6 @@ define([
         _hasStarted: null,
         _eventIsClicked: false,
         _views: null,
-        _titleFormat: null,
         _dateFormat: null,
         _timeFormat: null,
         _colors: null,
@@ -361,7 +365,7 @@ define([
                                 resourceId: resourceRefId,
                                 start: start,
                                 end: end,
-                                allDay: obj.get(this.alldayAttr),
+                                allDay: obj.get(this.alldayAttr) || false,
                                 editable: this.editable,
                                 mxobject: obj //we add the mxobject to be able to handle events with relative ease.
                             };
@@ -495,42 +499,61 @@ define([
             }
         },
 
+        _setAllViewFormat: function (key, value) {
+            logger.debug(this.id + "._setViewFormat");
+            var keys = Object.keys(this._views);
+            for (var i=0; i < keys.length; i++) {
+                this._views[keys[i]][key] = value;
+            }
+        },
+
         _setDefaults: function() {
             logger.debug(this.id + "._setDefaults");
-            var views = [];
+            var viewNames = [];
 
             this._header = {
                 left: "title",
                 center: ""
             };
 
-            this._titleFormat = {
-                month: "MMMM YYYY", // September 2009
-                week: "MMM D YYYY", // Sep 13 2009
-                day: "MMMM D YYYY" //  Sep 8, 2009
+            this._buttonText = {};
+
+            this._views = {
+                month: {
+                    titleFormat: this.titleFormat ? this.titleFormat : "MMMM YYYY",
+                },
+                basicWeek: {
+                    titleFormat: this.titleFormat ? this.titleFormat : "MMM D YYYY"
+                },
+                basicDay: {
+                    titleFormat: this.titleFormat ? this.titleFormat : "MMMM D YYYY"
+                },
+                agendaWeek: {},
+                agendaDay: {},
+                timelineThreeDays: {}
             };
 
-            if (this.titleFormat) {
-                this._titleFormat[""] = this.titleFormat;
-            }
-
             if (this.dateFormat) {
-                this._dateFormat = this.dateFormat;
+                this._setAllViewFormat("columnFormat", this.dateFormat);
             }
 
             if (this.timeFormat) {
-                this._timeFormat = this.timeFormat;
+                this._setAllViewFormat("timeFormat", this.timeFormat);
             }
 
-            this._buttonText = {};
+            if (this.displayEventTime !== "auto") {
+                this._setAllViewFormat("displayEventTime", this.displayEventTime === "always");
+            }
 
-            this._views = {};
+            if (this.displayEventEnd !== "auto") {
+                this._setAllViewFormat("displayEventEnd", this.displayEventEnd === "always");
+            }
 
             if (this._availableViews.length > 0) {
                 //fill default specifics
                 $.each(this._availableViews, lang.hitch(this, function(index, view) {
                     var viewName = view.availableViews;
-                    views.push(viewName);
+                    viewNames.push(viewName);
 
                     this._views[viewName] = {};
 
@@ -539,26 +562,31 @@ define([
                     }
 
                     if (view.titleFormatViews !== "") {
-                        this._titleFormat[viewName] = view.titleFormatViews;
+                        this._views[viewName].titleFormat = view.titleFormatViews;
                     }
-                    if (view.dateFormatViews !== "") {
-                        if (typeof this._dateFormat === "undefined" || this._dateFormat === null) {
-                            this._dateFormat = {};
-                        } else if (typeof this._dateFormat === "string") {
-                            this._dateFormat = {};
-                            this._dateFormat[""] = this.dateFormat;
-                        }
 
-                        this._dateFormat[viewName] = view.dateFormatViews;
+                    if (view.dateFormatViews !== "") {
+                        this._views[viewName].columnFormat = view.dateFormatViews;
+                    } else if (this.dateFormat) {
+                        this._views[viewName].columnFormat = this.dateFormat;
                     }
+
                     if (view.timeFormatViews !== "") {
-                        if (typeof this._timeFormat === "undefined" || this._timeFormat === null) {
-                            this._timeFormat = {};
-                        } else if (typeof this._timeFormat === "string") {
-                            this._timeFormat = {};
-                            this._timeFormat[""] = this.timeFormat;
-                        }
-                        this._timeFormat[viewName] = view.timeFormatViews;
+                        this._views[viewName].timeFormat = view.timeFormatViews;
+                    } else if (this.timeFormat) {
+                        this._views[viewName].timeFormat = this.timeFormat;
+                    }
+
+                    if (view.viewDisplayEventTime !== "auto") {
+                        this._views[viewName].displayEventTime = view.viewDisplayEventTime === "always";
+                    } else if (this.displayEventTime !== "auto") {
+                        this._views[viewName].displayEventTime = this.displayEventTime === "always";
+                    }
+
+                    if (view.viewDisplayEventEnd !== "auto") {
+                        this._views[viewName].displayEventEnd = view.viewDisplayEventEnd === "always";
+                    } else if (this.displayEventEnd !== "auto") {
+                        this._views[viewName].displayEventEnd = this.displayEventEnd === "always";
                     }
 
                     if (view.labelViews !== "") {
@@ -571,7 +599,7 @@ define([
                 this._buttonText.today = this.todaycaption;
             }
 
-            this._header.right = "today " + views.join() + " prev,next";
+            this._header.right = "today " + viewNames.join() + " prev,next";
 
             this.monthNamesFormat       = this.monthNamesFormat ? this.monthNamesFormat.split(",") : null;
             this.monthShortNamesFormat  = this.monthShortNamesFormat ? this.monthShortNamesFormat.split(",") : null;
@@ -584,6 +612,7 @@ define([
         },
 
         _setCalendarOptions: function(events) {
+            console.log(this._views);
             logger.debug(this.id + "._setCalendarOptions");
             var options = {
                 //contents
@@ -598,6 +627,9 @@ define([
                 eventClick: lang.hitch(this, this._onEventClick), //is called when an event is clicked
                 viewRender: lang.hitch(this, this._onViewChange), //is called when the view (start/end on month, week, etc) has changed
                 select: lang.hitch(this, this._onSelectionMade), //is called after a selection has been made
+                eventRender: function (event, element) {
+                    //console.log(arguments);
+                },
                 eventAfterAllRender: lang.hitch(this, this._onEventAfterAllRender),
                 //appearance
                 timezone: "local",
@@ -616,15 +648,6 @@ define([
                 scrollTime: this.scrollTime,
             };
 
-            if (this._titleFormat) {
-                options.titleFormat = this._titleFormat;
-            }
-            if (this._timeFormat) {
-                options.timeFormat = this._timeFormat;
-            }
-            if (this._dateFormat) {
-                options.columnFormat = this._dateFormat;
-            }
             if (this.monthNamesFormat) {
                 options.monthNames = this.monthNamesFormat;
             }

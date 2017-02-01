@@ -188,17 +188,17 @@
         <property key="timeFormat" type="translatableString" required="false">
             <caption>Custom time format</caption>
             <category>View settings</category>
-            <description>Default: h:mm{ - h:mm}. For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/</description>
+            <description>Default: h:mm. For more information: https://fullcalendar.io/docs/text/timeFormat/</description>
         </property>
         <property key="dateFormat" type="translatableString" required="false">
-            <caption>Custom date format</caption>
+            <caption>Custom column format</caption>
             <category>View settings</category>
-            <description>For more information: http://arshaw.com/fullcalendar/docs/text/columnFormat/</description>
+            <description>For more information: https://fullcalendar.io/docs/text/columnFormat/</description>
         </property>
         <property key="titleFormat" type="string" required="false">
             <caption>Custom title format</caption>
             <category>View settings</category>
-            <description>For more information: http://arshaw.com/fullcalendar/docs/text/titleFormat/</description>
+            <description>For more information: https://fullcalendar.io/docs/text/titleFormat/</description>
         </property>
         <property key="monthNamesFormat" type="translatableString" required="false">
             <caption>Month names format</caption>
@@ -259,6 +259,26 @@
                     <description></description>
                 </property>
             </properties>
+        </property>
+        <property key="displayEventTime" type="enumeration" defaultValue="auto">
+            <caption>Show time on events</caption>
+            <category>View settings</category>
+            <description>Show the time for time specific events. Auto will determine automatically per view</description>
+            <enumerationValues>
+                <enumerationValue key="auto">Auto</enumerationValue>
+                <enumerationValue key="always">Always</enumerationValue>
+                <enumerationValue key="never">Never</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="displayEventEnd" type="enumeration" defaultValue="auto">
+            <caption>Show end time on events</caption>
+            <category>View settings</category>
+            <description>Show the end time for an event</description>
+            <enumerationValues>
+                <enumerationValue key="auto">Auto</enumerationValue>
+                <enumerationValue key="always">Always</enumerationValue>
+                <enumerationValue key="never">Never</enumerationValue>
+            </enumerationValues>
         </property>
 
         <!-- EXTRA -->
@@ -336,6 +356,26 @@
                     <caption>Custom title format</caption>
                     <category>Extra</category>
                     <description>Please refer to http://fullcalendar.io/docs/text/titleFormat/</description>
+                </property>
+                <property key="viewDisplayEventTime" type="enumeration" defaultValue="auto">
+                    <caption>Show time on events</caption>
+                    <category>View settings</category>
+                    <description>Show the time for time specific events. Auto will determine automatically per view</description>
+                    <enumerationValues>
+                        <enumerationValue key="auto">Auto</enumerationValue>
+                        <enumerationValue key="always">Always</enumerationValue>
+                        <enumerationValue key="never">Never</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="viewDisplayEventEnd" type="enumeration" defaultValue="auto">
+                    <caption>Show end time on events</caption>
+                    <category>View settings</category>
+                    <description>Show the end time for an event</description>
+                    <enumerationValues>
+                        <enumerationValue key="auto">Auto</enumerationValue>
+                        <enumerationValue key="always">Always</enumerationValue>
+                        <enumerationValue key="never">Never</enumerationValue>
+                    </enumerationValues>
                 </property>
                 <property key="labelViews" type="translatableString" required="false">
                     <caption>Label</caption>
