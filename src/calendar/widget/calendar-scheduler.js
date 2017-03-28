@@ -5,7 +5,7 @@ define([
 ], function (declare, calendarWidget, scheduler) {
     "use strict";
 
-    return declare("calendar.widget.calendar", [calendarWidget], {
+    return declare("calendar.widget.calendar-scheduler", [calendarWidget], {
 
     });
 });
