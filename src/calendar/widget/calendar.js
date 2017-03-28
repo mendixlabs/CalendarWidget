@@ -365,7 +365,7 @@ define([
                                 resourceId: resourceRefId,
                                 start: start,
                                 end: end,
-                                allDay: obj.get(this.alldayAttr) || false,
+                                allDay: this.alldayAttr ? obj.get(this.alldayAttr) : false,
                                 editable: this.editable,
                                 mxobject: obj //we add the mxobject to be able to handle events with relative ease.
                             };
@@ -612,7 +612,6 @@ define([
         },
 
         _setCalendarOptions: function(events) {
-            console.log(this._views);
             logger.debug(this.id + "._setCalendarOptions");
             var options = {
                 //contents
