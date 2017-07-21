@@ -234,6 +234,9 @@ define([
             } else if (this.dataSourceType === "mf" && this.datasourceMf) {
                 logger.debug(this.id + "._fetchObjects mf");
                 this._execMF(null, this.datasourceMf, lang.hitch(this, this._prepareEvents));
+            } else if (this.dataSourceType === "simple") {
+                logger.debug(this.id + "._fetchObjects simple");
+                this._prepareEvents([this._mxObj]);
             } else {
 
                 domConstruct.empty(this.domNode);
@@ -710,8 +713,8 @@ define([
                 end: view.end
             };
 
-            if (this.onviewchangemf !== "") {
-                if (this.viewContextReference !== "" && this._mxObj) {
+            if (this.onviewchangemf && this.onviewchangemf !== "") {
+                if (this.viewContextReference && this.viewContextReference !== "" && this._mxObj) {
                     var ref = this.viewContextReference.split("/")[0],
                         refGuid = this._mxObj.getReference(ref);
 
