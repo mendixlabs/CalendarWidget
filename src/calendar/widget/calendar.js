@@ -139,53 +139,43 @@ define([
 
         _resetSubscriptions: function() {
             logger.debug(this.id + "._resetSubscriptions");
+            this.unsubscribeAll();
 
-            if (this._handles && this._handles.length && this._handles.length > 0) {
-                dojoArray.forEach(this._handles, lang.hitch(this, function(handle) {
-                    this.unsubscribe(handle);
-                }));
-            }
-            this._handles = [];
-
-            var subscription = this.subscribe({
-                    entity: this.eventEntity,
-                    callback: lang.hitch(this, function(entity) {
-                        //we re-fetch the objects, and refresh them on the calendar
-                        this._fetchObjects();
-                    })
-                });
-
-            this._handles.push(subscription);
+            this.subscribe({
+                entity: this.eventEntity,
+                callback: lang.hitch(this, function(entity) {
+                    //we re-fetch the objects, and refresh them on the calendar
+                    this._fetchObjects();
+                })
+            });
 
             if (this._mxObj) {
 
-                var contextSubscription = this.subscribe({
+                this.subscribe({
                     guid: this._mxObj.getGuid(),
                     callback: lang.hitch(this, function(guid) {
                         this._fetchObjects();
                     })
                 });
-                this._handles.push(contextSubscription);
 
                 if (this.startPos) {
-                    var contextStartPosAttributeSubscription = this.subscribe({
+                    this.subscribe({
                         guid: this._mxObj.getGuid(),
                         attr: this.startPos,
                         callback: lang.hitch(this, function(guid) {
                             this._renderCalendar();
                         })
                     });
-                    this._handles.push(contextStartPosAttributeSubscription);
                 }
+
                 if (this.firstdayAttribute) {
-                    var contextFirstDayAttributeAttributeSubscription = this.subscribe({
+                    this.subscribe({
                         guid: this._mxObj.getGuid(),
                         attr: this.firstdayAttribute,
                         callback: lang.hitch(this, function(guid) {
                             this._renderCalendar();
                         })
                     });
-                    this._handles.push(contextFirstDayAttributeAttributeSubscription);
                 }
                 this._onEventAfterAllRender();
             }
@@ -390,6 +380,10 @@ define([
 
                     this._fcNode.fullCalendar("addEventSource", events);
                     this._fcNode.fullCalendar("refetchEvents");
+
+                    if (this._mxObj && this._mxObj.get(this.startPos)) {
+                        this._fcNode.fullCalendar("gotoDate", new Date(this._mxObj.get(this.startPos)));
+                    }
                 } else {
                     //else create the calendar
                     this._renderCalendar(events);
@@ -414,7 +408,6 @@ define([
             } else {
                 this._fcNode.fullCalendar("gotoDate", new Date());
             }
-
         },
 
         _onEventChange: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
@@ -678,10 +671,8 @@ define([
                     params.guids = [obj.getGuid()];
                 }
                 logger.debug(this.id + "._execMF params:", params);
-                mx.data.action({
-                    store: {
-                        caller: this.mxform
-                    },
+
+                var action = {
                     params: params,
                     callback: lang.hitch(this, function(objs) {
                         logger.debug(this.id + "._execMF callback:", objs ? objs.length + " objects" : "null");
@@ -695,8 +686,17 @@ define([
                         }
                         console.warn(error.description);
                     }
-                }, this);
+                };
 
+                if (!mx.version || mx.version && 7 > parseInt(mx.version.split(".")[0], 10)) {
+                    action.store = {
+                        caller: this.mxform,
+                    };
+                } else {
+                    action.origin = this.mxform;
+                }
+
+                mx.data.action(action, this);
             } else if (cb) {
                 cb();
             }
