@@ -18,7 +18,7 @@
                 <enumerationValue key="contextmf_viewspecific">Microflow with context object (Retrieve events for each view)</enumerationValue>
             </enumerationValues>
         </property>
-        <property key="eventEntity" type="entity">
+        <property key="eventEntity" type="entity" allowNonPersistableEntities="true">
             <caption>Event Entity</caption>
             <category>Data source</category>
             <description>The entity.</description>
@@ -36,7 +36,7 @@
         </property>
 
         <!-- DATAVIEW CONTEXT -->
-        <property key="contextEntity" type="entity" required="false">
+        <property key="contextEntity" type="entity" required="false" allowNonPersistableEntities="true">
             <caption>Dataview Entity</caption>
             <category>Dataview context (Optional)</category>
             <description>The entity of the dataview object.</description>
