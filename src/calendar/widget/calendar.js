@@ -127,14 +127,25 @@ define([
 
         _prepareResources: function(resources) {
             var resourceTitle = this.resourceTitle;
+            var groupTitle = this.groupTitle;
             var node = this._fcNode;
 
             resources.forEach(function(resource) {
                 var fullCalenderResource = {};
                 fullCalenderResource.title = resource.get(resourceTitle);
                 fullCalenderResource.id = resource.getGuid();
+
+                if (this.groupResourcePath) {
+                    resource.fetch(this.groupResourcePath, lang.hitch(this, function(group) {
+                        if (group) {
+                            fullCalenderResource.group = group.get(groupTitle);
+                        } 
+                        node.fullCalendar("addResource", fullCalenderResource);
+                    }))
+                    return;
+                }
                 node.fullCalendar("addResource", fullCalenderResource);
-            });
+            }, this);
         },
 
         _resetSubscriptions: function() {
@@ -187,6 +198,11 @@ define([
                 expectObj = null,
                 xpath = null,
                 errordiv = null;
+
+            if (this.resourceEntity) {
+                logger.debug(this.id + "._fetchObjects resources");
+                this._getResources(this.resourceEntity, lang.hitch(this, this._prepareResources));
+            }
 
             if (this.resourceEntity) {
                 logger.debug(this.id + "._fetchObjects resources");
@@ -661,6 +677,10 @@ define([
                 options = this._setSchedulerOptions(options);
             } else {
                 options.schedulerLicenseKey = "GPL-My-Project-Is-Open-Source"; // This key is set to make sure we don't get the "valid license key" message in our calendar. This must be set in the modeler (part of Calendar with Scheduler)
+            }
+
+            if (this.groupResourcePath) {
+                options.resourceGroupField = 'group'
             }
 
             return options;
