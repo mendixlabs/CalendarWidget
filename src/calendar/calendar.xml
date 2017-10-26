@@ -156,6 +156,10 @@
                 <enumerationValue key="basicDay">Basic day</enumerationValue>
                 <enumerationValue key="agendaWeek">Agenda week</enumerationValue>
                 <enumerationValue key="agendaDay">Agenda day</enumerationValue>
+                <enumerationValue key="listDay">List Day</enumerationValue>
+                <enumerationValue key="listWeek">List Week</enumerationValue>
+                <enumerationValue key="listMonth">List Month</enumerationValue>
+                <enumerationValue key="listYear">List Year</enumerationValue>
             </enumerationValues>
         </property>
 
@@ -318,8 +322,10 @@
                         <enumerationValue key="basicDay">Basic day</enumerationValue>
                         <enumerationValue key="agendaWeek">Agenda week</enumerationValue>
                         <enumerationValue key="agendaDay">Agenda day</enumerationValue>
-                        <enumerationValue key="timelineDay">Day timeline</enumerationValue>
-                        <enumerationValue key="timelineThreeDays">3 day timeline</enumerationValue>
+                        <enumerationValue key="listDay">List Day</enumerationValue>
+                        <enumerationValue key="listWeek">List Week</enumerationValue>
+                        <enumerationValue key="listMonth">List Month</enumerationValue>
+                        <enumerationValue key="listYear">List Year</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="timeFormatViews" type="translatableString" required="false">
