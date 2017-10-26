@@ -410,10 +410,10 @@ define([
             }
         },
 
-        _onEventChange: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+        _onEventChange: function(event, dayDelta, revertFunc) {
             logger.debug(this.id + "._onEventChange", event);
             var obj = event.mxobject;
-            this._setVariables(obj, event, this.startAttr, this.endAttr, allDay);
+            this._setVariables(obj, event, this.startAttr, this.endAttr, event.allDay);
             this._execMF(obj, this.onchangemf);
         },
 
@@ -424,20 +424,22 @@ define([
             this._execMF(obj, this.onclickmf);
         },
 
-        _onSelectionMade: function(startDate, endDate, allDay, jsEvent, view) {
+        _onSelectionMade: function(startDate, endDate, jsEvent, view, resource) {
             logger.debug(this.id + "._onSelectionMade");
             var eventData = {
                 start: startDate,
                 end: endDate
             };
 
+            var allDay = (startDate.hasTime() && endDate.hasTime());
+
             if (!this._eventIsClicked) {
                 mx.data.create({
                     entity: this.eventEntity,
                     callback: function(obj) {
                         this._setVariables(obj, eventData, this.startAttr, this.endAttr, allDay);
-                        if (this._mxObj && this.neweventref !== "") {
-                            obj.addReference(this.neweventref.split("/")[0], this._mxObj.getGuid());
+                        if ((resource || this._mxObj) && this.neweventref !== "") {
+                            obj.addReference(this.neweventref.split("/")[0], (resource ? resource.id : this._mxObj.getGuid()));
                         }
                         this._execMF(obj, this.neweventmf);
                     },
