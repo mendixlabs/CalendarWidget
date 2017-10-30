@@ -140,10 +140,15 @@
             <description>The new event microflow.</description>
             <returnType type="Void" />
         </property>
-        <property key="neweventref" type="entity" required="false" isPath="yes" pathType="reference" entityProperty="eventEntity">
+        <property key="neweventref" type="entity" required="true" isPath="yes" pathType="reference" entityProperty="eventEntity">
             <caption>New event reference</caption>
             <category>Behavior</category>
-            <description>Optional: The reference to connect the event to the context object.</description>
+            <description>Required: The reference to connect the event to the context object.</description>
+        </property>
+        <property key="nowIndicator" type="boolean" defaultValue="false">
+            <caption>Now Indicator</caption>
+            <category>Behavior</category>
+            <description>Indicates what time it is on the calendar</description>
         </property>
         <property key="defaultView" type="enumeration" defaultValue="month">
             <caption>Start view</caption>
