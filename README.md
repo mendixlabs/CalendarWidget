@@ -129,7 +129,7 @@ A translatable string of all the shorthand day names that are used in the Calend
 
 ### Extra
 #### Available views
-A list of which views should be available to the user in the Calendar (Month, Basic Week, Agenda Week, Basic Day, Agenda Day). For more information: http://fullcalendar.io/docs/views/Available_Views/
+A list of which views should be available to the user in the Calendar (Month, Basic Week, Agenda Week, Basic Day, Agenda Day, List Day, List Week, List Month, List Year). For more information: http://fullcalendar.io/docs/views/Available_Views/
 
 ##### Custom time format
 Default: h:mm{ - h:mm}. Overrides the 'general' custom time format property. For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/
@@ -201,3 +201,15 @@ Title of the resources column.
 #### Resource Title
 
 Title of the resource.
+
+#### Group Entity
+
+The group entity.
+
+#### Group resource reference
+
+The path from the resource to the group
+
+#### Group title
+
+The title of the group
