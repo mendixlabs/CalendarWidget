@@ -81,6 +81,9 @@ This reference can be configured from the Event entity to the context object and
 #### Start view
 The view that the Calendar should start on.
 
+#### Now indicator
+The Boolean attribute that sets the now indicator on or off.
+
 ### View settings
 
 #### Height
