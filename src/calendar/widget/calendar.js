@@ -580,6 +580,9 @@ define([
 
         _setCalendarOptions: function(events) {
             logger.debug(this.id + "._setCalendarOptions");
+
+            var defaultView = this._determineDefaultView(this.defaultView, this._views);
+
             var options = {
                 //contents
                 header: this._header,
@@ -597,7 +600,7 @@ define([
                 //appearance
                 timezone: "local",
                 views: this._views,
-                defaultView: this.defaultView,
+                defaultView: defaultView,
                 firstDay: this.firstday,
                 height: this.calHeight === 0 ? "auto" : this.calHeight,
                 weekNumbers: this.showWeekNumbers,
@@ -825,8 +828,17 @@ define([
             if (cb && typeof cb === "function") {
                 cb();
             }
-        }
+        },
 
+        _determineDefaultView: function(userDefinedDefaultView, availableViews){
+            var exists = dojo.indexOf(availableViews, userDefinedDefaultView);
+            var defaultView = userDefinedDefaultView;
+            if (exists < 0) {
+                defaultView = Object.keys(availableViews)[0];
+            }
+
+            return defaultView;
+        }
     });
 });
 
