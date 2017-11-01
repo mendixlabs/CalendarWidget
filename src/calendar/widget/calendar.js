@@ -16,8 +16,8 @@ define([
     "calendar/lib/jquery",
     "calendar/lib/moment",
     "calendar/lib/fullcalendar",
-    "calendar/lib/lang-all"
-], function(declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang) {
+    "calendar/lib/locale-all"
+], function(declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLocale) {
     "use strict";
 
     var $ = _jQuery.noConflict(true);
@@ -531,9 +531,11 @@ define([
                         this._views[viewName].eventLimit = view.eventLimit;
                     }
 
+                    this._views[viewName].titleFormat = "";
                     if (view.titleFormatViews !== "") {
                         this._titleFormat[viewName] = view.titleFormatViews;
                     }
+
                     if (view.dateFormatViews !== "") {
                         if (typeof this._dateFormat === "undefined" || this._dateFormat === null) {
                             this._dateFormat = {};
@@ -604,7 +606,7 @@ define([
                 slotDuration: this.slotMinutes,
                 axisFormat: this.axisFormat,
                 buttonText: this._buttonText,
-                lang: this.languageSetting,
+                locale: this.languageSetting,
                 eventLimit: this.limitEvents,
                 scrollTime: this.scrollTime,
             };
