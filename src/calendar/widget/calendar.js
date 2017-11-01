@@ -32,9 +32,6 @@ define([
         _hasStarted: null,
         _eventIsClicked: false,
         _views: null,
-        _titleFormat: null,
-        _dateFormat: null,
-        _timeFormat: null,
         _colors: null,
         _eventSource: null,
         _fcNode: null,
@@ -139,7 +136,7 @@ define([
                     resource.fetch(this.groupResourcePath, lang.hitch(this, function(group) {
                         if (group) {
                             fullCalenderResource.group = group.get(groupTitle);
-                        } 
+                        }
                         node.fullCalendar("addResource", fullCalenderResource);
                     }))
                     return;
@@ -515,24 +512,6 @@ define([
                 center: ""
             };
 
-            this._titleFormat = {
-                month: "MMMM YYYY", // September 2009
-                week: "MMM D YYYY", // Sep 13 2009
-                day: "MMMM D YYYY" //  Sep 8, 2009
-            };
-
-            if (this.titleFormat) {
-                this._titleFormat[""] = this.titleFormat;
-            }
-
-            if (this.dateFormat) {
-                this._dateFormat = this.dateFormat;
-            }
-
-            if (this.timeFormat) {
-                this._timeFormat = this.timeFormat;
-            }
-
             this._buttonText = {};
 
             this._views = {};
@@ -551,33 +530,36 @@ define([
 
                     this._views[viewName].titleFormat = "";
                     if (view.titleFormatViews !== "") {
-                        this._titleFormat[viewName] = view.titleFormatViews;
+                        this._views[viewName].titleFormat = view.titleFormatViews;
                     }
 
                     if (view.dateFormatViews !== "") {
-                        if (typeof this._dateFormat === "undefined" || this._dateFormat === null) {
-                            this._dateFormat = {};
-                        } else if (typeof this._dateFormat === "string") {
-                            this._dateFormat = {};
-                            this._dateFormat[""] = this.dateFormat;
-                        }
-
-                        this._dateFormat[viewName] = view.dateFormatViews;
+                        this._views[viewName].columnFormat = view.dateFormatViews;
                     }
+
                     if (view.timeFormatViews !== "") {
-                        if (typeof this._timeFormat === "undefined" || this._timeFormat === null) {
-                            this._timeFormat = {};
-                        } else if (typeof this._timeFormat === "string") {
-                            this._timeFormat = {};
-                            this._timeFormat[""] = this.timeFormat;
-                        }
-                        this._timeFormat[viewName] = view.timeFormatViews;
+                        this._views[viewName].timeFormat = view.timeFormatViews;
                     }
 
                     if (view.labelViews !== "") {
                         this._buttonText[viewName] = view.labelViews;
                     }
                 }));
+            } else {
+                views.push(this.defaultView);
+                this._views[this.defaultView] = {};
+
+                if (this.titleFormat) {
+                    this._views[viewName].titleFormat = this.titleFormat;
+                }
+
+                if (this.timeFormat) {
+                    this._views[viewName].timeFormat = this.timeFormat;
+                }
+
+                if (this.dateFormat) {
+                    this._views[viewName].columnFormat = this.dateFormat;
+                }
             }
 
             if (this.todaycaption) {
@@ -632,15 +614,6 @@ define([
                 scrollTime: this.scrollTime,
             };
 
-            if (this._titleFormat) {
-                options.titleFormat = this._titleFormat;
-            }
-            if (this._timeFormat) {
-                options.timeFormat = this._timeFormat;
-            }
-            if (this._dateFormat) {
-                options.columnFormat = this._dateFormat;
-            }
             if (this.monthNamesFormat) {
                 options.monthNames = this.monthNamesFormat;
             }

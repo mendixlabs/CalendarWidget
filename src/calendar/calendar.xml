@@ -306,7 +306,7 @@
             <category>Extra</category>
             <description>Determines how far down the scroll pane is initially scrolled down. This option only applies to Agendaweek and AgendaDay views. Format: "08:00"</description>
         </property>
-        <property key="notused1" type="object" isList="true" required="true">
+        <property key="notused1" type="object" isList="true" required="false">
             <caption>Available views</caption>
             <category>Extra</category>
             <description>Default will use: Month, Agenda week, Agenda day.</description>
@@ -348,7 +348,7 @@
                     <category>Extra</category>
                     <description>Caption used for the 'calendar view' button.</description>
                 </property>
-                <property key="eventLimit" type="integer" defaultValue="-1">
+                <property key="eventLimit" type="string" defaultValue="-1" required="false">
                     <caption>Event limit</caption>
                     <category>Event</category>
                     <description>The maximum number of events to display on a single day. When there are too many events, a link that looks like "+2 more" is displayed.</description>
