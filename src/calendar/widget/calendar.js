@@ -532,8 +532,9 @@ define([
 
                     this._views[viewName] = {};
 
-                    if (view.eventLimit > 0) {
-                        this._views[viewName].eventLimit = view.eventLimit;
+                    var viewLimit = parseInt(view.eventLimit);
+                    if (!isNaN(viewLimit) && viewLimit > 0) {
+                        this._views[viewName].eventLimit = eventLimit;
                     }
 
                     this._views[viewName].titleFormat = "";

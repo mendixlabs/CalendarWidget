@@ -357,7 +357,7 @@
                     <category>Extra</category>
                     <description>Caption used for the 'calendar view' button.</description>
                 </property>
-                <property key="eventLimit" type="integer" defaultValue="-1">
+                <property key="eventLimit" type="string" defaultValue="-1" required="false">
                     <caption>Event limit</caption>
                     <category>Event</category>
                     <description>The maximum number of events to display on a single day. When there are too many events, a link that looks like "+2 more" is displayed.</description>
