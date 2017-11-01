@@ -44,6 +44,7 @@ define([
         _allowCreate: true,
         _shouldDestroyOnUpdate: false,
         _triggeredRenderAll: false,
+        _timeout: null,
 
         postCreate: function() {
             logger.debug(this.id + ".postCreate");
@@ -86,8 +87,17 @@ define([
         },
 
         resize: function() {
-            logger.debug(this.id + ".resize");
-            this._fcNode.fullCalendar("render");
+            if (this._timeout !== null) {
+                clearTimeout(this._timeout);
+                this._timeout = null;
+            }
+
+            this._timeout = setTimeout(lang.hitch(this, function() {
+                logger.debug(this.id + ".resize");
+                this._fcNode.fullCalendar("render");
+                this._fcNode.fullCalendar("refetchEvents");
+                this._timeout = null;
+            }), 100);
         },
 
         _setSchedulerOptions: function(options) {
@@ -537,8 +547,8 @@ define([
 
                     this._views[viewName] = {};
 
-                    var viewLimit = parseInt(view.eventLimit);
-                    if (!isNaN(viewLimit) && viewLimit > 0) {
+                    var eventLimit = parseInt(view.eventLimit);
+                    if (!isNaN(eventLimit) && eventLimit > 0) {
                         this._views[viewName].eventLimit = eventLimit;
                     }
 
@@ -826,10 +836,7 @@ define([
         // thus require a destroy action
         _hasDynamicCalendarPropertiesConfigured: function() {
             logger.debug(this.id + "._hasDynamicCalendarPropertiesConfigured");
-            if (this.showWeekendsAttribute && this.firstdayAttribute) {
-                return true;
-            }
-            return false;
+            return this.showWeekendsAttribute && this.firstdayAttribute;
         },
 
         uninitialize: function() {
