@@ -580,7 +580,10 @@ define([
                 this._buttonText.today = this.todaycaption;
             }
 
-            this._header.right = "today " + views.join() + " prev,next";
+            this._header.right =
+                (this.todayButton ? "today " : "") +
+                (this.singleButton ? views.join() : (views.length < 2 ? "" : views.join())) +
+                (this.prevnextButton ? " prev,next" : "");
 
             this.monthNamesFormat       = this.monthNamesFormat ? this.monthNamesFormat.split(",") : null;
             this.monthShortNamesFormat  = this.monthShortNamesFormat ? this.monthShortNamesFormat.split(",") : null;
@@ -719,7 +722,7 @@ define([
 
         _onViewChange: function(view, element) {
             logger.debug(this.id + "._onViewChange");
-            //logger.debug("_onViewChange\nonviewChangeMF: ", this.onviewchangemf, "\nviewContextReference:", this.viewContextReference, "\n_mxObj", this._mxObj);
+
             var eventData = {
                 start: view.start,
                 end: view.end

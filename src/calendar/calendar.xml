@@ -306,6 +306,21 @@
             <category>Extra</category>
             <description>Determines how far down the scroll pane is initially scrolled down. This option only applies to Agendaweek and AgendaDay views. Format: "08:00"</description>
         </property>
+        <property key="todayButton" type="boolean" defaultValue="true">
+           <caption>Show 'today' button</caption>
+           <category>Extra</category>
+           <description></description>
+        </property>
+        <property key="prevnextButton" type="boolean" defaultValue="true">
+           <caption>Show pagination button</caption>
+           <category>Extra</category>
+           <description></description>
+        </property>
+        <property key="singleButton" type="boolean" defaultValue="true">
+           <caption>Show single button</caption>
+           <category>Extra</category>
+           <description>If you have a single view, should this button be shown?</description>
+        </property>
         <property key="notused1" type="object" isList="true" required="false">
             <caption>Available views</caption>
             <category>Extra</category>

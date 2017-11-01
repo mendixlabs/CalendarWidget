@@ -13,8 +13,11 @@ For more information on contributing to this repository visit [Contributing to a
 The Calendar Widget is a Mendix implementation of the open-source jQuery widget [FullCalendar](http://fullcalendar.io/).
 
 ## Configuration
+
 ### Data source
+
 #### Data source type
+
 This widget supports 4 types of data source. All these require the Event Entity to be set.
 
 The default is 'XPath retrieve'. This can be combined with an optional XPath Constraint.
@@ -50,6 +53,7 @@ This option lets you specify an attribute of the Dataview object to be used as t
 The microflow to fill the Calendar. Only used when the Data source type is set to 'Microflow with context object' and should have one input parameter, matching with the 'Dataview Entity'. Make sure this microflow returns a list of objects of the same type as the 'Event Entity'.
 
 ### Event Data
+
 #### Title
 The String attribute that contains the title for the event.
 
@@ -66,6 +70,7 @@ The Boolean attribute that specifies if the event is an All Day event, or at a s
 Boolean to set if the user is allowed to change the events using drag and drop.
 
 ### Behaviour
+
 #### On change
 A microflow that is triggered whenever an event is changed through drag and drop. The microflow gets the Event object as input parameter. (Only works if 'Editable' is set to True)
 
@@ -131,6 +136,7 @@ A translatable string of all the day names that are used in the Calendar.
 A translatable string of all the shorthand day names that are used in the Calendar.
 
 ### Extra
+
 #### Available views
 A list of which views should be available to the user in the Calendar (Month, Basic Week, Agenda Week, Basic Day, Agenda Day, List Day, List Week, List Month, List Year). For more information: http://fullcalendar.io/docs/views/Available_Views/
 
