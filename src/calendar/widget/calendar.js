@@ -669,7 +669,6 @@ define([
         },
 
         _execMF: function(obj, mf, cb) {
-            logger.debug(this.id + "._execMF", mf);
             if (mf) {
                 var params = {
                     applyto: "selection",
@@ -705,8 +704,10 @@ define([
                     action.origin = this.mxform;
                 }
 
+                logger.debug(this.id + "._execMF", mf, action);
                 mx.data.action(action, this);
             } else if (cb) {
+                logger.debug(this.id + "._execMF: no microflow defined");
                 cb();
             }
         },
