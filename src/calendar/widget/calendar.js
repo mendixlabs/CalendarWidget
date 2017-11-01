@@ -552,17 +552,22 @@ define([
                         this._views[viewName].eventLimit = eventLimit;
                     }
 
-                    this._views[viewName].titleFormat = "";
                     if (view.titleFormatViews !== "") {
                         this._views[viewName].titleFormat = view.titleFormatViews;
+                    } else if (this.titleFormat) {
+                        this._views[viewName].titleFormat = this.titleFormat;
                     }
 
                     if (view.dateFormatViews !== "") {
                         this._views[viewName].columnFormat = view.dateFormatViews;
+                    } else if (this.dateFormat) {
+                        this._views[viewName].columnFormat = this.dateFormat;
                     }
 
                     if (view.timeFormatViews !== "") {
                         this._views[viewName].timeFormat = view.timeFormatViews;
+                    } else if (this.timeFormat !== "") {
+                        this._views[viewName].timeFormat = this.timeFormat;
                     }
 
                     if (view.labelViews !== "") {
@@ -633,7 +638,7 @@ define([
                 weekNumberTitle: this.weeknumberTitle,
                 weekends: this.showWeekends,
                 slotDuration: this.slotMinutes,
-                slotLabelFormat: this.axisFormat,
+                slotLabelFormat: this.slotLabelFormat,
                 buttonText: this._buttonText,
                 locale: this.languageSetting,
                 eventLimit: this.limitEvents,
