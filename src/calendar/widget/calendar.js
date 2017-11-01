@@ -434,6 +434,7 @@ define([
             logger.debug(this.id + "._onEventClick", event);
             var obj = event.mxobject;
             this._setVariables(obj, event, this.startAttr, this.endAttr);
+            this._setResourceReference(obj, this.neweventref, event.resourceId, this._mxObj);
             this._execMF(obj, this.onclickmf);
         },
 
@@ -451,6 +452,7 @@ define([
                     entity: this.eventEntity,
                     callback: function(obj) {
                         this._setVariables(obj, eventData, this.startAttr, this.endAttr, allDay);
+                        this._setResourceReference(obj, this.neweventref, event.resourceId, this._mxObj);
                         if ((resource || this._mxObj) && this.neweventref !== "") {
                             obj.addReference(this.neweventref.split("/")[0], (resource ? resource.id : this._mxObj.getGuid()));
                         }
@@ -500,6 +502,12 @@ define([
 
             if (allDay !== null) {
                 obj.set(this.alldayAttr, allDay);
+            }
+        },
+
+        _setResourceReference: function (event, resourceReference, resourceId, mxObject) {
+            if ((resourceId || mxObject) && resourceReference !== "") {
+                event.addReference(resourceReference.split("/")[0], (resourceId ? resourceId : mxObject.getGuid()));
             }
         },
 
