@@ -22,6 +22,11 @@ define([
 
     var $ = _jQuery.noConflict(true);
 
+    fullCalendar.views.fourWeeks = {
+        'class': fullCalendar.MonthView,
+        duration: { weeks: 4 }
+    };
+
     return declare("calendar.widget.calendar", [_WidgetBase], {
 
         _mxObj: null,
