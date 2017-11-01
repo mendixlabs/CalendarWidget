@@ -216,11 +216,6 @@ define([
                 this._getResources(this.resourceEntity, lang.hitch(this, this._prepareResources));
             }
 
-            if (this.resourceEntity) {
-                logger.debug(this.id + "._fetchObjects resources");
-                this._getResources(this.resourceEntity, lang.hitch(this, this._prepareResources));
-            }
-
             if (this.dataSourceType === "xpath") {
                 logger.debug(this.id + "._fetchObjects xpath");
                 constraint = this.eventConstraint;
@@ -442,6 +437,9 @@ define([
             logger.debug(this.id + "._onEventChange", event);
             var obj = event.mxobject;
             this._setVariables(obj, event, this.startAttr, this.endAttr, event.allDay);
+            if (this.resourceEntity && this.resourceEventPath) {
+                this._setResourceReference(obj, this.neweventref, event.resourceId, this._mxObj);
+            }
             this._execMF(obj, this.onchangemf);
         },
 
