@@ -418,5 +418,23 @@
                 <attributeType name="String" />
             </attributeTypes>
         </property>
+        <property key="groupEntity" type="entity" required="false">
+            <caption>Group Entity</caption>
+            <category>Scheduler</category>
+            <description>The group entity (used for Scheduler).</description>
+        </property>
+        <property key="groupResourcePath" type="entity" isPath="yes" pathType="reference" entityProperty="resourceEntity" required="false">
+            <caption>Group resource reference</caption>
+            <category>Scheduler</category>
+            <description>The path from the resource to the group</description>
+        </property>
+        <property key="groupTitle" type="attribute" isPath="optional" pathType="reference" entityProperty="groupEntity" required="false">
+            <caption>Group Title</caption>
+            <category>Scheduler</category>
+            <description>Title of the group</description>
+            <attributeTypes>
+                <attributeType name="String" />
+            </attributeTypes>
+        </property>
     </properties>
 </widget>
