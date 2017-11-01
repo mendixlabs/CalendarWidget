@@ -356,18 +356,18 @@ define([
                             objcolors = this._getObjectColors(obj);
                         }
                         //get the dates
-                        var start = new Date(obj.get(this.startAttr)),
-                            end = new Date(obj.get(this.endAttr)),
+                        var start = new Date(obj.get(this.startAttr));
+                        var end = new Date(obj.get(this.endAttr));
                             //create a new calendar event
-                            newEvent = {
-                                title: titles[obj.getGuid()],
-                                resourceId: resourceRefId,
-                                start: start,
-                                end: end,
-                                allDay: obj.get(this.alldayAttr),
-                                editable: this.editable,
-                                mxobject: obj //we add the mxobject to be able to handle events with relative ease.
-                            };
+                        var newEvent = {
+                            title: titles[obj.getGuid()],
+                            resourceId: resourceRefId,
+                            start: start,
+                            end: end,
+                            allDay: this.alldayAttr !== "" ? obj.get(this.alldayAttr) : false,
+                            editable: this.editable,
+                            mxobject: obj //we add the mxobject to be able to handle events with relative ease.
+                        };
 
                         if (objcolors) {
                             newEvent.backgroundColor = objcolors.backgroundColor;
@@ -394,7 +394,7 @@ define([
                     this._fcNode.fullCalendar("addEventSource", events);
                     this._fcNode.fullCalendar("refetchEvents");
 
-                    if (this._mxObj && this._mxObj.get(this.startPos)) {
+                    if (this._mxObj && this.startPos !== "" && this._mxObj.get(this.startPos)) {
                         this._fcNode.fullCalendar("gotoDate", new Date(this._mxObj.get(this.startPos)));
                     }
                 } else {
@@ -416,7 +416,7 @@ define([
 
             this._fcNode.fullCalendar(options);
 
-            if (this._mxObj && this._mxObj.get(this.startPos)) {
+            if (this._mxObj && this.startPos !== "" && this._mxObj.get(this.startPos)) {
                 this._fcNode.fullCalendar("gotoDate", new Date(this._mxObj.get(this.startPos)));
             } else {
                 this._fcNode.fullCalendar("gotoDate", new Date());
@@ -500,7 +500,7 @@ define([
                 obj.set(endAttribute, evt.end);
             }
 
-            if (allDay !== null) {
+            if (this.alldayAttr !== "" && allDay !== null) {
                 obj.set(this.alldayAttr, allDay);
             }
         },
@@ -582,13 +582,12 @@ define([
             this.dayNamesFormat         = this.dayNamesFormat ? this.dayNamesFormat.split(",") : null;
             this.dayShortNamesFormat    = this.dayShortNamesFormat ? this.dayShortNamesFormat.split(",") : null;
             this.slotMinutes            = this.slotMinutes ? this.slotMinutes : "00:30:00";
-            this.axisFormat             = this.axisFormat ? this.axisFormat : "h(:mm)a";
+            this.slotLabelFormat        = this.axisFormat ? this.axisFormat : "h(:mm)a";
             this.startTime              = this.startTime ? this.startTime : "08:00";
             this.endTime                = this.endTime ? this.endTime : "17:00";
         },
 
         _setCalendarOptions: function(events) {
-            logger.debug(this.id + "._setCalendarOptions");
 
             var defaultView = this._determineDefaultView(this.defaultView, this._views);
 
@@ -616,7 +615,7 @@ define([
                 weekNumberTitle: this.weeknumberTitle,
                 weekends: this.showWeekends,
                 slotDuration: this.slotMinutes,
-                axisFormat: this.axisFormat,
+                slotLabelFormat: this.axisFormat,
                 buttonText: this._buttonText,
                 locale: this.languageSetting,
                 eventLimit: this.limitEvents,
@@ -665,6 +664,7 @@ define([
                 options.resourceGroupField = 'group'
             }
 
+            logger.debug(this.id + "._setCalendarOptions", options);
             return options;
         },
 
