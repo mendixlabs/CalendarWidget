@@ -97,7 +97,7 @@ define([
                 this._fcNode.fullCalendar("render");
                 this._fcNode.fullCalendar("refetchEvents");
                 this._timeout = null;
-            }), 100);
+            }), 50);
         },
 
         _setSchedulerOptions: function(options) {
@@ -431,6 +431,10 @@ define([
             } else {
                 this._fcNode.fullCalendar("gotoDate", new Date());
             }
+
+            window._refreshCal = lang.hitch(this, function () {
+                this._fcNode.fullCalendar("refetchEvents");
+            });
         },
 
         _onEventChange: function(event, dayDelta, revertFunc) {
@@ -573,8 +577,10 @@ define([
                     }
                 }));
             } else {
-                views.push(this.defaultView);
-                this._views[this.defaultView] = {};
+                var viewName = this.defaultView;
+
+                views.push(viewName);
+                this._views[viewName] = {};
 
                 if (this.titleFormat) {
                     this._views[viewName].titleFormat = this.titleFormat;
@@ -772,7 +778,12 @@ define([
             }
         },
 
-        _onEventAfterAllRender: function() {
+        _onEventAfterAllRender: function(view) {
+            if (view && (view.type === "agendaWeek" || view.type === "agendaDay")) {
+                logger.debug(this.id + "._onEventAfterAllRender");
+                view.applyDateScroll(view.computeInitialDateScroll()); // fixing issue with initial scrolltime (https://github.com/mendix/Calendar/issues/45)
+            }
+
             // if (!this._triggeredRenderAll) {
             //     logger.debug(this.id + "._onEventAfterAllRender");
             //     this._triggeredRenderAll = true;
