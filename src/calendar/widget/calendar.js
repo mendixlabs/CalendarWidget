@@ -431,10 +431,6 @@ define([
             } else {
                 this._fcNode.fullCalendar("gotoDate", new Date());
             }
-
-            window._refreshCal = lang.hitch(this, function () {
-                this._fcNode.fullCalendar("refetchEvents");
-            });
         },
 
         _onEventChange: function(event, dayDelta, revertFunc) {
