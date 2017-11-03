@@ -861,10 +861,11 @@ define([
         },
 
         _determineDefaultView: function(userDefinedDefaultView, availableViews){
-            var exists = dojo.indexOf(availableViews, userDefinedDefaultView);
+            var available = Object.keys(availableViews);
+            var exists = dojo.indexOf(available, userDefinedDefaultView);
             var defaultView = userDefinedDefaultView;
             if (exists < 0) {
-                defaultView = Object.keys(availableViews)[0];
+                defaultView = available[0];
             }
 
             return defaultView;
