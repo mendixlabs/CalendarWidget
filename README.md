@@ -1,4 +1,4 @@
-# Calendar Widget
+# Calendar Widget [![Support](https://img.shields.io/badge/Mendix%20Support%3A-Platform-green.svg)](https://docs.mendix.com/community/app-store/app-store-content-support)
 This is a calendar widget for Mendix. It shows a Calendar and can render objects as events in it.
 
 ## Contributing
