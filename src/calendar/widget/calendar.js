@@ -465,7 +465,7 @@ define([
                     entity: this.eventEntity,
                     callback: function(obj) {
                         this._setVariables(obj, eventData, this.startAttr, this.endAttr, allDay);
-                        this._setResourceReference(obj, this.neweventref, event.resourceId, this._mxObj);
+                        this._setResourceReference(obj, this.neweventref, jsEvent.resourceId, this._mxObj);
                         if ((resource || this._mxObj) && this.neweventref !== "") {
                             obj.addReference(this.neweventref.split("/")[0], (resource ? resource.id : this._mxObj.getGuid()));
                         }
