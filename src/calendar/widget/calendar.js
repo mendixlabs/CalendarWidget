@@ -446,8 +446,10 @@ define([
         _onEventClick: function(event) {
             logger.debug(this.id + "._onEventClick", event);
             var obj = event.mxobject;
-            this._setVariables(obj, event, this.startAttr, this.endAttr);
-            this._setResourceReference(obj, this.neweventref, event.resourceId, this._mxObj);
+            this._setVariables(obj, event, this.startAttr, this.endAttr, event.allDay);
+            if (this.resourceEntity && this.resourceEventPath) {
+                this._setResourceReference(obj, this.neweventref, event.resourceId, this._mxObj);
+            }
             this._execMF(obj, this.onclickmf);
         },
 
@@ -507,6 +509,7 @@ define([
 
         _setVariables: function(obj, evt, startAttribute, endAttribute, allDay) {
             logger.debug(this.id + "._setVariables");
+
             //update the mx object
             obj.set(startAttribute, evt.start);
             if (evt.end !== null) {
@@ -519,6 +522,7 @@ define([
         },
 
         _setResourceReference: function (event, resourceReference, resourceId, mxObject) {
+            logger.debug(this.id + "._setResourceReference");
             if ((resourceId || mxObject) && resourceReference !== "") {
                 event.addReference(resourceReference.split("/")[0], (resourceId ? resourceId : mxObject.getGuid()));
             }
