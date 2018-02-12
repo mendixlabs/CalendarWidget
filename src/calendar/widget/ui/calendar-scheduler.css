@@ -1,0 +1,8 @@
+.fc-now-indicator-arrow {
+    display: none;
+}
+
+.fc-now-indicator {
+    position: absolute;
+    border: 1px solid #F4821F;
+}

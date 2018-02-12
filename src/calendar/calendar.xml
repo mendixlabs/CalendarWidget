@@ -18,7 +18,7 @@
                 <enumerationValue key="contextmf_viewspecific">Microflow with context object (Retrieve events for each view)</enumerationValue>
             </enumerationValues>
         </property>
-        <property key="eventEntity" type="entity">
+        <property key="eventEntity" type="entity" allowNonPersistableEntities="true">
             <caption>Event Entity</caption>
             <category>Data source</category>
             <description>The entity.</description>
@@ -36,7 +36,7 @@
         </property>
 
         <!-- DATAVIEW CONTEXT -->
-        <property key="contextEntity" type="entity" required="false">
+        <property key="contextEntity" type="entity" required="false" allowNonPersistableEntities="true">
             <caption>Dataview Entity</caption>
             <category>Dataview context (Optional)</category>
             <description>The entity of the dataview object.</description>
@@ -156,6 +156,10 @@
                 <enumerationValue key="basicDay">Basic day</enumerationValue>
                 <enumerationValue key="agendaWeek">Agenda week</enumerationValue>
                 <enumerationValue key="agendaDay">Agenda day</enumerationValue>
+                <enumerationValue key="listDay">List Day</enumerationValue>
+                <enumerationValue key="listWeek">List Week</enumerationValue>
+                <enumerationValue key="listMonth">List Month</enumerationValue>
+                <enumerationValue key="listYear">List Year</enumerationValue>
             </enumerationValues>
         </property>
 
@@ -302,6 +306,21 @@
             <category>Extra</category>
             <description>Determines how far down the scroll pane is initially scrolled down. This option only applies to Agendaweek and AgendaDay views. Format: "08:00"</description>
         </property>
+        <property key="todayButton" type="boolean" defaultValue="true">
+           <caption>Show 'today' button</caption>
+           <category>Extra</category>
+           <description></description>
+        </property>
+        <property key="prevnextButton" type="boolean" defaultValue="true">
+           <caption>Show pagination button</caption>
+           <category>Extra</category>
+           <description></description>
+        </property>
+        <property key="singleButton" type="boolean" defaultValue="true">
+           <caption>Show single button</caption>
+           <category>Extra</category>
+           <description>If you have a single view, should this button be shown?</description>
+        </property>
         <property key="notused1" type="object" isList="true" required="false">
             <caption>Available views</caption>
             <category>Extra</category>
@@ -318,8 +337,10 @@
                         <enumerationValue key="basicDay">Basic day</enumerationValue>
                         <enumerationValue key="agendaWeek">Agenda week</enumerationValue>
                         <enumerationValue key="agendaDay">Agenda day</enumerationValue>
-                        <enumerationValue key="timelineDay">Day timeline</enumerationValue>
-                        <enumerationValue key="timelineThreeDays">3 day timeline</enumerationValue>
+                        <enumerationValue key="listDay">List Day</enumerationValue>
+                        <enumerationValue key="listWeek">List Week</enumerationValue>
+                        <enumerationValue key="listMonth">List Month</enumerationValue>
+                        <enumerationValue key="listYear">List Year</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="timeFormatViews" type="translatableString" required="false">
@@ -342,7 +363,7 @@
                     <category>Extra</category>
                     <description>Caption used for the 'calendar view' button.</description>
                 </property>
-                <property key="eventLimit" type="integer" defaultValue="-1">
+                <property key="eventLimit" type="string" defaultValue="-1" required="false">
                     <caption>Event limit</caption>
                     <category>Event</category>
                     <description>The maximum number of events to display on a single day. When there are too many events, a link that looks like "+2 more" is displayed.</description>

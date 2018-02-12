@@ -16,11 +16,16 @@ define([
     "calendar/lib/jquery",
     "calendar/lib/moment",
     "calendar/lib/fullcalendar",
-    "calendar/lib/lang-all"
-], function(declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLang) {
+    "calendar/lib/locale-all"
+], function(declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, _jQuery, moment, fullCalendar, calendarLocale) {
     "use strict";
 
     var $ = _jQuery.noConflict(true);
+
+    fullCalendar.views.fourWeeks = {
+        'class': fullCalendar.MonthView,
+        duration: { weeks: 4 }
+    };
 
     return declare("calendar.widget.calendar", [_WidgetBase], {
 
@@ -32,9 +37,6 @@ define([
         _hasStarted: null,
         _eventIsClicked: false,
         _views: null,
-        _titleFormat: null,
-        _dateFormat: null,
-        _timeFormat: null,
         _colors: null,
         _eventSource: null,
         _fcNode: null,
@@ -42,6 +44,7 @@ define([
         _allowCreate: true,
         _shouldDestroyOnUpdate: false,
         _triggeredRenderAll: false,
+        _timeout: null,
 
         postCreate: function() {
             logger.debug(this.id + ".postCreate");
@@ -84,8 +87,17 @@ define([
         },
 
         resize: function() {
-            logger.debug(this.id + ".resize");
-            this._fcNode.fullCalendar("render");
+            if (this._timeout !== null) {
+                clearTimeout(this._timeout);
+                this._timeout = null;
+            }
+
+            this._timeout = setTimeout(lang.hitch(this, function() {
+                logger.debug(this.id + ".resize");
+                this._fcNode.fullCalendar("render");
+                this._fcNode.fullCalendar("refetchEvents");
+                this._timeout = null;
+            }), 50);
         },
 
         _setSchedulerOptions: function(options) {
@@ -127,65 +139,66 @@ define([
 
         _prepareResources: function(resources) {
             var resourceTitle = this.resourceTitle;
+            var groupTitle = this.groupTitle;
             var node = this._fcNode;
 
             resources.forEach(function(resource) {
                 var fullCalenderResource = {};
                 fullCalenderResource.title = resource.get(resourceTitle);
                 fullCalenderResource.id = resource.getGuid();
+
+                if (this.groupResourcePath) {
+                    resource.fetch(this.groupResourcePath, lang.hitch(this, function(group) {
+                        if (group) {
+                            fullCalenderResource.group = group.get(groupTitle);
+                        }
+                        node.fullCalendar("addResource", fullCalenderResource);
+                    }))
+                    return;
+                }
                 node.fullCalendar("addResource", fullCalenderResource);
-            });
+            }, this);
         },
 
         _resetSubscriptions: function() {
             logger.debug(this.id + "._resetSubscriptions");
+            this.unsubscribeAll();
 
-            if (this._handles && this._handles.length && this._handles.length > 0) {
-                dojoArray.forEach(this._handles, lang.hitch(this, function(handle) {
-                    this.unsubscribe(handle);
-                }));
-            }
-            this._handles = [];
-
-            var subscription = this.subscribe({
-                    entity: this.eventEntity,
-                    callback: lang.hitch(this, function(entity) {
-                        //we re-fetch the objects, and refresh them on the calendar
-                        this._fetchObjects();
-                    })
-                });
-
-            this._handles.push(subscription);
+            this.subscribe({
+                entity: this.eventEntity,
+                callback: lang.hitch(this, function(entity) {
+                    //we re-fetch the objects, and refresh them on the calendar
+                    this._fetchObjects();
+                })
+            });
 
             if (this._mxObj) {
 
-                var contextSubscription = this.subscribe({
+                this.subscribe({
                     guid: this._mxObj.getGuid(),
                     callback: lang.hitch(this, function(guid) {
                         this._fetchObjects();
                     })
                 });
-                this._handles.push(contextSubscription);
 
                 if (this.startPos) {
-                    var contextStartPosAttributeSubscription = this.subscribe({
+                    this.subscribe({
                         guid: this._mxObj.getGuid(),
                         attr: this.startPos,
                         callback: lang.hitch(this, function(guid) {
                             this._renderCalendar();
                         })
                     });
-                    this._handles.push(contextStartPosAttributeSubscription);
                 }
+
                 if (this.firstdayAttribute) {
-                    var contextFirstDayAttributeAttributeSubscription = this.subscribe({
+                    this.subscribe({
                         guid: this._mxObj.getGuid(),
                         attr: this.firstdayAttribute,
                         callback: lang.hitch(this, function(guid) {
                             this._renderCalendar();
                         })
                     });
-                    this._handles.push(contextFirstDayAttributeAttributeSubscription);
                 }
                 this._onEventAfterAllRender();
             }
@@ -356,18 +369,18 @@ define([
                             objcolors = this._getObjectColors(obj);
                         }
                         //get the dates
-                        var start = new Date(obj.get(this.startAttr)),
-                            end = new Date(obj.get(this.endAttr)),
+                        var start = new Date(obj.get(this.startAttr));
+                        var end = new Date(obj.get(this.endAttr));
                             //create a new calendar event
-                            newEvent = {
-                                title: titles[obj.getGuid()],
-                                resourceId: resourceRefId,
-                                start: start,
-                                end: end,
-                                allDay: obj.get(this.alldayAttr),
-                                editable: this.editable,
-                                mxobject: obj //we add the mxobject to be able to handle events with relative ease.
-                            };
+                        var newEvent = {
+                            title: titles[obj.getGuid()],
+                            resourceId: resourceRefId,
+                            start: start,
+                            end: end,
+                            allDay: this.alldayAttr !== "" ? obj.get(this.alldayAttr) : false,
+                            editable: this.editable,
+                            mxobject: obj //we add the mxobject to be able to handle events with relative ease.
+                        };
 
                         if (objcolors) {
                             newEvent.backgroundColor = objcolors.backgroundColor;
@@ -393,6 +406,10 @@ define([
 
                     this._fcNode.fullCalendar("addEventSource", events);
                     this._fcNode.fullCalendar("refetchEvents");
+
+                    if (this._mxObj && this.startPos !== "" && this._mxObj.get(this.startPos)) {
+                        this._fcNode.fullCalendar("gotoDate", new Date(this._mxObj.get(this.startPos)));
+                    }
                 } else {
                     //else create the calendar
                     this._renderCalendar(events);
@@ -412,42 +429,50 @@ define([
 
             this._fcNode.fullCalendar(options);
 
-            if (this._mxObj && this._mxObj.get(this.startPos)) {
+            if (this._mxObj && this.startPos !== "" && this._mxObj.get(this.startPos)) {
                 this._fcNode.fullCalendar("gotoDate", new Date(this._mxObj.get(this.startPos)));
             } else {
                 this._fcNode.fullCalendar("gotoDate", new Date());
             }
-
         },
 
-        _onEventChange: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+        _onEventChange: function(event, dayDelta, revertFunc) {
             logger.debug(this.id + "._onEventChange", event);
             var obj = event.mxobject;
-            this._setVariables(obj, event, this.startAttr, this.endAttr, allDay);
+            this._setVariables(obj, event, this.startAttr, this.endAttr, event.allDay);
+            if (this.resourceEntity && this.resourceEventPath) {
+                this._setResourceReference(obj, this.neweventref, event.resourceId, this._mxObj);
+            }
             this._execMF(obj, this.onchangemf);
         },
 
         _onEventClick: function(event) {
             logger.debug(this.id + "._onEventClick", event);
             var obj = event.mxobject;
-            this._setVariables(obj, event, this.startAttr, this.endAttr);
+            this._setVariables(obj, event, this.startAttr, this.endAttr, event.allDay);
+            if (this.resourceEntity && this.resourceEventPath) {
+                this._setResourceReference(obj, this.neweventref, event.resourceId, this._mxObj);
+            }
             this._execMF(obj, this.onclickmf);
         },
 
-        _onSelectionMade: function(startDate, endDate, allDay, jsEvent, view) {
+        _onSelectionMade: function(startDate, endDate, jsEvent, view, resource) {
             logger.debug(this.id + "._onSelectionMade");
             var eventData = {
                 start: startDate,
                 end: endDate
             };
 
+            var allDay = (startDate.hasTime() && endDate.hasTime());
+
             if (!this._eventIsClicked) {
                 mx.data.create({
                     entity: this.eventEntity,
                     callback: function(obj) {
                         this._setVariables(obj, eventData, this.startAttr, this.endAttr, allDay);
-                        if (this._mxObj && this.neweventref !== "") {
-                            obj.addReference(this.neweventref.split("/")[0], this._mxObj.getGuid());
+                        this._setResourceReference(obj, this.neweventref, jsEvent.resourceId, this._mxObj);
+                        if ((resource || this._mxObj) && this.neweventref !== "") {
+                            obj.addReference(this.neweventref.split("/")[0], (resource ? resource.id : this._mxObj.getGuid()));
                         }
                         this._execMF(obj, this.neweventmf);
                     },
@@ -487,14 +512,22 @@ define([
 
         _setVariables: function(obj, evt, startAttribute, endAttribute, allDay) {
             logger.debug(this.id + "._setVariables");
+
             //update the mx object
             obj.set(startAttribute, evt.start);
             if (evt.end !== null) {
                 obj.set(endAttribute, evt.end);
             }
 
-            if (allDay !== null) {
+            if (this.alldayAttr !== "" && allDay !== null) {
                 obj.set(this.alldayAttr, allDay);
+            }
+        },
+
+        _setResourceReference: function (event, resourceReference, resourceId, mxObject) {
+            logger.debug(this.id + "._setResourceReference");
+            if ((resourceId || mxObject) && resourceReference !== "") {
+                event.addReference(resourceReference.split("/")[0], (resourceId ? resourceId : mxObject.getGuid()));
             }
         },
 
@@ -506,24 +539,6 @@ define([
                 left: "title",
                 center: ""
             };
-
-            this._titleFormat = {
-                month: "MMMM YYYY", // September 2009
-                week: "MMM D YYYY", // Sep 13 2009
-                day: "MMMM D YYYY" //  Sep 8, 2009
-            };
-
-            if (this.titleFormat) {
-                this._titleFormat[""] = this.titleFormat;
-            }
-
-            if (this.dateFormat) {
-                this._dateFormat = this.dateFormat;
-            }
-
-            if (this.timeFormat) {
-                this._timeFormat = this.timeFormat;
-            }
 
             this._buttonText = {};
 
@@ -537,57 +552,75 @@ define([
 
                     this._views[viewName] = {};
 
-                    if (view.eventLimit > 0) {
-                        this._views[viewName].eventLimit = view.eventLimit;
+                    var eventLimit = parseInt(view.eventLimit);
+                    if (!isNaN(eventLimit) && eventLimit > 0) {
+                        this._views[viewName].eventLimit = eventLimit;
                     }
 
                     if (view.titleFormatViews !== "") {
-                        this._titleFormat[viewName] = view.titleFormatViews;
+                        this._views[viewName].titleFormat = view.titleFormatViews;
+                    } else if (this.titleFormat) {
+                        this._views[viewName].titleFormat = this.titleFormat;
                     }
-                    if (view.dateFormatViews !== "") {
-                        if (typeof this._dateFormat === "undefined" || this._dateFormat === null) {
-                            this._dateFormat = {};
-                        } else if (typeof this._dateFormat === "string") {
-                            this._dateFormat = {};
-                            this._dateFormat[""] = this.dateFormat;
-                        }
 
-                        this._dateFormat[viewName] = view.dateFormatViews;
+                    if (view.dateFormatViews !== "") {
+                        this._views[viewName].columnFormat = view.dateFormatViews;
+                    } else if (this.dateFormat) {
+                        this._views[viewName].columnFormat = this.dateFormat;
                     }
+
                     if (view.timeFormatViews !== "") {
-                        if (typeof this._timeFormat === "undefined" || this._timeFormat === null) {
-                            this._timeFormat = {};
-                        } else if (typeof this._timeFormat === "string") {
-                            this._timeFormat = {};
-                            this._timeFormat[""] = this.timeFormat;
-                        }
-                        this._timeFormat[viewName] = view.timeFormatViews;
+                        this._views[viewName].timeFormat = view.timeFormatViews;
+                    } else if (this.timeFormat !== "") {
+                        this._views[viewName].timeFormat = this.timeFormat;
                     }
 
                     if (view.labelViews !== "") {
                         this._buttonText[viewName] = view.labelViews;
                     }
                 }));
+            } else {
+                var viewName = this.defaultView;
+
+                views.push(viewName);
+                this._views[viewName] = {};
+
+                if (this.titleFormat) {
+                    this._views[viewName].titleFormat = this.titleFormat;
+                }
+
+                if (this.timeFormat) {
+                    this._views[viewName].timeFormat = this.timeFormat;
+                }
+
+                if (this.dateFormat) {
+                    this._views[viewName].columnFormat = this.dateFormat;
+                }
             }
 
             if (this.todaycaption) {
                 this._buttonText.today = this.todaycaption;
             }
 
-            this._header.right = "today " + views.join() + " prev,next";
+            this._header.right =
+                (this.todayButton ? "today " : "") +
+                (this.singleButton ? views.join() : (views.length < 2 ? "" : views.join())) +
+                (this.prevnextButton ? " prev,next" : "");
 
             this.monthNamesFormat       = this.monthNamesFormat ? this.monthNamesFormat.split(",") : null;
             this.monthShortNamesFormat  = this.monthShortNamesFormat ? this.monthShortNamesFormat.split(",") : null;
             this.dayNamesFormat         = this.dayNamesFormat ? this.dayNamesFormat.split(",") : null;
             this.dayShortNamesFormat    = this.dayShortNamesFormat ? this.dayShortNamesFormat.split(",") : null;
             this.slotMinutes            = this.slotMinutes ? this.slotMinutes : "00:30:00";
-            this.axisFormat             = this.axisFormat ? this.axisFormat : "h(:mm)a";
+            this.slotLabelFormat        = this.axisFormat ? this.axisFormat : "h(:mm)a";
             this.startTime              = this.startTime ? this.startTime : "08:00";
             this.endTime                = this.endTime ? this.endTime : "17:00";
         },
 
         _setCalendarOptions: function(events) {
-            logger.debug(this.id + "._setCalendarOptions");
+
+            var defaultView = this._determineDefaultView(this.defaultView, this._views);
+
             var options = {
                 //contents
                 header: this._header,
@@ -605,29 +638,20 @@ define([
                 //appearance
                 timezone: "local",
                 views: this._views,
-                defaultView: this.defaultView,
+                defaultView: defaultView,
                 firstDay: this.firstday,
                 height: this.calHeight === 0 ? "auto" : this.calHeight,
                 weekNumbers: this.showWeekNumbers,
                 weekNumberTitle: this.weeknumberTitle,
                 weekends: this.showWeekends,
                 slotDuration: this.slotMinutes,
-                axisFormat: this.axisFormat,
+                slotLabelFormat: this.slotLabelFormat,
                 buttonText: this._buttonText,
-                lang: this.languageSetting,
+                locale: this.languageSetting,
                 eventLimit: this.limitEvents,
                 scrollTime: this.scrollTime,
             };
 
-            if (this._titleFormat) {
-                options.titleFormat = this._titleFormat;
-            }
-            if (this._timeFormat) {
-                options.timeFormat = this._timeFormat;
-            }
-            if (this._dateFormat) {
-                options.columnFormat = this._dateFormat;
-            }
             if (this.monthNamesFormat) {
                 options.monthNames = this.monthNamesFormat;
             }
@@ -666,11 +690,15 @@ define([
                 options.schedulerLicenseKey = "GPL-My-Project-Is-Open-Source"; // This key is set to make sure we don't get the "valid license key" message in our calendar. This must be set in the modeler (part of Calendar with Scheduler)
             }
 
+            if (this.groupResourcePath) {
+                options.resourceGroupField = 'group'
+            }
+
+            logger.debug(this.id + "._setCalendarOptions", options);
             return options;
         },
 
         _execMF: function(obj, mf, cb) {
-            logger.debug(this.id + "._execMF", mf);
             if (mf) {
                 var params = {
                     applyto: "selection",
@@ -681,10 +709,8 @@ define([
                     params.guids = [obj.getGuid()];
                 }
                 logger.debug(this.id + "._execMF params:", params);
-                mx.data.action({
-                    store: {
-                        caller: this.mxform
-                    },
+
+                var action = {
                     params: params,
                     callback: lang.hitch(this, function(objs) {
                         logger.debug(this.id + "._execMF callback:", objs ? objs.length + " objects" : "null");
@@ -698,16 +724,27 @@ define([
                         }
                         console.warn(error.description);
                     }
-                }, this);
+                };
 
+                if (!mx.version || mx.version && 7 > parseInt(mx.version.split(".")[0], 10)) {
+                    action.store = {
+                        caller: this.mxform,
+                    };
+                } else {
+                    action.origin = this.mxform;
+                }
+
+                logger.debug(this.id + "._execMF", mf, action);
+                mx.data.action(action, this);
             } else if (cb) {
+                logger.debug(this.id + "._execMF: no microflow defined");
                 cb();
             }
         },
 
         _onViewChange: function(view, element) {
             logger.debug(this.id + "._onViewChange");
-            //logger.debug("_onViewChange\nonviewChangeMF: ", this.onviewchangemf, "\nviewContextReference:", this.viewContextReference, "\n_mxObj", this._mxObj);
+
             var eventData = {
                 start: view.start,
                 end: view.end
@@ -744,7 +781,12 @@ define([
             }
         },
 
-        _onEventAfterAllRender: function() {
+        _onEventAfterAllRender: function(view) {
+            if (view && (view.type === "agendaWeek" || view.type === "agendaDay")) {
+                logger.debug(this.id + "._onEventAfterAllRender");
+                view.applyDateScroll(view.computeInitialDateScroll()); // fixing issue with initial scrolltime (https://github.com/mendix/Calendar/issues/45)
+            }
+
             // if (!this._triggeredRenderAll) {
             //     logger.debug(this.id + "._onEventAfterAllRender");
             //     this._triggeredRenderAll = true;
@@ -811,10 +853,7 @@ define([
         // thus require a destroy action
         _hasDynamicCalendarPropertiesConfigured: function() {
             logger.debug(this.id + "._hasDynamicCalendarPropertiesConfigured");
-            if (this.showWeekendsAttribute && this.firstdayAttribute) {
-                return true;
-            }
-            return false;
+            return this.showWeekendsAttribute && this.firstdayAttribute;
         },
 
         uninitialize: function() {
@@ -826,8 +865,18 @@ define([
             if (cb && typeof cb === "function") {
                 cb();
             }
-        }
+        },
 
+        _determineDefaultView: function(userDefinedDefaultView, availableViews){
+            var available = Object.keys(availableViews);
+            var exists = dojo.indexOf(available, userDefinedDefaultView);
+            var defaultView = userDefinedDefaultView;
+            if (exists < 0) {
+                defaultView = available[0];
+            }
+
+            return defaultView;
+        }
     });
 });
 

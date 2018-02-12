@@ -1,4 +1,4 @@
-# Calendar Widget
+# Calendar Widget [![Support](https://img.shields.io/badge/Mendix%20Support%3A-Platform-green.svg)](https://docs.mendix.com/community/app-store/app-store-content-support)
 This is a calendar widget for Mendix. It shows a Calendar and can render objects as events in it.
 
 ## Contributing
@@ -13,8 +13,11 @@ For more information on contributing to this repository visit [Contributing to a
 The Calendar Widget is a Mendix implementation of the open-source jQuery widget [FullCalendar](http://fullcalendar.io/).
 
 ## Configuration
+
 ### Data source
+
 #### Data source type
+
 This widget supports 4 types of data source. All these require the Event Entity to be set.
 
 The default is 'XPath retrieve'. This can be combined with an optional XPath Constraint.
@@ -50,6 +53,7 @@ This option lets you specify an attribute of the Dataview object to be used as t
 The microflow to fill the Calendar. Only used when the Data source type is set to 'Microflow with context object' and should have one input parameter, matching with the 'Dataview Entity'. Make sure this microflow returns a list of objects of the same type as the 'Event Entity'.
 
 ### Event Data
+
 #### Title
 The String attribute that contains the title for the event.
 
@@ -66,6 +70,7 @@ The Boolean attribute that specifies if the event is an All Day event, or at a s
 Boolean to set if the user is allowed to change the events using drag and drop.
 
 ### Behaviour
+
 #### On change
 A microflow that is triggered whenever an event is changed through drag and drop. The microflow gets the Event object as input parameter. (Only works if 'Editable' is set to True)
 
@@ -80,6 +85,9 @@ This reference can be configured from the Event entity to the context object and
 
 #### Start view
 The view that the Calendar should start on.
+
+#### Now indicator
+The Boolean attribute that sets the now indicator on or off.
 
 ### View settings
 
@@ -128,8 +136,9 @@ A translatable string of all the day names that are used in the Calendar.
 A translatable string of all the shorthand day names that are used in the Calendar.
 
 ### Extra
+
 #### Available views
-A list of which views should be available to the user in the Calendar (Month, Basic Week, Agenda Week, Basic Day, Agenda Day). For more information: http://fullcalendar.io/docs/views/Available_Views/
+A list of which views should be available to the user in the Calendar (Month, Basic Week, Agenda Week, Basic Day, Agenda Day, List Day, List Week, List Month, List Year). For more information: http://fullcalendar.io/docs/views/Available_Views/
 
 ##### Custom time format
 Default: h:mm{ - h:mm}. Overrides the 'general' custom time format property. For more information: http://arshaw.com/fullcalendar/docs/text/timeFormat/
@@ -201,3 +210,15 @@ Title of the resources column.
 #### Resource Title
 
 Title of the resource.
+
+#### Group Entity
+
+The group entity.
+
+#### Group resource reference
+
+The path from the resource to the group
+
+#### Group title
+
+The title of the group
