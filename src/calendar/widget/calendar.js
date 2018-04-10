@@ -615,6 +615,8 @@ define([
             this.slotLabelFormat        = this.axisFormat ? this.axisFormat : "h(:mm)a";
             this.startTime              = this.startTime ? this.startTime : "08:00";
             this.endTime                = this.endTime ? this.endTime : "17:00";
+            this.minTime                = this.minTime ? this.minTime : "00:00:00";
+            this.maxTime                = this.maxTime ? this.maxTime : "24:00:00";
         },
 
         _setCalendarOptions: function(events) {
@@ -650,6 +652,8 @@ define([
                 locale: this.languageSetting,
                 eventLimit: this.limitEvents,
                 scrollTime: this.scrollTime,
+                minTime: this.minTime,
+                maxTime: this.maxTime,
             };
 
             if (this.monthNamesFormat) {
