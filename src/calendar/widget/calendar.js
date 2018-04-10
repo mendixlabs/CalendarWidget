@@ -122,6 +122,9 @@ define([
             logger.debug(this.id + "._getResources");
             mx.data.get({
                 xpath: "//" + this.resourceEntity,
+                filter: {
+                    sort: this.resourceOrder !== "" ? [[this.resourceOrder, this.orderType]] : null
+                },
                 callback: lang.hitch(this, function(objs) {
                     logger.debug(this.id + "._getResources callback:", objs ? objs.length + " objects" : "null");
                     if (callback) {

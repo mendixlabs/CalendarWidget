@@ -425,6 +425,23 @@
             <category>Scheduler</category>
             <description>The association from the resource to the event</description>
         </property>
+        <property key="resourceOrder" type="attribute" required="false" isPath="optional" pathType="reference" entityProperty="resourceEntity">
+            <caption>Resource Order</caption>
+            <category>Scheduler</category>
+            <description>Order of the resource</description>
+            <attributeTypes>
+                <attributeType name="Integer" />
+            </attributeTypes>
+        </property>
+        <property key="orderType" type="enumeration" defaultValue="asc">
+            <caption>Resource Order Type</caption>
+            <category>Scheduler</category>
+            <description></description>
+            <enumerationValues>
+                <enumerationValue key="asc">ASC</enumerationValue>
+                <enumerationValue key="desc">DESC</enumerationValue>
+            </enumerationValues>
+        </property>
         <property key="resourceLabelText" type="string">
             <caption>Resource Label Title</caption>
             <category>Scheduler</category>
