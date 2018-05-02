@@ -1,14 +1,8 @@
-define([
-    "dojo/_base/declare",
-    "calendar/widget/calendar",
-], function (declare, calendarWidget) {
-    "use strict";
+import {defineWidget} from 'widget-base-helpers';
+import Calendar from 'Calendar';
 
-    return declare("calendar.widget.calendar-simple", [calendarWidget], {
+export default defineWidget('calendar-simple', null, {
 
-        dataSourceType: "simple"
+    dataSourceType: "simple",
 
-    });
-});
-
-require(["calendar/widget/calendar-simple"]);
+}, Calendar);

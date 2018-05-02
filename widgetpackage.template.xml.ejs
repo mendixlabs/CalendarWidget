@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://www.mendix.com/package/1.0/">
+    <clientModule name="<%= packageName %>" version="<%= version %>" xmlns="http://www.mendix.com/clientModule/1.0/">
+        <widgetFiles>
+            <% files.forEach(function(file){ %><widgetFile path="<%= packageName %>/<%= file %>" />
+            <% }); %>
+        </widgetFiles>
+        <files>
+            <file path="<%= packageName %>/<%= widgetFolder %>/" />
+        </files>
+    </clientModule>
+</package>

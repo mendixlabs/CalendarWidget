@@ -1,13 +1,4 @@
-define([
-    "dojo/_base/declare",
-    "calendar/widget/calendar",
-    "calendar/lib/scheduler"
-], function (declare, calendarWidget, scheduler) {
-    "use strict";
+import {defineWidget} from 'widget-base-helpers';
+import Calendar from 'Calendar';
 
-    return declare("calendar.widget.calendar-scheduler", [calendarWidget], {
-
-    });
-});
-
-require(["calendar/widget/calendar-scheduler"]);
+export default defineWidget('calendar-scheduler', null, {}, Calendar);
