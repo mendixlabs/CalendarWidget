@@ -449,7 +449,7 @@ export default defineWidget('calendar', false, {
     },
 
     _onEventChange(changeEvt) {
-        this.log("._onEventChange", changeEvt);
+        this.log("._onEventChange");
         const obj = changeEvt.mxobject;
         this._setVariables(obj, changeEvt, this.startAttr, this.endAttr, changeEvt.allDay);
         if (this.resourceEntity && this.resourceEventPath) {
@@ -459,7 +459,7 @@ export default defineWidget('calendar', false, {
     },
 
     _onEventClick(clickEvt) {
-        this.log("._onEventClick", clickEvt);
+        this.log("._onEventClick");
         const obj = clickEvt.mxobject;
         this._setVariables(obj, clickEvt, this.startAttr, this.endAttr, clickEvt.allDay);
         if (this.resourceEntity && this.resourceEventPath) {
