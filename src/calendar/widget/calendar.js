@@ -437,7 +437,7 @@ define([
         },
 
         _onEventChange: function(event, dayDelta, revertFunc) {
-            logger.debug(this.id + "._onEventChange", event);
+            logger.debug(this.id + "._onEventChange");
             var obj = event.mxobject;
             this._setVariables(obj, event, this.startAttr, this.endAttr, event.allDay);
             if (this.resourceEntity && this.resourceEventPath) {
@@ -447,7 +447,7 @@ define([
         },
 
         _onEventClick: function(event) {
-            logger.debug(this.id + "._onEventClick", event);
+            logger.debug(this.id + "._onEventClick");
             var obj = event.mxobject;
             this._setVariables(obj, event, this.startAttr, this.endAttr, event.allDay);
             if (this.resourceEntity && this.resourceEventPath) {
