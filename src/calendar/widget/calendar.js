@@ -69,7 +69,7 @@ export default defineWidget('calendar', false, {
     },
 
     startup() {
-        this.log(".startup");
+        this.log("startup");
 
         if (this._hasStarted) {
             return;
@@ -88,7 +88,7 @@ export default defineWidget('calendar', false, {
     },
 
     update(obj, callback) {
-        this.log(".update");
+        this.log("update");
 
         this._mxObj = obj;
         this._resetSubscriptions();
@@ -106,7 +106,7 @@ export default defineWidget('calendar', false, {
         }
 
         this._timeout = setTimeout(() => {
-            this.log(".resize");
+            this.log("resize");
             this._fcNode.fullCalendar("render");
             this._fcNode.fullCalendar("refetchEvents");
             this._timeout = null;
@@ -114,7 +114,7 @@ export default defineWidget('calendar', false, {
     },
 
     _setSchedulerOptions(options) {
-        this.log("._setSchedulerOptions");
+        this.log("_setSchedulerOptions");
         const opts = options;
 
         if (options.views.timelineThreeDays) {
@@ -134,12 +134,12 @@ export default defineWidget('calendar', false, {
     },
 
     _getResources(entity, callback) {
-        this.log("._getResources");
+        this.log("_getResources");
 
         mx.data.get({
             xpath: "//" + this.resourceEntity,
             callback: objs => {
-                this.log("._getResources callback:", objs ? objs.length + " objects" : "null");
+                this.log("_getResources callback:", objs ? objs.length + " objects" : "null");
                 callback && callback(objs);
             },
             error: function(error) {
@@ -152,7 +152,7 @@ export default defineWidget('calendar', false, {
     },
 
     _prepareResources(resources) {
-        this.log("._prepareResources");
+        this.log("_prepareResources");
 
         resources.forEach(resource => {
             const fullCalenderResource = {};
@@ -173,7 +173,7 @@ export default defineWidget('calendar', false, {
     },
 
     _resetSubscriptions() {
-        this.log("._resetSubscriptions");
+        this.log("_resetSubscriptions");
         this.unsubscribeAll();
 
         this.subscribe({
@@ -217,7 +217,7 @@ export default defineWidget('calendar', false, {
     },
 
     _fetchObjects() {
-        this.log("._fetchObjects");
+        this.log("_fetchObjects");
 
         let constraint = null,
             expectObj = null,
@@ -225,12 +225,12 @@ export default defineWidget('calendar', false, {
             errordiv = null;
 
         if (this.resourceEntity) {
-            this.log("._fetchObjects resources");
+            this.log("_fetchObjects resources");
             this._getResources(this.resourceEntity, this._prepareResources.bind(this));
         }
 
         if ('xpath' === this.dataSourceType) {
-            this.log("._fetchObjects xpath");
+            this.log("_fetchObjects xpath");
             constraint = this.eventConstraint;
             expectObj = 0 <= this.eventConstraint.indexOf("[%CurrentObject%]");
 
@@ -247,21 +247,21 @@ export default defineWidget('calendar', false, {
                 callback: this._prepareEvents.bind(this),
             }, this);
         } else if ("contextmf_viewspecific" === this.dataSourceType && this.contextDatasourceMf) {
-            this.log("._fetchObjects contextmf_viewspecific");
+            this.log("_fetchObjects contextmf_viewspecific");
             if (this._mxObj && this.viewContextReference) {
                 const view = this._fcNode.fullCalendar("getView");
                 this._fetchPaginatedEvents(view.start, view.end);
             }
         } else if ("contextmf" === this.dataSourceType && this.contextDatasourceMf) {
-            this.log("._fetchObjects contextmf", this._mxObj);
+            this.log("_fetchObjects contextmf", this._mxObj);
             if (this._mxObj) {
                 this._execMF(this._mxObj, this.contextDatasourceMf, this._prepareEvents.bind(this));
             }
         } else if ("mf" === this.dataSourceType && this.datasourceMf) {
-            this.log("._fetchObjects mf");
+            this.log("_fetchObjects mf");
             this._execMF(null, this.datasourceMf, this._prepareEvents.bind(this));
         } else if ("simple" === this.dataSourceType) {
-            this.log("._fetchObjects simple");
+            this.log("_fetchObjects simple");
             this._prepareEvents([this._mxObj]);
         } else {
 
@@ -289,14 +289,20 @@ export default defineWidget('calendar', false, {
     },
 
     _clearCalendar() {
-        this.log("._clearCalendar");
+        this.log("_clearCalendar");
         if (this._fcNode) {
             this._fcNode.fullCalendar("removeEvents");
         }
     },
 
     _prepareEvents(objs) {
-        this.log("._prepareEvents");
+        this.log("_prepareEvents");
+
+        // objs.forEach(obj => {
+        //     const attr = obj.jsonData.attributes;
+        //     console.log('start', attr.start_date);
+        //     console.log('end', attr.end_date);
+        // });
 
         const objTitles = {};
         const objRefs = [];
@@ -362,7 +368,7 @@ export default defineWidget('calendar', false, {
     },
 
     _createEvents(objs, titles) {
-        this.log("._createEvents");
+        this.log("_createEvents");
 
         const events = [];
         let objcolors = null;
@@ -383,6 +389,10 @@ export default defineWidget('calendar', false, {
                     //get the dates
                     const start = new Date(obj.get(this.startAttr));
                     const end = new Date(obj.get(this.endAttr));
+
+                    // console.log('start', obj.get(this.startAttr), start);
+                    // console.log('end', obj.get(this.endAttr), end);
+
                     //create a new calendar event
                     const newEvent = {
                         title: titles[ obj.getGuid() ],
@@ -408,6 +418,7 @@ export default defineWidget('calendar', false, {
         });
 
         $.when(...promises).done(() => {
+
             //check if the calendar already exists (are we just updating events here?)
             if (this._fcNode.hasClass("fc")) {
                 //if it does, remove, add the new source and refetch
@@ -449,7 +460,7 @@ export default defineWidget('calendar', false, {
     },
 
     _onEventChange(changeEvt) {
-        this.log("._onEventChange");
+        this.log("_onEventChange");
         const obj = changeEvt.mxobject;
         this._setVariables(obj, changeEvt, this.startAttr, this.endAttr, changeEvt.allDay);
         if (this.resourceEntity && this.resourceEventPath) {
@@ -459,17 +470,17 @@ export default defineWidget('calendar', false, {
     },
 
     _onEventClick(clickEvt) {
-        this.log("._onEventClick");
+        this.log("_onEventClick");
         const obj = clickEvt.mxobject;
-        this._setVariables(obj, clickEvt, this.startAttr, this.endAttr, clickEvt.allDay);
-        if (this.resourceEntity && this.resourceEventPath) {
-            this._setResourceReference(obj, this.neweventref, clickEvt.resourceId, this._mxObj);
-        }
+        // this._setVariables(obj, clickEvt, this.startAttr, this.endAttr, clickEvt.allDay);
+        // if (this.resourceEntity && this.resourceEventPath) {
+        //     this._setResourceReference(obj, this.neweventref, clickEvt.resourceId, this._mxObj);
+        // }
         this._execMF(obj, this.onclickmf);
     },
 
     _onSelectionMade(startDate, endDate, jsEvent, view, resource) {
-        this.log("._onSelectionMade");
+        this.log("_onSelectionMade");
         const eventData = {
             start: startDate,
             end: endDate,
@@ -502,7 +513,7 @@ export default defineWidget('calendar', false, {
     },
 
     _getObjectColors(obj) {
-        this.log("._getObjectColors");
+        this.log("_getObjectColors");
 
         let objcolors = null;
 
@@ -524,12 +535,12 @@ export default defineWidget('calendar', false, {
     },
 
     _setVariables(obj, evt, startAttribute, endAttribute, allDay) {
-        this.log("._setVariables");
+        this.log("_setVariables");
 
         //update the mx object
-        obj.set(startAttribute, evt.start);
+        obj.set(startAttribute, +evt.start);
         if (null !== evt.end) {
-            obj.set(endAttribute, evt.end);
+            obj.set(endAttribute, +evt.end);
         }
 
         if ('' !== this.alldayAttr && null !== allDay) {
@@ -538,7 +549,7 @@ export default defineWidget('calendar', false, {
     },
 
     _setResourceReference(setResRefEvt, resourceReference, resourceId, mxObject) {
-        this.log("._setResourceReference");
+        this.log("_setResourceReference");
 
         if ((resourceId || mxObject) && '' !== resourceReference) {
             setResRefEvt.addReference(
@@ -549,7 +560,7 @@ export default defineWidget('calendar', false, {
     },
 
     _setDefaults() {
-        this.log("._setDefaults");
+        this.log("_setDefaults");
 
         const views = [];
 
@@ -720,7 +731,7 @@ export default defineWidget('calendar', false, {
             options.resourceGroupField = 'group';
         }
 
-        this.log("._setCalendarOptions", options);
+        this.log("_setCalendarOptions", options);
         return options;
     },
 
@@ -734,12 +745,12 @@ export default defineWidget('calendar', false, {
             if (obj) {
                 params.guids = [obj.getGuid()];
             }
-            this.log("._execMF params:", params);
+            this.log("_execMF params:", params);
 
             const action = {
                 params: params,
                 callback: objs => {
-                    this.log("._execMF callback:", objs ? objs.length + " objects" : "null");
+                    this.log("_execMF callback:", objs ? objs.length + " objects" : "null");
                     if (cb) {
                         cb(objs);
                     }
@@ -760,16 +771,16 @@ export default defineWidget('calendar', false, {
                 action.origin = this.mxform;
             }
 
-            this.log("._execMF", mf, action);
+            this.log("_execMF", mf, action);
             mx.data.action(action, this);
         } else if (cb) {
-            this.log("._execMF: no microflow defined");
+            this.log("_execMF: no microflow defined");
             cb();
         }
     },
 
     _onViewChange(view) {
-        this.log("._onViewChange");
+        this.log("_onViewChange");
 
         const eventData = {
             start: view.start,
@@ -781,7 +792,7 @@ export default defineWidget('calendar', false, {
                 const ref = this.viewContextReference.split("/")[ 0 ];
                 const refGuid = this._mxObj.getReference(ref);
 
-                this.log("._onViewChange viewContextRef: " + refGuid);
+                this.log("_onViewChange viewContextRef: " + refGuid);
                 if ('' !== refGuid) {
                     mx.data.get({
                         guid: refGuid,
@@ -805,21 +816,21 @@ export default defineWidget('calendar', false, {
         }
 
         if ('contextmf_viewspecific' === this.dataSourceType) {
-            this.log("._onViewChange contextmf_viewspecific");
+            this.log("_onViewChange contextmf_viewspecific");
             this._fetchPaginatedEvents(view.start, view.end);
         }
     },
 
     _onEventAfterAllRender(view) {
         if (view && ('agendaWeek' === view.type || 'agendaDay' === view.type)) {
-            this.log("._onEventAfterAllRender");
+            this.log("_onEventAfterAllRender");
             view.applyDateScroll(view.computeInitialDateScroll());
             // fixing issue with initial scrolltime (https://github.com/mendix/Calendar/issues/45)
         }
     },
 
     _fetchPaginatedEvents(start, end) {
-        this.log("._fetchPaginatedEvents");
+        this.log("_fetchPaginatedEvents");
 
         if ('' !== this.viewChangeEntity && this._mxObj) {
             const eventData = {
@@ -854,7 +865,7 @@ export default defineWidget('calendar', false, {
     },
 
     _createViewChangeEntity(callback, eventData) {
-        this.log("._createViewChangeEntity", eventData);
+        this.log("_createViewChangeEntity", eventData);
         mx.data.create({
             entity: this.viewChangeEntity,
             callback: obj => {
@@ -867,7 +878,7 @@ export default defineWidget('calendar', false, {
     },
 
     _handlePaginatedObjects(viewrenderObj, eventData) {
-        this.log("._handlePaginatedObjects", viewrenderObj, eventData);
+        this.log("_handlePaginatedObjects", viewrenderObj, eventData);
 
         const reference = this.viewContextReference.split("/")[ 0 ];
         const viewrenderObjId = viewrenderObj.getGuid();
@@ -881,7 +892,7 @@ export default defineWidget('calendar', false, {
     },
 
     _hasDynamicCalendarPropertiesConfigured() {
-        this.log("._hasDynamicCalendarPropertiesConfigured");
+        this.log("_hasDynamicCalendarPropertiesConfigured");
         return this.showWeekendsAttribute && this.firstdayAttribute;
     },
 
