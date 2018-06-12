@@ -240,7 +240,7 @@ define([
                     this._fetchPaginatedEvents(view.start, view.end);
                 }
             } else if (this.dataSourceType === "contextmf" && this.contextDatasourceMf) {
-                logger.debug(this.id + "._fetchObjects contextmf", this._mxObj);
+                logger.debug(this.id + "._fetchObjects contextmf");
                 if (this._mxObj) {
                     this._execMF(this._mxObj, this.contextDatasourceMf, lang.hitch(this, this._prepareEvents));
                 }
@@ -734,7 +734,7 @@ define([
                     action.origin = this.mxform;
                 }
 
-                logger.debug(this.id + "._execMF", mf, action);
+                logger.debug(this.id + "._execMF", mf);
                 mx.data.action(action, this);
             } else if (cb) {
                 logger.debug(this.id + "._execMF: no microflow defined");
