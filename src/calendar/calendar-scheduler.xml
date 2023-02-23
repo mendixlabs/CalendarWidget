@@ -313,6 +313,16 @@
             <category>Extra</category>
             <description>Determines how far down the scroll pane is initially scrolled down. This option only applies to Agendaweek and AgendaDay views. Format: "08:00"</description>
         </property>
+        <property key="minTime" type="string" required="false">
+            <caption>minTime</caption>
+            <category>Extra</category>
+            <description>Determines the first time slot that will be displayed for each day. (https://fullcalendar.io/docs/minTime)</description>
+        </property>
+        <property key="maxTime" type="string" required="false">
+            <caption>maxTime</caption>
+            <category>Extra</category>
+            <description>Determines the last time slot that will be displayed for each day. Specified as an exclusive end time. (https://fullcalendar.io/docs/maxTime)</description>
+        </property>
         <property key="todayButton" type="boolean" defaultValue="true">
            <caption>Show 'today' button</caption>
            <category>Extra</category>
